@@ -8,9 +8,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
 
 /**
@@ -39,23 +41,31 @@ public class menu extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		//Obtengo los datos de session
+		HttpSession session= request.getSession(true);
+		HashMap<String,Object> datosConf = new HashMap<String,Object>();
+		if(session.getAttribute("datosConf")!= null)
+			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 		int ContadorSUB=0;
 		// TODO Auto-generated method stub
 		ConsultaMyBatis ex = new ConsultaMyBatis();
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		p.put("id_padre", 0);
 		p.put("id_raiz",0);
-		List<HashMap<String,Object>> lista = ex.Select("local", "coreMenuMapper.xml", "coreMenu.listarMenu", p);
+		List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
 		List<HashMap<String,Object>> tmpLst;
 		HashMap<String,Object> tmpHs;
 		log.info("********GENERANDO MENU *******");
+		String XML ="<Menu>";
 		if(lista.size()>0)
 		{
 			for(HashMap<String,Object> Raices : lista)
 			{
 				log.info("RAIZ :" +Raices);
+				XML+="<Raiz>";
 				p.clear();
 				p.put("id_raiz", Raices.get("id_menu"));
 				tmpHs = ex.Select("local", "coreMenuMapper.xml", "coreMenu.obtenerNivelesRaiz", p).get(0);
@@ -70,12 +80,20 @@ public class menu extends HttpServlet {
 					log.info(Raices.get("nombre")+" NIVEL "+i);
 					for(HashMap<String,Object> opciones : tmpLst)
 					{
+						XML+="<Opcion>";
+						XML+="<Nivel>"+i+"</Nivel>";
+						XML+="<Nombre>"+opciones.get("nombre")+"</Nombre>";
+						XML+="<Id_Padre>"+opciones.get("id_padre")+"</Id_Padre>";
 						log.info(opciones.get("nombre"));
+						XML+="</Opcion>";
 					}
+					
 				}
-				
+				XML+="</Raiz>";
 			}
 		}
+		XML+="</Menu>";
+		log.info("XML MENU:: "+XML);
 	}
 	
 	
