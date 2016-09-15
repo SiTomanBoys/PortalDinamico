@@ -1,6 +1,7 @@
 package cl.portaldinamico.Servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,51 +50,60 @@ public class menu extends HttpServlet {
 		HashMap<String,Object> datosConf = new HashMap<String,Object>();
 		if(session.getAttribute("datosConf")!= null)
 			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
-		int ContadorSUB=0;
 		// TODO Auto-generated method stub
 		ConsultaMyBatis ex = new ConsultaMyBatis();
 		HashMap<String,Object> p = new HashMap<String,Object>();
-		p.put("id_padre", 0);
-		p.put("id_raiz",0);
 		List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
-		List<HashMap<String,Object>> tmpLst;
-		HashMap<String,Object> tmpHs;
 		log.info("********GENERANDO MENU *******");
-		String XML ="<Menu>";
-		if(lista.size()>0)
+		String [] nombre = new String[lista.size()+1];
+		String [] url = new String[lista.size()+1];
+		long [] nivel = new long[lista.size()+1];
+		long diferencia_nivel = 0;
+		int i=0;
+		for(HashMap<String,Object> reg : lista)
 		{
-			for(HashMap<String,Object> Raices : lista)
+			nombre[i]= (String) reg.get("nombre");
+			url[i] = (String) reg.get("url");
+			nivel[i] = (Long) reg.get("nivel");
+			i++;
+		}
+		String XML ="<Menu>";
+		for(int j=0; j < i; j++)
+		{
+			if(nivel[j + 1] > nivel[j])
 			{
-				log.info("RAIZ :" +Raices);
-				XML+="<Raiz>";
-				p.clear();
-				p.put("id_raiz", Raices.get("id_menu"));
-				tmpHs = ex.Select("local", "coreMenuMapper.xml", "coreMenu.obtenerNivelesRaiz", p).get(0);
-				int numLvl = (tmpHs != null) ? Integer.parseInt(tmpHs.get("cantidad").toString()) : 0;
-				//
-				for(int i = 1 ; i<=numLvl ;i++)
-				{
-					p.clear();
-					p.put("id_raiz",Raices.get("id_menu"));
-					p.put("nivel", i);
-					tmpLst = ex.Select("local", "coreMenuMapper.xml", "coreMenu.listarMenu", p);
-					log.info(Raices.get("nombre")+" NIVEL "+i);
-					for(HashMap<String,Object> opciones : tmpLst)
-					{
-						XML+="<Opcion>";
-						XML+="<Nivel>"+i+"</Nivel>";
-						XML+="<Nombre>"+opciones.get("nombre")+"</Nombre>";
-						XML+="<Id_Padre>"+opciones.get("id_padre")+"</Id_Padre>";
-						log.info(opciones.get("nombre"));
-						XML+="</Opcion>";
-					}
-					
-				}
-				XML+="</Raiz>";
+				XML+="";
+				XML+="<li>" + nombre[j] + "</li>";
+				XML+="<ul>";
 			}
+			if (nivel[j + 1] <= nivel[j])
+			{
+				if(url[j] != null)
+				{
+					XML+="<li>" + nombre[j] + "</li>";
+				}
+				else
+				{
+					XML+="<li>" + nombre[j] + "</li>";
+				}
+			} 
+			
+			if (nivel[j + 1] < nivel[j]) 
+			{
+				if (j != i - 1) {
+					diferencia_nivel = nivel[j] - nivel[j + 1];
+					for (int n = 0; n < diferencia_nivel; n++) 
+					{
+						XML+="</ul>";
+					}
+				}
+			}
+			
 		}
 		XML+="</Menu>";
-		log.info("XML MENU:: "+XML);
+		log.info("XML DEL MENU:::: "+XML);
+		
+		
 	}
 	
 	
