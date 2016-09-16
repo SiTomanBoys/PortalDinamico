@@ -1,6 +1,7 @@
 package cl.portaldinamico.Servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,14 @@ public class menu extends HttpServlet {
 		ConsultaMyBatis ex = new ConsultaMyBatis();
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
+		String HTML="<!DOCTYPE html><html><head><meta charset=\"ISO-8859-1\"><title>Insert title here</title></head><body>";
+		HTML+=generarMenu(lista);
+		HTML+="</body></html>";
+		PrintWriter out = response.getWriter();
+		out.write(HTML);
+	}
+	private String generarMenu(List<HashMap<String,Object>> lista )
+	{
 		log.info("********GENERANDO MENU *******");
 		String [] nombre = new String[lista.size()+1];
 		String [] url = new String[lista.size()+1];
@@ -67,20 +76,22 @@ public class menu extends HttpServlet {
 			nivel[i] = (Long) reg.get("nivel");
 			i++;
 		}
-		String XML ="<Menu>";
+		String XML ="<ul id='menu'>";
 		for(int j=0; j < i; j++)
 		{
 			if(nivel[j + 1] > nivel[j])
 			{
 				XML+="";
-				XML+="<li>" + nombre[j] + "</li>";
+				XML+="<li><a href='javascript:expandir("+j+")'>" + nombre[j] + "</a></li>";
 				XML+="<ul>";
 			}
 			if (nivel[j + 1] <= nivel[j])
 			{
 				if(url[j] != null)
 				{
-					XML+="<li>" + nombre[j] + "</li>";
+					if("\\/".equals(url[j].substring(0, 1)))
+					
+					XML+="<li><a href='"+url[j]+"'>" + nombre[j] + "</a></li>";
 				}
 				else
 				{
@@ -100,10 +111,10 @@ public class menu extends HttpServlet {
 			}
 			
 		}
-		XML+="</Menu>";
+		XML+="</ul>";
 		log.info("XML DEL MENU:::: "+XML);
 		
-		
+		return XML;
 	}
 	
 	
