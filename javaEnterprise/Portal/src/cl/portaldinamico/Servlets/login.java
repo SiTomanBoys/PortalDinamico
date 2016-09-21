@@ -87,7 +87,7 @@ public class login extends HttpServlet {
 		
 		HttpSession session= request.getSession(true);
 		session.setAttribute("datosConf", datosConf);
-		response.sendRedirect("poto.html");
+		response.sendRedirect("frameset");
 	}
 
 }

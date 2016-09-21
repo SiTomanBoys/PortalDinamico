@@ -60,6 +60,8 @@ public class modulo extends HttpServlet {
 		String XSL="";
 		//Obtengo los datos de session
 		HttpSession session= request.getSession(true);
+		if(!session.getId().equals(request.getParameter("idSession")))
+			response.sendRedirect("/Portal/error.jsp?Id=6");
 		HashMap<String,Object> datosConf = new HashMap<String,Object>();
 		if(session.getAttribute("datosConf")!= null)
 			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
@@ -112,7 +114,7 @@ public class modulo extends HttpServlet {
 						} catch (Throwable g) 
 						{
 							log.error("NO SE ENCONTRO EJB2, EJB3 REMOTE O EJB3 LOCAL");
-							response.sendRedirect("error.jsp?Id=5");
+							response.sendRedirect("/Portal/error.jsp?Id=5");
 						}
 					}
 				}
@@ -142,7 +144,7 @@ public class modulo extends HttpServlet {
 					} catch (Throwable e) 
 					{
 						log.error("ERROR AL LLAMAR EJB",e);
-						response.sendRedirect("error.jsp?Id=4");
+						response.sendRedirect("/Portal/error.jsp?Id=4");
 					}
 					
 					try
@@ -158,24 +160,24 @@ public class modulo extends HttpServlet {
 					catch(Exception e)
 					{
 						log.error("ERROR: ",e);
-						response.sendRedirect("error.jsp?Id=3");
+						response.sendRedirect("/Portal/error.jsp?Id=3");
 					}
 				}	
 				else
 				{	log.error("NO SE ENCONTRO EL METODO ["+metodoEjb+"]");
-					response.sendRedirect("error.jsp?Id=2");
+					response.sendRedirect("/Portal/error.jsp?Id=2");
 				}
 			}
 			else
 			{
 				log.info("FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+lista.get(0).get("nombre_ejb")+"]");
-				response.sendRedirect("error.jsp?Id=1");
+				response.sendRedirect("/Portal/error.jsp?Id=1");
 			}
 		}
 		else
 		{
 			log.info("LA URL NO EXISTE");
-			response.sendRedirect("error.jsp?Id=0");
+			response.sendRedirect("/Portal/error.jsp?Id=0");
 		}
 	}
 	
