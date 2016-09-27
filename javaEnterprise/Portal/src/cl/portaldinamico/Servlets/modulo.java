@@ -89,8 +89,8 @@ public class modulo extends HttpServlet {
 			{
 				nombreEjb=nombre_ejb[0];
 				metodoEjb=nombre_ejb[1];
-				Object[] parameters = new Object[] {  };
-				Class<?>[] paramtypes = {};
+				Object[] parameters = new Object[] {datosConf,Parametros};
+				Class<?>[] paramtypes = {HashMap.class,HashMap.class};
 				Method mthdRemote = null;
 				Object objRemote = null;
 				Context ejbContext = null;	
@@ -145,7 +145,8 @@ public class modulo extends HttpServlet {
 						mthdRemote = clazzRemote.getMethod(metodoEjb, paramtypes);
 						log.debug("EJECUTANDO EL METODO [" + mthdRemote.getName() + "] DEL OBJETO [" + objRemote.getClass().getName()+"]");
 						log.info("ANTES DEL INVOKE");
-						XML +=(String) mthdRemote.invoke(objRemote, parameters);
+						HashMap<String,Object> Respuesta = (HashMap<String,Object>) mthdRemote.invoke(objRemote, parameters);
+						XML += Respuesta.get("XML");
 						XML +="</Cuerpo>";
 						XML +="</Documento>";
 						log.info("DESPUES DEL INVOKE");
@@ -156,7 +157,6 @@ public class modulo extends HttpServlet {
 						log.error("ERROR AL LLAMAR EJB",e);
 						response.sendRedirect("/Portal/error.jsp?Id=4");
 					}
-					
 					try
 					{
 						PrintWriter out = response.getWriter();
