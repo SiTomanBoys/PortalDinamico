@@ -79,8 +79,8 @@ public class menu extends HttpServlet {
 			tf.transform(ss,sr);
 		}catch(Exception ex)
 		{
-			log.error("Error Al Generar Menu", ex);
-			response.sendRedirect("/Portal/error.jsp?Id=7");
+			log.error("ERROR AL GENERAR EL MENU", ex);
+			response.sendRedirect("/Portal/error.jsp?Id=8");
 		}
 	}
 	private String generarMenu(List<HashMap<String,Object>> lista,String idsession) 

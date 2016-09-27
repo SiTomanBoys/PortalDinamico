@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
 import org.apache.log4j.Logger;
+
+import cl.portaldinamico.constants.Constants;
 //
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
 /**
@@ -44,6 +46,21 @@ public class modulo extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		//Obtengo los datos de session
+		HttpSession session= request.getSession(true);
+		if(!session.getId().equals(request.getParameter("idSession")))
+		{
+			log.error("ID DE SESSION EXPIRADA");
+			response.sendRedirect("/Portal/error.jsp?Id=7");
+		}
+		HashMap<String,Object> datosConf = new HashMap<String,Object>();
+		if(session.getAttribute("datosConf")!= null)
+			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
+		else
+		{
+			log.error("NO SE ENCONTRARON LOS DATOS DE CONFIGURACION DEL PORTAL");
+			response.sendRedirect("/Portal/error.jsp?Id=6");
+		}
 		// TODO Logica Para BD	
 		String url = request.getAttribute("javax.servlet.forward.request_uri").toString();
 		url = url.substring(7, url.length());
@@ -52,19 +69,12 @@ public class modulo extends HttpServlet {
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		p.put("url", url);
 		p.put("id_idioma", "1");
-		List<HashMap<String,Object>> lista = ex.Select("local", "coreXSLMapper.xml", "coreXSL.getXSL", p);
+		List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);
 		String XML="<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 		XML+="<Documento>";
 		String nombreEjb="";
 		String metodoEjb="";
 		String XSL="";
-		//Obtengo los datos de session
-		HttpSession session= request.getSession(true);
-		if(!session.getId().equals(request.getParameter("idSession")))
-			response.sendRedirect("/Portal/error.jsp?Id=6");
-		HashMap<String,Object> datosConf = new HashMap<String,Object>();
-		if(session.getAttribute("datosConf")!= null)
-			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 		//Obtengo los parametros
 		HashMap<String,Object> Parametros = new HashMap<String,Object>();
 		Parametros = (HashMap<String, Object>) request.getParameterMap();
@@ -159,7 +169,7 @@ public class modulo extends HttpServlet {
 					}
 					catch(Exception e)
 					{
-						log.error("ERROR: ",e);
+						log.error("ERROR AL TRANSFORMAR XSL: ",e);
 						response.sendRedirect("/Portal/error.jsp?Id=3");
 					}
 				}	

@@ -73,8 +73,8 @@ public class frameset extends HttpServlet {
 			tf.transform(ss,sr);
 		}catch(Exception ex)
 		{
-			log.error("Error Al Generar FrameSet", ex);
-			response.sendRedirect("/Portal/error.jsp?Id=8");
+			log.error("ERROR AL GENERAR FRAMESET", ex);
+			response.sendRedirect("/Portal/error.jsp?Id=9");
 		}
 	}
 	
