@@ -7,16 +7,17 @@
 	<xsl:template match="/Documento">
 		<html>
 			<head>
+				<link rel="stylesheet" type="text/css" href="/css/menu.css"/>
 				<link rel="stylesheet" type="text/css" href="/css/estilo.css"/>
 				<script language="JavaScript">
 				function expandir(id) 
 				{
-					if (document.getElementById(id).className=="mopen"){
-						document.getElementById(id).className="mclosed";
-						document.getElementsByTagName('li')[id].className="mopen";
+					if (document.getElementById(id).className=="mabierto"){
+						document.getElementById(id).className="mcerrado";
+						document.getElementsByTagName('li')[id].className="mabierto";
 					}else{
-						document.getElementById(id).className="mopen";
-						document.getElementsByTagName('li')[id].className="mclosed";
+						document.getElementById(id).className="mabierto";
+						document.getElementsByTagName('li')[id].className="mcerrado";
 					}
 				}
  				function CopyToClipboard(text)
@@ -26,7 +27,7 @@
 				</script>
 			</head>
 			<body>
-				<ul id="menu">
+				<ul class="menu">
 					<xsl:copy-of select="Menu/*"/>
 				</ul>
 			</body>

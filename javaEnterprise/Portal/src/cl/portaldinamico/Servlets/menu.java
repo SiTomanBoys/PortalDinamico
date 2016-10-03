@@ -106,17 +106,17 @@ public class menu extends HttpServlet {
 			if(nivel[j + 1] > nivel[j])
 			{
 				XML+="";
-				XML+="<li><a href='javascript:expandir("+j+")'>" + nombre[j] + "</a></li>";
-				XML+="<ul>";
+				XML+="<li class='mabierto' id='menuopcion'><a href='javascript:expandir("+j+")'>" + nombre[j] + "</a></li>";
+				XML+="<ul class='mcerrado' id='"+j+"' >";
 			}
 			if (nivel[j + 1] <= nivel[j])
 			{
 				if(url[j] != null)
 				{
 					if("/".equals(url[j].substring(0, 1)))
-						XML+="<li><a href='/Portal"+url[j]+"?idSession="+idsession+"' target=\"central\">" + nombre[j] + "</a></li>";
+						XML+="<li class='mseleccion' id='menuenlace' ><a href='/Portal"+url[j]+"?idSession="+idsession+"' target=\"central\">" + nombre[j] + "</a></li>";
 					else
-						XML+="<li><a href='"+url[j]+"?idSession="+idsession+"' target=\"central\" >" + nombre[j] + "</a></li>";
+						XML+="<li class='mseleccion' id='menuenlace' ><a href='"+url[j]+"?idSession="+idsession+"' target=\"central\" >" + nombre[j] + "</a></li>";
 					
 				}
 				else
