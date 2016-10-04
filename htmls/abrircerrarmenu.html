@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pagina Abrir y Cerrar Menu</title>
+	<link rel="stylesheet" type="text/css" href="/css/estilo.css"/>
+	<meta http-equiv="Content-Type" charset="ISO-8859-1">
+<title>Insert title here</title>
+<script>
+	function AbrirCerrarMenu(){
+		if(window.top.document.getElementById('frameset2').cols!=null)
+		{
+			if(window.top.document.getElementById('frameset2').cols=='0,20,*')
+			{
+				window.top.document.getElementById('frameset2').cols='240,20,*';
+				document.getElementById('link').innerHTML="<img src='img/arrow_left.png' border='0' vspace='3' hspace='3'>";
+			}else
+			{
+				window.top.document.getElementById('frameset2').cols='0,20,*';
+				document.getElementById('link').innerHTML="<img src='img/arrow_right.png' border='0' vspace='3' hspace='3'>";
+			}
+		}
+	}
+</script>
+</head>
+<body>
+	<a href="javascript:" onclick="AbrirCerrarMenu();" id="link">
+		<img src="img/arrow_left.png" vspace="3" hspace="3" width="16" border="0" height="16">
+	</a>
+</body>
+</html>

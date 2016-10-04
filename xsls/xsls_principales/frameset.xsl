@@ -18,7 +18,7 @@
 				<frame src="cabecera" name="cabeceraServlet" scrolling="NO" noresize="noresize" />
 				<frameset name="frameset2" id="frameset2" rows="*" cols="240,20,*" framespacing="0" frameborder="NO" border="0">
 					<frame src="menu" name="menu" scrolling="AUTO" noresize="noresize" />
-					<frame src="openclosemenu.htm" name="openclosemenu" id="openclosemenu" scrolling="NO" noresize="noresize" />
+					<frame src="../abrircerrarmenu.html" name="openclosemenu" id="openclosemenu" scrolling="NO" noresize="noresize" />
 					<frame src="central" name="central" />
 				</frameset>
 				<frame src="pie" name="pie" scrolling="NO" noresize="noresize" />
