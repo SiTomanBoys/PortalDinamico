@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="coreMenu">
+	<select id="obtenerNivelesRaiz" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select 
+		count(*) as cantidad
+		from 
+		( 
+			select 
+			*
+			from menu
+			where 
+			id_raiz = #{id_raiz}
+			group by
+			id_padre,id_raiz
+		) t;
+        
+	</select>
+
+	<select id="listarMenu" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select 
+		m.id_menu,
+		m.nombre,
+		m.id_padre,
+		m.id_raiz,
+		m.nivel
+		from menu m
+		where
+		(#{id_padre} is null or #{id_padre} = m.id_padre) and
+		(#{id_raiz} is null or #{id_raiz} = m.id_raiz) and
+		(#{nivel} is null or #{nivel} = m.nivel);
+		
+	</select>
+	
+</mapper>

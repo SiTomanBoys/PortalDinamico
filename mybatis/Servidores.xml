@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conexiones>
+	<conexion>
+		<id>local</id>
+		<driver>com.mysql.jdbc.Driver</driver>
+		<url>jdbc:mysql://127.0.0.1:21006/portal</url>
+		<username>root</username>
+		<password>1234</password>
+	</conexion>
+	
+</conexiones>
