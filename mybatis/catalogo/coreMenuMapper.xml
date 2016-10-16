@@ -5,19 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="coreMenu">
 	<select id="listarMenu" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		select 
-		m.id_menu,
-		m.nombre,
-		m.id_url,
-		m.nivel,
-		u.url
-		from menu m left join urls u 
-		on (m.id_url = u.id_url)
-		where
-		(#{id_menu} is null or #{id_menu} = m.id_menu) and
-		(#{nombre} is null or #{nombre} = m.nombre) and
-		(#{nivel} is null or #{nivel} = m.nivel)
-		order by m.orden;	
+		call listarMenu(#{id_menu},#{nombre},#{nivel});
 	</select>
 	
 </mapper>
