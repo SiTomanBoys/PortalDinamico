@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 //
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -15,12 +16,16 @@ import javax.servlet.http.HttpSession;
 //
 import org.apache.log4j.Logger;
 
+import cl.portaldinamico.constants.Constants;
+import cl.portaldinamico.mybatis.ConsultaMyBatis;
+
 /**
  * Servlet implementation class login
  */
 public class login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static final Logger log = Logger.getLogger(login.class);
+	private HashMap<String,Object> datosConf = new HashMap<String,Object>();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -45,7 +50,6 @@ public class login extends HttpServlet {
 		String url = request.getRequestURL().toString();
 		String uri = request.getRequestURI();
 		String dominio = url.substring(url.indexOf("://")+3,url.length());
-		HashMap<String,Object> datosConf = new HashMap<String,Object>();
 		HashMap<String,Object> parametros = new HashMap<String,Object>();
 		dominio = dominio.replace(uri, "");
 		log.info("DOMINIO: "+dominio);
@@ -85,9 +89,36 @@ public class login extends HttpServlet {
 			parametros.put(key.toString(), request.getParameter(key.toString()));
 		}
 		
-		HttpSession session= request.getSession(true);
-		session.setAttribute("datosConf", datosConf);
-		response.sendRedirect("frameset");
+		if(validaLogin(parametros))
+		{
+			HttpSession session= request.getSession(true);
+			session.setAttribute("datosConf", datosConf);
+			response.sendRedirect("frameset");
+		}
+		else
+			response.sendRedirect("/Portal/error.jsp?Id=10");
+		
+	}
+	
+	private boolean validaLogin(HashMap<String,Object> parametros)
+	{
+		ConsultaMyBatis ex = new ConsultaMyBatis();
+		HashMap<String,Object> p = new HashMap<String,Object>();
+		p.put("usuario", parametros.get("txtUsuario"));
+		p.put("contrasena", parametros.get("txtPassword"));
+		List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreUsuarioMapper.xml", "coreUsuario.validarUsuario", p);
+		HashMap<String,Object> usuario = lista.get(0);
+		if("1".equals(usuario.get("estado").toString()) && lista.size()==1)
+		{
+			datosConf.put("idUsuario",usuario.get("id_usuario").toString());
+			datosConf.put("nombreUsuario",usuario.get("nombre_usuario").toString());
+			datosConf.put("idPerfil",usuario.get("id_perfil").toString());
+			datosConf.put("nombrePerfil",usuario.get("perfil").toString());
+			datosConf.put("descripcionPerfil",usuario.get("descripcion").toString());
+			return true;
+		}
+		else 
+			return false;
 	}
 
 }
