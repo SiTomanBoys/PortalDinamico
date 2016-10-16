@@ -96,8 +96,10 @@ public class login extends HttpServlet {
 			response.sendRedirect("frameset");
 		}
 		else
+		{
+			log.info("USUARIO O CONTRASEÑA INCORRECTA");
 			response.sendRedirect("/Portal/error.jsp?Id=10");
-		
+		}
 	}
 	
 	private boolean validaLogin(HashMap<String,Object> parametros)
