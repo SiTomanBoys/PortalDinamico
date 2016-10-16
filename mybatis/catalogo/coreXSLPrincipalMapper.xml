@@ -5,6 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="coreXSLPrincipal">
 	<select id="getXSL" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		call (#{id_xsl},#{nombre},#{id_idioma});
+		call listarXSLPrincipal(#{id_xsl},#{nombre},#{id_idioma});
 	</select>
 </mapper>
