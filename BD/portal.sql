@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 15-10-2016 a las 19:07:50
+-- Tiempo de generación: 16-10-2016 a las 01:35:18
 -- Versión del servidor: 5.5.50-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.19
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `enlaces` (
   `id_url` int(11) DEFAULT NULL,
   `id_menu` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_enlace`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `idiomas` (
   `id_idioma` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(100) NOT NULL,
   PRIMARY KEY (`id_idioma`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -54,12 +54,12 @@ CREATE TABLE IF NOT EXISTS `idiomas` (
 
 CREATE TABLE IF NOT EXISTS `menu` (
   `id_menu` int(11) NOT NULL AUTO_INCREMENT,
-  `id_padre` int(11) DEFAULT NULL,
-  `id_raiz` int(11) DEFAULT NULL,
-  `nivel` int(11) DEFAULT NULL,
+  `id_url` bigint(11) NOT NULL DEFAULT '0',
+  `nivel` bigint(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
+  `orden` int(11) NOT NULL,
   PRIMARY KEY (`id_menu`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `urls` (
   `id_url` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(100) NOT NULL,
   PRIMARY KEY (`id_url`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `xsl` (
   `nombre_ejb` varchar(100) DEFAULT NULL,
   `id_idioma` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_xsl`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `xsls_principales` (
   `nombre` varchar(50) NOT NULL,
   `id_idioma` int(11) NOT NULL,
   PRIMARY KEY (`id_xsl`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

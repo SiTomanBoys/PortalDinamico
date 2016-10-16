@@ -68,7 +68,7 @@ public class menu extends HttpServlet {
 			p.clear();
 			//Listo las opciones del menu.
 			lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
-			
+			//
 			String XML=generarMenu(lista,session.getId());
 			PrintWriter out = response.getWriter();
 			TransformerFactory tff = TransformerFactory.newInstance();
@@ -121,7 +121,7 @@ public class menu extends HttpServlet {
 				}
 				else
 				{
-					XML+="<li>" + nombre[j] + "</li>";
+					XML+="<li class='mabierto' id='menuenlace'> <a> " + nombre[j] + "</a></li>";
 				}
 			} 
 			
