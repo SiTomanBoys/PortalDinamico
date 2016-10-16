@@ -8,20 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into XSL(url,nombre_ejb,contenido) values (#{url},#{nombre_ejb},#{contenido})
 	</insert>
 	<select id="getXSL" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		select 
-		x.id_xsl,
-        x.nombre_ejb,
-        u.id_url,
-        x.contenido,
-        u.url,
-        i.descripcion as idioma
-		from xsl x inner join rel_urls_xsl rl 
-        on (x.id_xsl = rl.id_xsl) inner join urls u 
-        on (u.id_url = rl.id_url) inner join idiomas i
-        on (x.id_idioma = i.id_idioma)
-		where ( #{id_xsl} is null or #{id_xsl} = x.id_xsl )
-		and ( #{url} is null or u.url = #{url} )
-		and ( #{id_idioma} is null  or i.id_idioma = #{id_idioma})
+		call listarXSL(#{id_xsl}, #{url}, #{id_idioma});
 	</select>
 	
 	

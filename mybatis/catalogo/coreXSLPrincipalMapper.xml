@@ -5,15 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="coreXSLPrincipal">
 	<select id="getXSL" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		select 
-		x.id_xsl,
-        x.nombre,
-        x.contenido,
-        i.descripcion as idioma
-		from xsls_principales x inner join idiomas i
-        on (x.id_idioma = i.id_idioma)
-		where ( #{id_xsl} is null or #{id_xsl} = x.id_xsl )
-		and ( #{nombre} is null  or x.nombre = #{nombre})
-		and ( #{id_idioma} is null  or i.id_idioma = #{id_idioma})
+		call (#{id_xsl},#{nombre},#{id_idioma});
 	</select>
 </mapper>
