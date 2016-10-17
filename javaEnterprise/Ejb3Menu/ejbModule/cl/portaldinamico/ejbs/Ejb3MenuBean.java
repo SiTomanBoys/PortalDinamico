@@ -23,7 +23,6 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 		ConsultaMyBatis ex = new ConsultaMyBatis();
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		String accion = utils.obtenerParametroString(parametros,"accion");
-		log.info("Accion:: "+accion);
 		String listaMenu="";
 		if("buscar".equalsIgnoreCase(accion))
 		{
@@ -33,7 +32,6 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 			p.put("nombre",  ( "".equals(nombre) ) ? null : nombre );
 			listaMenu = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
 			listaMenu = listaMenu.replaceAll("<Data", "<listaMenu").replaceAll("</Data>", "</listaMenu>");
-			log.info("Lista De Menu:::"+listaMenu);
 		}
 		
 		String XML= listaMenu;
