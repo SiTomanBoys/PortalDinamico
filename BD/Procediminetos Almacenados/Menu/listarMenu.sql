@@ -3,7 +3,7 @@ DROP procedure IF EXISTS `listarMenu`;
 
 DELIMITER $$
 USE `portal`$$
-CREATE PROCEDURE `listarMenu` (in idMenu int, in nom varchar(50),in nvl int)
+CREATE DEFINER=`root`@`%` PROCEDURE `listarMenu`(in idMenu int, in nom varchar(50),in nvl int)
 BEGIN
 
 	select 
@@ -16,10 +16,11 @@ BEGIN
 	on (m.id_url = u.id_url)
 	where
 	(idMenu is null or idMenu = m.id_menu) and
-	(nom is null or nom = m.nombre) and
+	(nom is null or m.nombre like concat(nom,'%')) and
 	(nvl is null or nvl = m.nivel)
 	order by m.orden;	
 
 END$$
 
 DELIMITER ;
+
