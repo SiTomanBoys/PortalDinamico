@@ -10,13 +10,14 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
 public class MyBatisUtils 
 {
-	
+	static final Logger log = Logger.getLogger(MyBatisUtils.class);
 	private SqlSession session = null;
 	
 	public MyBatisUtils()
@@ -42,7 +43,7 @@ public class MyBatisUtils
 			}
 		}else
 		{
-			System.out.println("ERROR al crear la session para ejecutar la consulta: "+configMyBatis);
+			log.error("[ejecutarConsulta] ERROR al crear la session para ejecutar la consulta: "+configMyBatis);
 		}
 		
 		return lista;
@@ -65,7 +66,7 @@ public class MyBatisUtils
 			}
 		}else
 		{
-			System.out.println("ERROR al crear la session para insertar: "+configMyBatis);
+			log.error("[ejecutarInsertar] ERROR al crear la session para insertar: "+configMyBatis);
 		}
 		
 	}
@@ -88,7 +89,7 @@ public class MyBatisUtils
 			}
 		}else
 		{
-			System.out.println("ERROR al crear la session para modificar: "+configMyBatis);
+			log.error("[ejecutarModificar] ERROR al crear la session para modificar: "+configMyBatis);
 		}
 		
 	}
@@ -112,7 +113,7 @@ public class MyBatisUtils
 		}else
 		{
 			
-			System.out.println("ERROR al crear la session para Eliminar "+configMyBatis);
+			log.error("[ejecutarEliminar] ERROR al crear la session para Eliminar "+configMyBatis);
 		}
 		
 	}
@@ -160,8 +161,7 @@ public class MyBatisUtils
 			
 		}catch(Exception e)
 		{
-			System.out.println("ERROR al obtener la session, READER: "+resource);
-			e.printStackTrace();
+			log.error("[getSession] ERROR al obtener la session, READER: "+resource,e);
 		}
 		
 		return session;
@@ -199,7 +199,7 @@ public class MyBatisUtils
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			log.error("[obtenerDatosDeConexion] Error al obtener datos de conexion",e);
 		}
 		
 		return parametros;
@@ -224,12 +224,18 @@ public class MyBatisUtils
                 contenido += linea + "\n";
             }
  
-        }catch( Exception e ){  }
+        }catch( Exception e )
+        {
+        	log.error("[archivoAString] Error al leer Archivo");
+        }
         finally
         {
             try{
                 br.close();
-            }catch( Exception ex ){}
+            }catch( Exception ex )
+            {
+            	log.error("[archivoAString] Error al cerrar archivo",ex);
+            }
         }
         return contenido;
     }
