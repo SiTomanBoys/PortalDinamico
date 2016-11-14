@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import cl.portaldinamico.mybatis.utils.MyBatisUtils;
 
 public class ConsultaMyBatis 
 {
-	
+	static final Logger log = Logger.getLogger(ConsultaMyBatis.class);
 	private String MyBatisConfig;
 	private String dirServidores;
 	private String dirCatalogo;
@@ -26,7 +28,7 @@ public class ConsultaMyBatis
 			dirCatalogo = catalogo;
 		}catch(Exception ex)
 		{
-			System.out.println("Error al leer el archivo de propiedades hubicado en: "+ System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"mybatis"+File.separatorChar+"mybatis.properties");
+			log.error("Error al leer el archivo de propiedades hubicado en: "+ System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"mybatis"+File.separatorChar+"mybatis.properties",ex);
 		}
 	}
 	
@@ -42,7 +44,7 @@ public class ConsultaMyBatis
 			dirCatalogo = MyBatisProperties.getProperty("CatalogoDir");
 		}catch(Exception ex)
 		{
-			System.out.println("Error al leer el archivo de propiedades hubicado en: "+ System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"mybatis"+File.separatorChar+"mybatis.properties");
+			log.error("Error al leer el archivo de propiedades hubicado en: "+ System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"mybatis"+File.separatorChar+"mybatis.properties",ex);
 		}
 	}
 	
