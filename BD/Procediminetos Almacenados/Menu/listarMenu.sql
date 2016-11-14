@@ -3,7 +3,7 @@ DROP procedure IF EXISTS `listarMenu`;
 
 DELIMITER $$
 USE `portal`$$
-CREATE DEFINER=`root`@`%` PROCEDURE `listarMenu`(in idMenu int, in nom varchar(50),in nvl int)
+CREATE DEFINER=`portal`@`%` PROCEDURE `listarMenu`(in idMenu int, in nom varchar(50),in nvl int)
 BEGIN
 
 	select 

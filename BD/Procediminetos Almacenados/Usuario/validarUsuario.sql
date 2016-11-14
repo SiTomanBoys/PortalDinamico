@@ -3,7 +3,7 @@ DROP procedure IF EXISTS `validarUsuario`;
 
 DELIMITER $$
 USE `portal`$$
-CREATE DEFINER=`root`@`%` PROCEDURE `validarUsuario`(in user varchar(50), in pass varchar(100))
+CREATE DEFINER=`portal`@`%` PROCEDURE `validarUsuario`(in user varchar(50), in pass varchar(100))
 BEGIN
 DECLARE existe BIGINT DEFAULT 0;
 

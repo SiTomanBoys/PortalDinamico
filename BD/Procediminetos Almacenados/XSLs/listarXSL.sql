@@ -3,7 +3,7 @@ DROP procedure IF EXISTS `listarXSL`;
 
 DELIMITER $$
 USE `portal`$$
-CREATE DEFINER=`root`@`%` PROCEDURE `listarXSL`(in idXSL int, in p_url varchar(100), in idIdioma int, in verCont int)
+CREATE DEFINER=`portal`@`%` PROCEDURE `listarXSL`(in idXSL int, in p_url varchar(100), in idIdioma int, in verCont int)
 BEGIN
 	IF verCont is null THEN
 		select 

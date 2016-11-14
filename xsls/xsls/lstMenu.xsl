@@ -8,12 +8,8 @@
 		<html>
 			<head>
 				<link rel="stylesheet" type="text/css" href="/css/estilo.css"/>
+				<script src="/js/funciones.js"/>
 				<script>
-					function CopyToClipboard(text)
-					{
-						window.prompt("Copiar Xml al portapapeles: Ctrl+C, Enter", text);
-					}
-					
 					function Buscar()
 					{
 						document.formulario.accion.value="buscar";
