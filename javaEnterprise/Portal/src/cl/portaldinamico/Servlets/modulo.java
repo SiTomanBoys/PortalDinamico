@@ -3,9 +3,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 //
@@ -16,11 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
+
 import org.apache.log4j.Logger;
 
 import cl.portaldinamico.constants.Constants;
 //
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
+import cl.portaldinamico.utils.Ejb3Utils;
+import cl.portaldinamico.utils.Ejb3UtilsLocal;
 /**
  * Servlet implementation class modulo
  */
@@ -47,6 +54,7 @@ public class modulo extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		//Obtengo los datos de session
+		Ejb3UtilsLocal utils = new Ejb3Utils();
 		HttpSession session= request.getSession(true);
 		if(!session.getId().equals(request.getParameter("idSession")))
 		{
@@ -74,7 +82,7 @@ public class modulo extends HttpServlet {
 		XML+="<Documento>";
 		String nombreEjb="";
 		String metodoEjb="";
-		String XSL="";
+		String XSL="<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 		//Obtengo los parametros
 		HashMap<String,Object> Parametros = new HashMap<String,Object>();
 		Parametros = (HashMap<String, Object>) request.getParameterMap();
@@ -83,7 +91,15 @@ public class modulo extends HttpServlet {
 		XML+="<Cuerpo>";
 		if(lista.size()>0)
 		{
-			XSL = lista.get(0).get("contenido").toString();
+			try
+			{
+				XSL += utils.decodificarHexa(lista.get(0).get("contenido").toString());
+			}
+			catch(Exception e)
+			{
+				log.error("ERROR AL DECODIFICAR EL CONTENIDO",e);
+				response.sendRedirect("/Portal/error.jsp?Id=11");
+			}
 			String nombre_ejb [] = lista.get(0).get("nombre_ejb").toString().split("\\."); 
 			if(nombre_ejb.length>1)
 			{

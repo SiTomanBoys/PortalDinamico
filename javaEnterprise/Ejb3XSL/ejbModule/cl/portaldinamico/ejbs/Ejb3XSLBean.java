@@ -1,5 +1,7 @@
 package cl.portaldinamico.ejbs;
 import java.util.HashMap;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
@@ -15,12 +17,12 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 	public HashMap<String,Object> lstXSL(HashMap<String,Object> datosConf,HashMap<String,Object> parametros)
 	{
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
-		ConsultaMyBatis ex = new ConsultaMyBatis();
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		String accion = utils.obtenerParametroString(parametros,"accion");
 		String listaXSL="";
 		if("buscar".equalsIgnoreCase(accion))
 		{
+			ConsultaMyBatis ex = new ConsultaMyBatis();
 			String idXSL = utils.obtenerParametroString(parametros,"id_xsl");
 			String url = utils.obtenerParametroString(parametros,"url");
 			String idIdioma = utils.obtenerParametroString(parametros,"id_idioma");
@@ -31,7 +33,6 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 			listaXSL = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);
 			listaXSL = listaXSL.replaceAll("<Data", "<listaXSL").replaceAll("</Data>", "</listaXSL>");
 		}
-		
 		String XML= listaXSL;
 		retorno.put("XML", XML);
 		return retorno;
@@ -44,6 +45,23 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 	public HashMap<String,Object> updXSL(HashMap<String,Object> datosConf,HashMap<String,Object> parametros)
 	{
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
+		String accion = utils.obtenerParametroString(parametros,"accion");
+		String idXSL = utils.obtenerParametroString(parametros,"id_xsl");
+		ConsultaMyBatis ex = new ConsultaMyBatis();
+		HashMap<String,Object> p = new HashMap<String,Object>();
+		log.info("ID XSL PARA MODIFICAR "+idXSL);
+		p.put("id_xsl", idXSL );
+		List<HashMap<String,Object>> listaXSL = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);
+		if("modificar".equalsIgnoreCase(accion))
+		{
+			
+		}
+		String XML="<pagXSL>";
+		XML+="<idXSL>"+listaXSL.get(0).get("id_xsl").toString()+"</idXSL>";
+		XML+="<nombreEjb>"+listaXSL.get(0).get("nombre_ejb").toString()+"</nombreEjb>";
+		XML+="<contenido>"+listaXSL.get(0).get("contenido").toString()+"</contenido>";
+		XML+="</pagXSL>";
+		retorno.put("XML",XML);
 		return retorno;
 	}
 	public HashMap<String,Object> delXSL(HashMap<String,Object> datosConf,HashMap<String,Object> parametros)

@@ -1,95 +1,92 @@
-<?xml version="1.0" encoding="UTF-8"?>
- <!-- Toda hoja de transformacion comineza con este tag -->
- <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
- 	<!-- Indicamos que nuestro output sera un tipo HTML -->
- 	<xsl:output method = "html" />
- 	<!-- Usamos Xpath para comentar que queremos parsear todo el xml -->
- 	<xsl:template match="/Documento">
- 		<html>
- 			<head>
- 				<link rel="stylesheet" type="text/css" href="/css/estilo.css"/>
- 				<script language="JavaScript">
-  				function CopyToClipboard(text)
+  <!-- Toda hoja de transformacion comineza con este tag -->
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<!-- Indicamos que nuestro output sera un tipo HTML -->
+	<xsl:output method = "html" />
+	<!-- Usamos Xpath para comentar que queremos parsear todo el xml -->
+	<xsl:template match="/Documento">
+		<html>
+			<head>
+				<link rel="stylesheet" type="text/css" href="/css/estilo.css?2"/>
+				<script src="/js/funciones.js"/>
+				<script language="JavaScript">
+					<![CDATA[
+   				function Buscar()
   				{
-  					window.prompt("Copiar Xml al portapapeles: Ctrl+C, Enter", text);
+  					document.formulario.accion.value="buscar";
+  					document.formulario.submit();
   				}
-  				function Buscar()
+
+ 				function modificar()
  				{
- 					document.formulario.accion.value="buscar";
+ 					document.formulario.action="updXSL";
+					document.formulario.accion.value="modificar";
+					document.formulario.contenido.value = a2hex(document.formulario.contenido.value);
  					document.formulario.submit();
  				}
-				
-				function modificar(valor)
+				function hex2a(hexx) 
 				{
-					document.formulario.action="updXSL";
-					document.formulario.id_xsl.value=valor;
-					document.formulario.submit();
+					var hex = hexx.toString();//force conversion
+					var str = '';
+					for (var i = 0; i < hex.length; i += 2)
+						str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+					return str;
 				}
- 				</script>
- 			</head>
- 			<body>
- 				<textarea id="xml-response" style="display:none;" name="xml-response">
- 					<xsl:copy-of select="/*"/>
- 				</textarea>
- 				<div class="copiar-xml">
- 					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
- 				</div>
- 				<form name="formulario">
- 				<input name="accion" type="hidden"/>
- 				<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
- 					<div id="filtros">
- 						<table>
- 							<tr>
- 								<td>ID XSL:</td>
- 								<td>
- 									<input type="text" name="id_xsl" />
- 								</td>
- 								<td>URL:</td>
- 								<td>
- 									<input type="text" name="url" />
- 								</td>
- 							</tr>
- 							<tr>
- 								<td>ID Idioma</td>
- 								<td>
- 									<input type="text" name="id_idioma" />
- 								</td>
- 								<td></td>
- 								<td></td>
- 							</tr>
- 							<tr>
- 								<td>
- 									<input type="button" name="buscar" value="Buscar" onclick="Buscar();" />
- 								</td>
- 							</tr>
- 						</table>
- 					</div>
- 					
- 					<table>
- 						<tr>
- 							<td>URL</td>
- 							<td>Nombre Ejb</td>
- 							<td>Idioma</td>
- 						</tr>
- 						<xsl:choose>
- 							<xsl:when test="Cuerpo/listaXSL/@cantidad != '0'">
- 								<xsl:for-each select="Cuerpo/listaXSL/fila">
- 									<tr>
-										<td ><a href="javascript:modificar('{id_xsl}');"><xsl:value-of select="url" /></a></td>
- 										<td><xsl:value-of select="nombre_ejb" /></td>
- 										<td><xsl:value-of select="idioma" /></td>
- 									</tr>
- 								</xsl:for-each>
- 							</xsl:when>
- 							<xsl:otherwise>
- 								<tr>
- 								<td colspan="2">No Se Encontraron Registros</td>
- 								</tr>
- 							</xsl:otherwise>
- 						</xsl:choose>
- 					</table>
- 				</form>
- 			</body>
- 		</html>
- 	</xsl:template>
- </xsl:stylesheet>
+				function a2hex(str) 
+				{
+				  var arr = [];
+				  for (var i = 0, l = str.length; i < l; i ++) {
+					var hex = Number(str.charCodeAt(i)).toString(16);
+					arr.push(hex);
+				  }
+				  return arr.join('');
+				}
+				function preparar()
+				{
+					document.formulario.contenido.value = hex2a(document.formulario.contenido.value);
+				}
+				]]>
+				</script>
+			</head>
+			<body onload="preparar()">
+				<textarea id="xml-response" style="display:none;" name="xml-response">
+					<xsl:copy-of select="/*"/>
+				</textarea>
+				<div class="copiar-xml">
+					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
+				</div>
+				<form name="formulario" method="POST">
+					<input name="accion" type="hidden"/>
+					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
+
+					<table width="100%" height="90%">
+						<tr height="10%">
+							<td width="10%">ID XSL:</td>
+							<td>
+								<xsl:value-of select="Cuerpo/pagXSL/idXSL"/>
+								<input type="hidden" name="id_xsl" value="{Cuerpo/pagXSL/idXSL}"/>
+							</td>
+						</tr>
+						<tr height="80%">
+							<td>Contenido:</td>
+							<td>
+								<textarea name="contenido" style="width:100%; height:100%;">
+									<xsl:value-of select="Cuerpo/pagXSL/contenido"/>
+								</textarea>
+							</td>
+						</tr>
+						<tr height="10%">
+							<td>Metodo Ejb:</td>
+							<td>
+								<input type="text" name="metodo_ejb" value="{Cuerpo/pagXSL/nombreEjb}"/>
+							</td>
+						</tr>
+					</table>
+					<div class="btn_guardar">
+						<a href="#" onclick="modificar();">Modificar</a>
+					</div>
+
+				</form>
+			</body>
+		</html>
+	</xsl:template>
+</xsl:stylesheet>

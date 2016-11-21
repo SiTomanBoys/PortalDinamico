@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- Toda hoja de transformacion comineza con este tag -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<!-- Indicamos que nuestro output sera un tipo HTML -->
@@ -24,7 +23,7 @@
 				<div class="copiar-xml">
 					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
 				</div>
-				<form name="formulario">
+				<form name="formulario" method="POST" action="lstMenu">
 				<input name="accion" type="hidden"/>
 				<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
 					<div id="filtros">
