@@ -10,7 +10,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getXSL" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		call listarXSL(#{id_xsl}, #{url}, #{id_idioma},#{verCont});
 	</select>
-	
+	<select id="updXSL" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call modificarXSL(#{id_xsl}, #{contenido}, #{nombre_ejb},#{id_idioma});
+	</select>
 	
 	
 </mapper>

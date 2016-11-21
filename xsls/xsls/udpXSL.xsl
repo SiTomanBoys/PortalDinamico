@@ -40,11 +40,15 @@
 				  }
 				  return arr.join('');
 				}
+				]]>
 				function preparar()
 				{
+					<xsl:if test="Cuerpo/updXSL"> 
+						alert('<xsl:value-of select="Cuerpo/updXSL/respuesta/mensaje"/>');
+					</xsl:if>
 					document.formulario.contenido.value = hex2a(document.formulario.contenido.value);
 				}
-				]]>
+				
 				</script>
 			</head>
 			<body onload="preparar()">
