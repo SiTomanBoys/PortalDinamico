@@ -7,5 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="listarMenu" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		call listarMenu(#{id_menu},#{nombre},#{nivel});
 	</select>
-	
+	<select id="addMenu" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call agregarMenu(#{nombre},#{idPadre});
+	</select>
 </mapper>

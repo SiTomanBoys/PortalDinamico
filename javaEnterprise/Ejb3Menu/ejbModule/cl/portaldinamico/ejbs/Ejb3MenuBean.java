@@ -1,5 +1,7 @@
 package cl.portaldinamico.ejbs;
 import java.util.HashMap;
+import java.util.List;
+
 //
 import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
@@ -42,6 +44,28 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 	public HashMap<String,Object> addMenu(HashMap<String,Object> datosConf,HashMap<String,Object> parametros)
 	{
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
+		ConsultaMyBatis ex = new ConsultaMyBatis();
+		HashMap<String,Object> p = new HashMap<String,Object>();
+		String accion = utils.obtenerParametroString(parametros,"accion");
+		String listaMenu = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
+		listaMenu = listaMenu.replaceAll("<Data", "<listaMenu").replaceAll("</Data>", "</listaMenu>");
+		String xmlAgregar="";
+		if("agregar".equalsIgnoreCase(accion))
+		{
+			String nombre = utils.obtenerParametroString(parametros,"nombre");
+			String idPadre = utils.obtenerParametroString(parametros,"id_menu");
+			p.clear();
+			p.put("idPadre", ("".equals(idPadre))? 0 : Integer.parseInt(idPadre));
+			p.put("nombre",nombre);
+			List<HashMap<String,Object>> resultado = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.addMenu", p);
+			if("0".equals(resultado.get(0).get("estado").toString()))
+				xmlAgregar+="<addMenu><respuesta><codigo>0</codigo><mensaje>Opcion Agregada Al Menu</mensaje></respuesta></addMenu>";
+			else
+				xmlAgregar+="<addMenu><respuesta><codigo>1</codigo><mensaje>Error Al Agregar Opcion al Menu</mensaje></respuesta></addMenu>";
+		}
+		String XML= listaMenu;
+		XML += xmlAgregar;
+		retorno.put("XML", XML);
 		return retorno;
 	}
 	//
