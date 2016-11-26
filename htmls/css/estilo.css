@@ -1,12 +1,17 @@
+body{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12px;
+	margin:0 auto;
+	color:#222;
+}
 .copiar-xml
 {
 	display:inline-block;
 	background-color:black;
 	margin-left:90%;
 }
-body{
-	font-family: Arial, Helvetica, sans-serif;
-	font-size:12px;
-	margin:0 auto;
-	color:#222;
+.btn_guardar
+{
+	display:inline-block;
+	background-color:black;
 }
