@@ -171,7 +171,7 @@ public class MyBatisUtils
 	
 	
 	
-	//Funcion que genera la conexcion del MyBatis
+	//Funcion que genera la conexion del MyBatis
 	public HashMap<String,Object> obtenerDatosDeConexion(String Servidores,String id) 
 	{
 		SAXBuilder builder = new SAXBuilder();

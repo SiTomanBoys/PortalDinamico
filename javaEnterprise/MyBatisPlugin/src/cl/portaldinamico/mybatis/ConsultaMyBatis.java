@@ -71,6 +71,14 @@ public class ConsultaMyBatis
 		return XML;
 	}
 	
+	public HashMap<String,Object> SelectUno(String JNDI ,String Mapper,String NameSpace ,HashMap<String,Object> parametros)
+	{
+		HashMap<String,Object> DatosConexion = mbu.obtenerDatosDeConexion(dirServidores,JNDI);
+		DatosConexion.put("mapper",dirCatalogo+Mapper);
+		String Conexion = mbu.realizarConexion(MyBatisConfig, DatosConexion);
+		List<HashMap<String,Object>> lista = mbu.ejecutarConsulta(Conexion,NameSpace,parametros);
+		return lista.get(0);
+	}
 	
 	public void Insertar(String JNDI ,String Mapper,String NameSpace ,HashMap<String,Object> parametros)
 	{
