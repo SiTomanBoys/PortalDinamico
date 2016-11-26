@@ -26,8 +26,6 @@ import org.apache.log4j.Logger;
 import cl.portaldinamico.constants.Constants;
 //
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
-import cl.portaldinamico.utils.Ejb3Utils;
-import cl.portaldinamico.utils.Ejb3UtilsLocal;
 /**
  * Servlet implementation class modulo
  */
@@ -54,7 +52,6 @@ public class modulo extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		//Obtengo los datos de session
-		Ejb3UtilsLocal utils = new Ejb3Utils();
 		HttpSession session= request.getSession(true);
 		if(!session.getId().equals(request.getParameter("idSession")))
 		{
@@ -93,7 +90,7 @@ public class modulo extends HttpServlet {
 		{
 			try
 			{
-				XSL += utils.decodificarHexa(lista.get(0).get("contenido").toString());
+				XSL += lista.get(0).get("contenido").toString();
 			}
 			catch(Exception e)
 			{

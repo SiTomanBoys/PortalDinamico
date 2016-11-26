@@ -8,6 +8,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.Stateless;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
 
@@ -64,6 +65,17 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 		char[] cleartext = contenido.toCharArray();
         byte[] decodeHex = Hex.decodeHex(cleartext);
         return new String(decodeHex);
+	}
+	
+	public String codificarBase64(String contenido) throws Exception
+	{
+        byte[] encode64 = Base64.encodeBase64(contenido.getBytes());
+        return new String(encode64);
+	}
+	public String decodificarBase64(String contenido) throws Exception
+	{
+        byte[] decode64 = Base64.decodeBase64(contenido.getBytes());
+        return new String(decode64);
 	}
 	
 }

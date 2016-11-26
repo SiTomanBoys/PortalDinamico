@@ -10,7 +10,7 @@ BEGIN
 		x.id_xsl,
 		x.nombre_ejb,
 		u.id_url,
-		hex(x.contenido) as contenido,
+		x.contenido as contenido,
 		u.url,
 		i.descripcion as idioma
 		from xsl x inner join rel_urls_xsl rl 

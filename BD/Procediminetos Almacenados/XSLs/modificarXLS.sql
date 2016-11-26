@@ -18,7 +18,7 @@ BEGIN
 	UPDATE 
     xsl 
     SET 
-    contenido = unhex(contenido_xsl), 
+    contenido = contenido_xsl, 
 	nombre_ejb = nombreEjb
     where
     id_xsl = idXSL;

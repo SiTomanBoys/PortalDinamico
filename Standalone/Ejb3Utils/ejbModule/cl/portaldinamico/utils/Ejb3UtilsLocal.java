@@ -11,4 +11,6 @@ public interface Ejb3UtilsLocal
 	public String encrypt(String value, String key) throws Exception;
 	public String decrypt(String key, String encrypted) throws Exception;
 	public String decodificarHexa(String contenido) throws Exception;
+	public String codificarBase64(String contenido) throws Exception;
+	public String decodificarBase64(String contenido) throws Exception;
 }

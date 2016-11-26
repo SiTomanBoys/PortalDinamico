@@ -1,4 +1,4 @@
-  <!-- Toda hoja de transformacion comineza con este tag -->
+<!-- Toda hoja de transformacion comineza con este tag -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<!-- Indicamos que nuestro output sera un tipo HTML -->
 	<xsl:output method = "html" />
@@ -8,6 +8,9 @@
 			<head>
 				<link rel="stylesheet" type="text/css" href="/css/estilo.css?2"/>
 				<script src="/js/funciones.js"/>
+				<script src="/js/jquery-1.9.1.js"/>
+				<script src="/js/jquery.base64.js"/>
+				<script src="/js/jquery-ui-1.10.3.custom.js"/>
 				<script language="JavaScript">
 					<![CDATA[
    				function Buscar()
@@ -20,33 +23,17 @@
  				{
  					document.formulario.action="updXSL";
 					document.formulario.accion.value="modificar";
-					document.formulario.contenido.value = a2hex(document.formulario.contenido.value);
+					document.formulario.contenido.value = Base64.encode(document.formulario.contenido.value);
  					document.formulario.submit();
  				}
-				function hex2a(hexx) 
-				{
-					var hex = hexx.toString();//force conversion
-					var str = '';
-					for (var i = 0; i < hex.length; i += 2)
-						str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-					return str;
-				}
-				function a2hex(str) 
-				{
-				  var arr = [];
-				  for (var i = 0, l = str.length; i < l; i ++) {
-					var hex = Number(str.charCodeAt(i)).toString(16);
-					arr.push(hex);
-				  }
-				  return arr.join('');
-				}
+				
 				]]>
 				function preparar()
 				{
 					<xsl:if test="Cuerpo/updXSL"> 
 						alert('<xsl:value-of select="Cuerpo/updXSL/respuesta/mensaje"/>');
 					</xsl:if>
-					document.formulario.contenido.value = hex2a(document.formulario.contenido.value);
+					document.formulario.contenido.value = Base64.decode(document.formulario.contenido.value);
 				}
 				
 				</script>
