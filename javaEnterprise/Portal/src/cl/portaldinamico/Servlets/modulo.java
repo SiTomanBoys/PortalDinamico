@@ -97,7 +97,8 @@ public class modulo extends HttpServlet {
 				log.error("ERROR AL DECODIFICAR EL CONTENIDO",e);
 				response.sendRedirect("/Portal/error.jsp?Id=11");
 			}
-			String nombre_ejb [] = lista.get(0).get("nombre_ejb").toString().split("\\."); 
+			String nomEjb = (lista.get(0).containsKey("nombre_ejb")) ? lista.get(0).get("nombre_ejb").toString() : "";
+			String nombre_ejb [] = nomEjb.toString().split("\\."); 
 			if(nombre_ejb.length>1)
 			{
 				nombreEjb=nombre_ejb[0];

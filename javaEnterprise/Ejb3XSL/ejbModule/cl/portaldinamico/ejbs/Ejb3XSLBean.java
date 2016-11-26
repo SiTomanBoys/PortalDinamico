@@ -89,7 +89,7 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 		}
 		String XML="<pagXSL>";
 		XML+="<idXSL>"+xsl.get("id_xsl").toString()+"</idXSL>";
-		XML+="<nombreEjb>"+xsl.get("nombre_ejb").toString()+"</nombreEjb>";
+		XML+="<nombreEjb>"+((xsl.containsKey("nombre_ejb")) ? xsl.get("nombre_ejb").toString() : "")+"</nombreEjb>";
 		XML+="<contenido>"+contenido+"</contenido>";
 		XML+="</pagXSL>";
 		
