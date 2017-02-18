@@ -14,6 +14,11 @@
 						document.formulario.accion.value="buscar";
 						document.formulario.submit();
 					}
+					function Agregar()
+					{
+						document.formulario.action="addMenu";
+						document.formulario.submit();
+					}
 				</script>
 			</head>
 			<body>
@@ -67,6 +72,14 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</table>
+					<table>
+						<tr>
+							<td>
+								<input type="button" name="agregar" value="Agregar" onclick="Agregar();" />
+							</td>
+						</tr>
+					</table>
+					
 				</form>
 			</body>
 		</html>
