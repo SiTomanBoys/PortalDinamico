@@ -14,6 +14,15 @@
 						document.formulario.accion.value="buscar";
 						document.formulario.submit();
 					}
+					function Eliminar(valor)
+					{
+						document.formulario.del_id_menu.value=valor;
+						document.formulario.accion.value="eliminar";
+						if(confirm("Esta Seguro Que Desea Eliminar?"))
+						{
+							document.formulario.submit();
+						}
+					}
 					function Agregar()
 					{
 						document.formulario.action="addMenu";
@@ -30,6 +39,7 @@
 				</div>
 				<form name="formulario" method="POST" action="lstMenu">
 				<input name="accion" type="hidden"/>
+				<input name="del_id_menu" type="hidden"/>
 				<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
 					<div id="filtros">
 						<table>
@@ -61,7 +71,7 @@
 								<xsl:for-each select="Cuerpo/listaMenu/fila">
 									<tr>
 										<td><xsl:value-of select="id_menu" /></td>
-										<td><xsl:value-of select="nombre" /></td>
+										<td><a onclick="Eliminar({id_menu})" href="#"><xsl:value-of select="nombre" /></a></td>
 									</tr>
 								</xsl:for-each>
 							</xsl:when>

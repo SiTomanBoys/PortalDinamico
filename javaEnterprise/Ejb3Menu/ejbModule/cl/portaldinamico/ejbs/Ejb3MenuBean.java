@@ -35,7 +35,12 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 			listaMenu = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
 			listaMenu = listaMenu.replaceAll("<Data", "<listaMenu").replaceAll("</Data>", "</listaMenu>");
 		}
-		
+		//Eliminar Menu
+		if("eliminar".equalsIgnoreCase(accion))
+		{
+			String idMenu = utils.obtenerParametroString(parametros,"del_id_menu");
+			p.put("id_menu", idMenu);
+		}		
 		String XML= listaMenu;
 		retorno.put("XML", XML);
 		return retorno;
@@ -47,8 +52,6 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 		ConsultaMyBatis ex = new ConsultaMyBatis();
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		String accion = utils.obtenerParametroString(parametros,"accion");
-		String listaMenu = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
-		listaMenu = listaMenu.replaceAll("<Data", "<listaMenu").replaceAll("</Data>", "</listaMenu>");
 		String xmlAgregar="";
 		if("agregar".equalsIgnoreCase(accion))
 		{
@@ -63,6 +66,9 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 			else
 				xmlAgregar+="<addMenu><respuesta><codigo>1</codigo><mensaje>Error Al Agregar Opcion al Menu</mensaje></respuesta></addMenu>";
 		}
+		String listaMenu = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
+		listaMenu = listaMenu.replaceAll("<Data", "<listaMenu").replaceAll("</Data>", "</listaMenu>");
+		//
 		String XML= listaMenu;
 		XML += xmlAgregar;
 		retorno.put("XML", XML);
@@ -70,12 +76,6 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 	}
 	//
 	public HashMap<String,Object> updMenu(HashMap<String,Object> datosConf,HashMap<String,Object> parametros)
-	{
-		HashMap<String,Object> retorno = new HashMap<String,Object>();
-		return retorno;
-	}
-	//
-	public HashMap<String,Object> delMenu(HashMap<String,Object> datosConf,HashMap<String,Object> parametros)
 	{
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
 		return retorno;
