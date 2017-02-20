@@ -13,23 +13,22 @@ BEGIN
 		x.contenido as contenido,
 		u.url,
 		i.descripcion as idioma
-		from xsl x inner join rel_urls_xsl rl 
-		on (x.id_xsl = rl.id_xsl) inner join urls u 
-		on (u.id_url = rl.id_url) inner join idiomas i
+		from xsl x inner join urls u 
+		on (u.id_url = x.id_url) inner join idiomas i
 		on (x.id_idioma = i.id_idioma)
 		where ( idXSL is null or idXSL = x.id_xsl )
 		and ( p_url is null or u.url = p_url )
 		and ( idIdioma is null  or i.id_idioma = idIdioma);
 	ELSE
+    
 		select 
 		x.id_xsl,
 		x.nombre_ejb,
 		u.id_url,
 		u.url,
 		i.descripcion as idioma
-		from xsl x inner join rel_urls_xsl rl 
-		on (x.id_xsl = rl.id_xsl) inner join urls u 
-		on (u.id_url = rl.id_url) inner join idiomas i
+		from xsl x inner join urls u 
+		on (u.id_url = x.id_url) inner join idiomas i
 		on (x.id_idioma = i.id_idioma)
 		where ( idXSL is null or idXSL = x.id_xsl )
 		and ( p_url is null or u.url = p_url )

@@ -14,14 +14,25 @@
 						document.formulario.accion.value="buscar";
 						document.formulario.submit();
 					}
-					function Eliminar(valor)
+					function Eliminar()
 					{
-						document.formulario.del_id_menu.value=valor;
-						document.formulario.accion.value="eliminar";
-						if(confirm("Esta Seguro Que Desea Eliminar?"))
+						if(document.formulario.del_id_menu.value!="")
 						{
-							document.formulario.submit();
+							document.formulario.accion.value="eliminar";
+							if(confirm("Esta Seguro Que Desea Eliminar?"))
+							{
+								document.formulario.submit();
+							}
 						}
+						else
+							alert("Debe Seleccionar Una Opcion.");
+					}
+					function Modificar(valor)
+					{
+						document.formulario.upd_id_menu.value=valor;
+						document.formulario.accion.value="modificar";
+						document.formulario.action="updMenu";
+						document.formulario.submit();
 					}
 					function Agregar()
 					{
@@ -39,7 +50,7 @@
 				</div>
 				<form name="formulario" method="POST" action="lstMenu">
 				<input name="accion" type="hidden"/>
-				<input name="del_id_menu" type="hidden"/>
+				<input name="upd_id_menu" type="hidden"/>
 				<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
 					<div id="filtros">
 						<table>
@@ -63,6 +74,7 @@
 					
 					<table>
 						<tr>
+							<td></td>
 							<td>ID Menu</td>
 							<td>Nombre</td>
 						</tr>
@@ -70,8 +82,9 @@
 							<xsl:when test="Cuerpo/listaMenu/@cantidad != '0'">
 								<xsl:for-each select="Cuerpo/listaMenu/fila">
 									<tr>
+										<td><input type="radio" name="del_id_menu" value="{id_menu}"/></td>
 										<td><xsl:value-of select="id_menu" /></td>
-										<td><a onclick="Eliminar({id_menu})" href="#"><xsl:value-of select="nombre" /></a></td>
+										<td><a onclick="Modificar({id_menu})" href="#"><xsl:value-of select="nombre" /></a></td>
 									</tr>
 								</xsl:for-each>
 							</xsl:when>
@@ -86,6 +99,9 @@
 						<tr>
 							<td>
 								<input type="button" name="agregar" value="Agregar" onclick="Agregar();" />
+							</td>
+							<td>
+								<input type="button" name="eliminar" value="Eliminar" onclick="Eliminar();" />
 							</td>
 						</tr>
 					</table>
