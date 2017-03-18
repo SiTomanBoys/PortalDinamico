@@ -105,25 +105,33 @@ public class login extends HttpServlet {
 	
 	private boolean validaLogin(HashMap<String,Object> parametros)
 	{
-		String catalogo = datosConf.get(Constants.catalogoBase).toString();
-		String servidores = datosConf.get(Constants.servidoresBase).toString();
-		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
-		HashMap<String,Object> p = new HashMap<String,Object>();
-		p.put("usuario", parametros.get("txtUsuario"));
-		p.put("contrasena", parametros.get("txtPassword"));
-		List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreUsuarioMapper.xml", "coreUsuario.validarUsuario", p);
-		HashMap<String,Object> usuario = lista.get(0);
-		if("1".equals(usuario.get("estado").toString()) && lista.size()==1)
+		try
 		{
-			datosConf.put("idUsuario",usuario.get("id_usuario").toString());
-			datosConf.put("nombreUsuario",usuario.get("nombre_usuario").toString());
-			datosConf.put("idPerfil",usuario.get("id_perfil").toString());
-			datosConf.put("nombrePerfil",usuario.get("perfil").toString());
-			datosConf.put("descripcionPerfil",usuario.get("descripcion").toString());
-			return true;
+			String catalogo = datosConf.get(Constants.catalogoBase).toString();
+			String servidores = datosConf.get(Constants.servidoresBase).toString();
+			ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
+			HashMap<String,Object> p = new HashMap<String,Object>();
+			p.put("usuario", parametros.get("txtUsuario"));
+			p.put("contrasena", parametros.get("txtPassword"));
+			List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreUsuarioMapper.xml", "coreUsuario.validarUsuario", p);
+			HashMap<String,Object> usuario = lista.get(0);
+			if("1".equals(usuario.get("estado").toString()) && lista.size()==1)
+			{
+				datosConf.put("idUsuario",usuario.get("id_usuario").toString());
+				datosConf.put("nombreUsuario",usuario.get("nombre_usuario").toString());
+				datosConf.put("idPerfil",usuario.get("id_perfil").toString());
+				datosConf.put("nombrePerfil",usuario.get("perfil").toString());
+				datosConf.put("descripcionPerfil",usuario.get("descripcion").toString());
+				return true;
+			}
+			else 
+				return false;
 		}
-		else 
+		catch(Exception e)
+		{
+			log.error("[validaLogin] Error",e);
 			return false;
+		}
 	}
 
 }
