@@ -55,6 +55,7 @@ public class login extends HttpServlet {
 		log.info("DOMINIO: "+dominio);
 		Properties portalProperties = new Properties();
 		Properties portalConf = new Properties();
+		datosConf.clear();
 		//Obtengo las propiedades generales del portal dinamico
 		try
 		{
