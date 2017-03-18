@@ -66,11 +66,13 @@ public class modulo extends HttpServlet {
 			log.error("NO SE ENCONTRARON LOS DATOS DE CONFIGURACION DEL PORTAL");
 			response.sendRedirect("/Portal/error.jsp?Id=6");
 		}
-		// TODO Logica Para BD	
+		//Obtengo el Catalogo y los Servidores del Portal.
+		String catalogo = datosConf.get(Constants.catalogoBase).toString();
+		String servidores = datosConf.get(Constants.servidoresBase).toString();
 		String url = request.getAttribute("javax.servlet.forward.request_uri").toString();
 		url = url.substring(7, url.length());
 		log.info("URL Recivida: "+url);
-		ConsultaMyBatis ex = new ConsultaMyBatis();
+		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		p.put("url", url);
 		p.put("id_idioma", "1");
@@ -194,13 +196,13 @@ public class modulo extends HttpServlet {
 			}
 			else
 			{
-				log.info("FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+lista.get(0).get("nombre_ejb")+"]");
+				log.error("FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+lista.get(0).get("nombre_ejb")+"]");
 				response.sendRedirect("/Portal/error.jsp?Id=1");
 			}
 		}
 		else
 		{
-			log.info("LA URL NO EXISTE");
+			log.error("LA URL NO EXISTE");
 			response.sendRedirect("/Portal/error.jsp?Id=0");
 		}
 	}

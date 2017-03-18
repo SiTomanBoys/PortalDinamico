@@ -104,7 +104,9 @@ public class login extends HttpServlet {
 	
 	private boolean validaLogin(HashMap<String,Object> parametros)
 	{
-		ConsultaMyBatis ex = new ConsultaMyBatis();
+		String catalogo = datosConf.get(Constants.catalogoBase).toString();
+		String servidores = datosConf.get(Constants.servidoresBase).toString();
+		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		p.put("usuario", parametros.get("txtUsuario"));
 		p.put("contrasena", parametros.get("txtPassword"));

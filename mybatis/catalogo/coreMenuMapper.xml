@@ -10,4 +10,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="addMenu" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		call agregarMenu(#{nombre},#{idPadre});
 	</select>
+	<select id="delMenu" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call eliminarMenu(#{idMenu});
+	</select>
+	<select id="updMenu" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call modificarMenu(#{idMenu});
+	</select>
 </mapper>

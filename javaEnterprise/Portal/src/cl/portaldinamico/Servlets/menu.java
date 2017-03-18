@@ -58,7 +58,9 @@ public class menu extends HttpServlet {
 			if(session.getAttribute("datosConf")!= null)
 				datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 			// TODO Auto-generated method stub
-			ConsultaMyBatis ex = new ConsultaMyBatis();
+			String catalogo = datosConf.get(Constants.catalogoBase).toString();
+			String servidores = datosConf.get(Constants.servidoresBase).toString();
+			ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 			HashMap<String,Object> p = new HashMap<String,Object>();
 			p.put("nombre", "Menu");
 			p.put("id_idioma", 1);

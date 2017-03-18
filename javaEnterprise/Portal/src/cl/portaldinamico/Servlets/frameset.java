@@ -56,7 +56,9 @@ public class frameset extends HttpServlet {
 			HashMap<String,Object> datosConf = new HashMap<String,Object>();
 			if(session.getAttribute("datosConf")!= null)
 				datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
-			ConsultaMyBatis ex = new ConsultaMyBatis();
+			String catalogo = datosConf.get(Constants.catalogoBase).toString();
+			String servidores = datosConf.get(Constants.servidoresBase).toString();
+			ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 			HashMap<String,Object> p = new HashMap<String,Object>();
 			p.put("nombre", "frameset");
 			p.put("id_idioma", 1);
