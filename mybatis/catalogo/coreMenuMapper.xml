@@ -11,9 +11,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		call agregarMenu(#{nombre},#{idPadre});
 	</select>
 	<select id="delMenu" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		call eliminarMenu(#{idMenu});
+		call eliminarMenu(#{id_menu});
 	</select>
 	<select id="updMenu" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		call modificarMenu(#{idMenu});
+		call modificarMenu(#{id_menu});
 	</select>
 </mapper>
