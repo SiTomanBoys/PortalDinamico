@@ -72,16 +72,15 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 			p.put("contenido",contenido);
 			p.put("nombre_ejb",nombre_ejb);
 			p.put("id_idioma",("".equals(id_idioma)) ? null : id_idioma);
-			List<HashMap<String,Object>> resultado = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.updXSL", p);
-			if("0".equals(resultado.get(0).get("estado").toString()))
+			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.updXSL", p, "estado");
+			if("0".equals(resultado))
 				xmlModificar+="<updXSL><respuesta><codigo>0</codigo><mensaje>Pagina XSL Modificada Correctamente</mensaje></respuesta></updXSL>";
 			else
 				xmlModificar+="<updXSL><respuesta><codigo>1</codigo><mensaje>Error Al Modificar Pagina XSL</mensaje></respuesta></updXSL>";
 		}
 		p.clear();
 		p.put("id_xsl", idXSL );
-		List<HashMap<String,Object>> listaXSL = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);		
-		HashMap<String,Object> xsl = listaXSL.get(0);
+		HashMap<String,Object> xsl = ex.SelectUno(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);
 		String contenido =(xsl.containsKey("contenido")) ? xsl.get("contenido").toString() : "";
 		try 
 		{

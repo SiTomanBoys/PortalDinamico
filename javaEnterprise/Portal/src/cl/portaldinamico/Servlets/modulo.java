@@ -76,7 +76,7 @@ public class modulo extends HttpServlet {
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		p.put("url", url);
 		p.put("id_idioma", "1");
-		List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);
+		HashMap<String,Object> pagina = ex.SelectUno(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);
 		String XML="<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 		XML+="<Documento>";
 		String nombreEjb="";
@@ -88,18 +88,18 @@ public class modulo extends HttpServlet {
 		//Genero La Cabecera del XML
 		XML+=ArmarCabeceraXML(Parametros,datosConf);
 		XML+="<Cuerpo>";
-		if(lista.size()>0)
+		if(pagina!=null)
 		{
 			try
 			{
-				XSL += lista.get(0).get("contenido").toString();
+				XSL += pagina.get("contenido").toString();
 			}
 			catch(Exception e)
 			{
 				log.error("ERROR AL DECODIFICAR EL CONTENIDO",e);
 				response.sendRedirect("/Portal/error.jsp?Id=11");
 			}
-			String nomEjb = (lista.get(0).containsKey("nombre_ejb")) ? lista.get(0).get("nombre_ejb").toString() : "";
+			String nomEjb = (pagina.containsKey("nombre_ejb")) ? pagina.get("nombre_ejb").toString() : "";
 			String nombre_ejb [] = nomEjb.toString().split("\\."); 
 			if(nombre_ejb.length>1)
 			{
@@ -196,7 +196,7 @@ public class modulo extends HttpServlet {
 			}
 			else
 			{
-				log.error("FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+lista.get(0).get("nombre_ejb")+"]");
+				log.error("FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+pagina.get("nombre_ejb")+"]");
 				response.sendRedirect("/Portal/error.jsp?Id=1");
 			}
 		}

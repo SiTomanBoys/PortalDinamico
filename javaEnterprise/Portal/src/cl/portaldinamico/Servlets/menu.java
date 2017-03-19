@@ -65,11 +65,10 @@ public class menu extends HttpServlet {
 			p.put("nombre", "Menu");
 			p.put("id_idioma", 1);
 			//Obtengo el XSL
-			List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreXSLPrincipalMapper.xml", "coreXSLPrincipal.getXSL", p);
-			String XSL = (String) lista.get(0).get("contenido");
+			String XSL = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "coreXSLPrincipalMapper.xml", "coreXSLPrincipal.getXSL", p, "contenido");
 			p.clear();
 			//Listo las opciones del menu.
-			lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
+			List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
 			//
 			String XML=generarMenu(lista,session.getId());
 			PrintWriter out = response.getWriter();

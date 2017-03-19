@@ -63,8 +63,7 @@ public class frameset extends HttpServlet {
 			p.put("nombre", "frameset");
 			p.put("id_idioma", 1);
 			//Obtengo el XSL
-			List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreXSLPrincipalMapper.xml", "coreXSLPrincipal.getXSL", p);
-			String XSL = (String) lista.get(0).get("contenido");
+			String XSL = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "coreXSLPrincipalMapper.xml", "coreXSLPrincipal.getXSL", p, "contenido");
 			String XML = getXMLFrame(datosConf);
 			PrintWriter out = response.getWriter();
 			TransformerFactory tff = TransformerFactory.newInstance();
