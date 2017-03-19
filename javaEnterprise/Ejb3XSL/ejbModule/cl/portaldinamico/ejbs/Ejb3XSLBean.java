@@ -24,8 +24,9 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 		String listaXSL="";
 		if("buscar".equalsIgnoreCase(accion))
 		{
-			ConsultaMyBatis ex = new ConsultaMyBatis();
-			MyBatisUtils utilsMB= new MyBatisUtils();
+			String catalogo = datosConf.get(Constants.catalogoBase).toString();
+			String servidores = datosConf.get(Constants.servidoresBase).toString();
+			ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);	
 			String idXSL = utils.obtenerParametroString(parametros,"id_xsl");
 			String url = utils.obtenerParametroString(parametros,"url");
 			String idIdioma = utils.obtenerParametroString(parametros,"id_idioma");
@@ -51,7 +52,9 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 		String xmlModificar="";
 		String accion = utils.obtenerParametroString(parametros,"accion");
 		String idXSL = utils.obtenerParametroString(parametros,"id_xsl");
-		ConsultaMyBatis ex = new ConsultaMyBatis();
+		String catalogo = datosConf.get(Constants.catalogoBase).toString();
+		String servidores = datosConf.get(Constants.servidoresBase).toString();
+		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		if("modificar".equalsIgnoreCase(accion))
 		{

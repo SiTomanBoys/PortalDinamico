@@ -22,10 +22,25 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 	public HashMap<String,Object> lstMenu(HashMap<String,Object> datosConf,HashMap<String,Object> parametros)
 	{
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
-		ConsultaMyBatis ex = new ConsultaMyBatis();
+		String catalogo = datosConf.get(Constants.catalogoBase).toString();
+		String servidores = datosConf.get(Constants.servidoresBase).toString();
+		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		String accion = utils.obtenerParametroString(parametros,"accion");
+		//Eliminar Menu
+		String xmlEliminar="";
+		if("eliminar".equalsIgnoreCase(accion))
+		{
+			String idMenu = utils.obtenerParametroString(parametros,"del_id_menu");
+			p.put("id_menu", idMenu);
+			List<HashMap<String,Object>> resultado = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.delMenu", p);
+			if("0".equals(resultado.get(0).get("estado").toString()))
+				xmlEliminar+="<delMenu><respuesta><codigo>0</codigo><mensaje>Opcion Eliminada Del Menu</mensaje></respuesta></delMenu>";
+			else
+				xmlEliminar+="<delMenu><respuesta><codigo>1</codigo><mensaje>Error Eliminar Opcion Del Menu</mensaje></respuesta></delMenu>";
+		}	
 		String listaMenu="";
+		//Buscar Menu
 		if("buscar".equalsIgnoreCase(accion))
 		{
 			String idMenu = utils.obtenerParametroString(parametros,"id_menu");
@@ -34,14 +49,9 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 			p.put("nombre",  ( "".equals(nombre) ) ? null : nombre );
 			listaMenu = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
 			listaMenu = listaMenu.replaceAll("<Data", "<listaMenu").replaceAll("</Data>", "</listaMenu>");
-		}
-		//Eliminar Menu
-		if("eliminar".equalsIgnoreCase(accion))
-		{
-			String idMenu = utils.obtenerParametroString(parametros,"del_id_menu");
-			p.put("id_menu", idMenu);
-		}		
+		}	
 		String XML= listaMenu;
+		XML += xmlEliminar;
 		retorno.put("XML", XML);
 		return retorno;
 	}
@@ -49,7 +59,9 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 	public HashMap<String,Object> addMenu(HashMap<String,Object> datosConf,HashMap<String,Object> parametros)
 	{
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
-		ConsultaMyBatis ex = new ConsultaMyBatis();
+		String catalogo = datosConf.get(Constants.catalogoBase).toString();
+		String servidores = datosConf.get(Constants.servidoresBase).toString();
+		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		String accion = utils.obtenerParametroString(parametros,"accion");
 		String xmlAgregar="";
