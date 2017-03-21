@@ -30,7 +30,6 @@
 					function Modificar(valor)
 					{
 						document.formulario.upd_id_menu.value=valor;
-						document.formulario.accion.value="modificar";
 						document.formulario.action="updMenu";
 						document.formulario.submit();
 					}

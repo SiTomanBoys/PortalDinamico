@@ -11,6 +11,7 @@ BEGIN
 	m.nombre,
 	m.id_url,
 	m.nivel,
+	m.id_padre,
 	u.url
 	from menu m left join urls u 
 	on (m.id_url = u.id_url)

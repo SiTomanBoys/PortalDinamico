@@ -97,12 +97,18 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		String accion = utils.obtenerParametroString(parametros,"accion");
+		String updIdMenu = utils.obtenerParametroString(parametros, "upd_id_menu");
+		p.put("id_menu", updIdMenu);
+		HashMap<String,Object> menu = ex.SelectUno(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
+		String xmlGetMenu = utils.hashMapAXml(menu, "menu");
+		p.clear();
 		String xmlModificar="";
 		if("modificar".equalsIgnoreCase(accion))
 		{
 			String nombre = utils.obtenerParametroString(parametros,"nombre");
-			String idPadre = utils.obtenerParametroString(parametros,"id_menu");
+			String idPadre = utils.obtenerParametroString(parametros,"id_padre");
 			p.clear();
+			p.put("id_menu",updIdMenu);
 			p.put("idPadre", ("".equals(idPadre))? 0 : Integer.parseInt(idPadre));
 			p.put("nombre",nombre);
 			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.updMenu", p,"estado");
@@ -117,6 +123,7 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 		//
 		String XML= listaMenu;
 		XML += xmlModificar;
+		XML +=xmlGetMenu;
 		retorno.put("XML", XML);
 		return retorno;
 	}

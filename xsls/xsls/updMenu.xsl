@@ -17,7 +17,7 @@
 					{
 						if(document.formulario.nombre.value !="")
 						{
-							document.formulario.accion.value="agregar";
+							document.formulario.accion.value="modificar";
 							document.formulario.submit();
 						}
 						else
@@ -34,24 +34,28 @@
 				<div class="copiar-xml">
 					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
 				</div>
-				<form name="formulario" method="POST" action="addMenu">
+				<form name="formulario" method="POST" action="updMenu">
 					<input name="accion" type="hidden"/>
+					<input name="upd_id_menu" type="hidden" value = "{Cabecera/Parametros/upd_id_menu}"/>
 					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
 					<table>
 						<tr>
 							<td>Nombre:</td>
 							<td>
-								<input type="text" name="nombre"/>
+								<input type="text" name="nombre" value="{Cuerpo/menu/nombre}" />
 							</td>
 						</tr>
 						<tr>
 							<td>Dentro de:</td>
 							<td>
-								<select name="id_menu">
+								<select name="id_padre">
 									<option value="">Ninguno</option>
 									<xsl:for-each select="Cuerpo/listaMenu/fila">
 										<xsl:if test="id_url = 0">
 											<option value="{id_menu}">
+												<xsl:if test="id_menu = /Documento/Cuerpo/menu/id_padre">
+													<xsl:attribute name="selected">selected</xsl:attribute>
+												</xsl:if>
 												<xsl:value-of select ="nombre"/>
 											</option>
 										</xsl:if>	
@@ -62,7 +66,7 @@
 					</table>
 
 					<div id="botonera">
-						<input type="button" name="modificar" value="Modificar" onclick="Modificar;" />&#160;
+						<input type="button" name="modificar" value="Modificar" onclick="Modificar();" />&#160;
 						<input type="button" name="volver" value="Volver" onclick="Volver();" />
 					</div>
 				</form>

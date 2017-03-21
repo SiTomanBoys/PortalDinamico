@@ -10,10 +10,10 @@ import cl.portaldinamico.mybatis.utils.MyBatisUtils;
 public class ConsultaMyBatis 
 {
 	static final Logger log = Logger.getLogger(ConsultaMyBatis.class);
-	private String MyBatisConfig;
-	private String dirServidores;
-	private String dirCatalogo;
-	private boolean habilitarLog;
+	private static String MyBatisConfig;
+	private static String dirServidores;
+	private static String dirCatalogo;
+	private static boolean habilitarLog;
 	
 	MyBatisUtils mbu = new MyBatisUtils();
 	public ConsultaMyBatis(String Servidores,String catalogo)

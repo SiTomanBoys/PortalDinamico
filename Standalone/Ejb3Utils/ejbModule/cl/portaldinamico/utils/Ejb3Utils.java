@@ -77,5 +77,15 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
         byte[] decode64 = Base64.decodeBase64(contenido.getBytes());
         return new String(decode64);
 	}
+	public String hashMapAXml(HashMap<String,Object> map,String nombre)
+	{
+		String xml="<"+nombre+">";
+		for ( String llave : map.keySet() )
+		{
+			xml+="<"+llave+">"+map.get(llave)+"</"+llave+">";
+		}
+		xml+="</"+nombre+">";
+		return xml;
+	}
 	
 }
