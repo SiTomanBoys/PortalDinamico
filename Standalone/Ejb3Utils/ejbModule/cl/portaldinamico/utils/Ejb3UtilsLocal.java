@@ -3,6 +3,8 @@ import java.util.HashMap;
 
 import javax.ejb.Local;
 
+import org.apache.log4j.Logger;
+
 @Local
 public interface Ejb3UtilsLocal 
 {
@@ -14,4 +16,6 @@ public interface Ejb3UtilsLocal
 	public String codificarBase64(String contenido) throws Exception;
 	public String decodificarBase64(String contenido) throws Exception;
 	public String hashMapAXml(HashMap<String,Object> map,String nombre);
+	public void impLog(Logger logg,int logLevel,HashMap<String,Object> datosConf,String mensaje,Throwable t);
+	public void impLog(Logger logg,int logLevel,HashMap<String,Object> datosConf,String mensaje);
 }

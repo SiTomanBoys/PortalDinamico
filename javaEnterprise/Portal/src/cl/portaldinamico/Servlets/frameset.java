@@ -16,10 +16,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
+import cl.portaldinamico.utils.Ejb3Utils;
+import cl.portaldinamico.utils.Ejb3UtilsLocal;
 
 /**
  * Servlet implementation class frameset
@@ -49,13 +52,13 @@ public class frameset extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Ejb3UtilsLocal utils = new Ejb3Utils();
+		HttpSession session= request.getSession(true);
+		HashMap<String,Object> datosConf = new HashMap<String,Object>();
+		if(session.getAttribute("datosConf")!= null)
+			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 		try
 		{
-			
-			HttpSession session= request.getSession(true);
-			HashMap<String,Object> datosConf = new HashMap<String,Object>();
-			if(session.getAttribute("datosConf")!= null)
-				datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 			String catalogo = datosConf.get(Constants.catalogoBase).toString();
 			String servidores = datosConf.get(Constants.servidoresBase).toString();
 			ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
@@ -74,7 +77,8 @@ public class frameset extends HttpServlet {
 			tf.transform(ss,sr);
 		}catch(Exception ex)
 		{
-			log.error("ERROR AL GENERAR FRAMESET", ex);
+			
+			utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR FRAMESET", ex);
 			response.sendRedirect("/Portal/error.jsp?Id=9");
 		}
 	}

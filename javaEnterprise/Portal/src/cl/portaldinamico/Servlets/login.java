@@ -13,11 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Level;
 //
 import org.apache.log4j.Logger;
 
 import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
+import cl.portaldinamico.utils.Ejb3Utils;
+import cl.portaldinamico.utils.Ejb3UtilsLocal;
 
 /**
  * Servlet implementation class login
@@ -47,6 +50,7 @@ public class login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// TODO Auto-generated method stub	
+		Ejb3UtilsLocal utils = new Ejb3Utils();
 		String url = request.getRequestURL().toString();
 		String uri = request.getRequestURI();
 		String dominio = url.substring(url.indexOf("://")+3,url.length());
@@ -98,13 +102,14 @@ public class login extends HttpServlet {
 		}
 		else
 		{
-			log.info("USUARIO O CONTRASEÑA INCORRECTA");
+			utils.impLog(log, Level.INFO_INT, datosConf, "USUARIO O CONTRASEÑA INCORRECTA");
 			response.sendRedirect("/Portal/error.jsp?Id=10");
 		}
 	}
 	
 	private boolean validaLogin(HashMap<String,Object> parametros)
 	{
+		Ejb3UtilsLocal utils = new Ejb3Utils();
 		try
 		{
 			String catalogo = datosConf.get(Constants.catalogoBase).toString();
@@ -133,7 +138,7 @@ public class login extends HttpServlet {
 		}
 		catch(Exception e)
 		{
-			log.error("[validaLogin] Error",e);
+			utils.impLog(log, Level.ERROR_INT, datosConf, "[validaLogin] Error",e);
 			return false;
 		}
 	}

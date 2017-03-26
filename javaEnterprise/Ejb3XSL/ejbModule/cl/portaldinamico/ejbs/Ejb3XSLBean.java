@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.ejb.Stateless;
+
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import cl.portaldinamico.constants.Constants;
@@ -66,7 +68,7 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 				contenido = utils.decodificarBase64(contenido);
 			} catch (Exception e) 
 			{
-				log.error("[updXSL] ERROR AL DECODIFICAR CONTENIDO XSL",e);
+				utils.impLog(log, Level.ERROR_INT, datosConf, "[updXSL] ERROR AL DECODIFICAR CONTENIDO XSL",e);
 			}
 			p.put("id_xsl", idXSL);
 			p.put("contenido",contenido);
@@ -87,7 +89,7 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 			contenido = utils.codificarBase64(contenido);
 		} catch (Exception e) 
 		{
-			log.error("[updXSL] ERROR AL CODIFICAR CONTENIDO XSL",e);
+			utils.impLog(log, Level.ERROR_INT, datosConf, "[updXSL] ERROR AL CODIFICAR CONTENIDO XSL",e);
 		}
 		String XML="<pagXSL>";
 		XML+="<idXSL>"+xsl.get("id_xsl").toString()+"</idXSL>";

@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 @Stateless(name="Ejb3Utils")
@@ -87,5 +88,26 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 		xml+="</"+nombre+">";
 		return xml;
 	}
-	
+	public void impLog(Logger logg,int logLevel,HashMap<String,Object> datosConf,String mensaje)
+	{
+		impLog(logg, logLevel, datosConf, mensaje,null);
+	}
+	public void impLog(Logger logg,int logLevel,HashMap<String,Object> datosConf,String mensaje,Throwable t)
+	{
+		try
+		{
+			int intLog = Integer.parseInt(datosConf.get("nivelLog").toString());
+			if(logLevel >= intLog)
+			{
+				String[] nombreClase = logg.getName().split("\\.");
+				String clase = nombreClase[nombreClase.length-1];
+				log.log(Level.toPriority(logLevel),"\n ["+clase+"] "+ mensaje ,t);
+			}
+		}catch(Exception e)
+		
+		
+		{
+			log.error("La variable 'nivelLog' del portal.properties no es un numero o no existe",e);
+		}
+	}
 }

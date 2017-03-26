@@ -21,11 +21,14 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import cl.portaldinamico.constants.Constants;
 //
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
+import cl.portaldinamico.utils.Ejb3Utils;
+import cl.portaldinamico.utils.Ejb3UtilsLocal;
 /**
  * Servlet implementation class modulo
  */
@@ -53,6 +56,7 @@ public class modulo extends HttpServlet {
 	{
 		//Obtengo los datos de session
 		HttpSession session= request.getSession(true);
+		Ejb3UtilsLocal utils = new Ejb3Utils();
 		if(!session.getId().equals(request.getParameter("idSession")))
 		{
 			log.error("ID DE SESSION EXPIRADA");
@@ -63,7 +67,7 @@ public class modulo extends HttpServlet {
 			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 		else
 		{
-			log.error("NO SE ENCONTRARON LOS DATOS DE CONFIGURACION DEL PORTAL");
+			utils.impLog(log, Level.ERROR_INT, datosConf, "NO SE ENCONTRARON LOS DATOS DE CONFIGURACION DEL PORTAL");
 			response.sendRedirect("/Portal/error.jsp?Id=6");
 		}
 		//Obtengo el Catalogo y los Servidores del Portal.
@@ -71,7 +75,7 @@ public class modulo extends HttpServlet {
 		String servidores = datosConf.get(Constants.servidoresBase).toString();
 		String url = request.getAttribute("javax.servlet.forward.request_uri").toString();
 		url = url.substring(7, url.length());
-		log.info("URL Recivida: "+url);
+		utils.impLog(log, Level.INFO_INT, datosConf, "URL Recivida: "+url);
 		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		p.put("url", url);
@@ -96,7 +100,7 @@ public class modulo extends HttpServlet {
 			}
 			catch(Exception e)
 			{
-				log.error("ERROR AL DECODIFICAR EL CONTENIDO",e);
+				utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL DECODIFICAR EL CONTENIDO",e);
 				response.sendRedirect("/Portal/error.jsp?Id=11");
 			}
 			String nomEjb = (pagina.containsKey("nombre_ejb")) ? pagina.get("nombre_ejb").toString() : "";
@@ -119,27 +123,25 @@ public class modulo extends HttpServlet {
 					Class<?> clazz = objRef.getClass();
 					Method mthd = clazz.getMethod("create");
 					objRemote = (Object) mthd.invoke(objRef,nombreEjb);
-					log.info("NOMBRE EJB  ["+nombreEjb+"]");
-					log.info("ENCONTRO EJB 2");
+					utils.impLog(log, Level.DEBUG_INT, datosConf, "NOMBRE EJB  ["+nombreEjb+"]");
+					utils.impLog(log, Level.INFO_INT, datosConf, "ENCONTRO EJB 2");
 				}catch(Throwable ejb2)
 				{
 					try 
 					{
 						ejbNameRemote = nombreEjb+"Bean/remote";
 						objRemote = ejbContext.lookup(ejbNameRemote);
-						log.info("ENCONTRO EJB 3 REMOTO");
-
+						utils.impLog(log, Level.INFO_INT, datosConf, "ENCONTRO EJB 3 REMOTO");
 					} catch (Throwable f) 
 					{
 						try 
 						{
 							ejbNameLocal = nombreEjb + "Bean/local";
 							objRemote = ejbContext.lookup(ejbNameLocal);
-							log.info("ENCONTRO EJB 3 LOCAL");
-
+							utils.impLog(log, Level.INFO_INT, datosConf, "ENCONTRO EJB 3 LOCAL");
 						} catch (Throwable g) 
 						{
-							log.error("NO SE ENCONTRO EJB2, EJB3 REMOTE O EJB3 LOCAL");
+							utils.impLog(log, Level.ERROR_INT, datosConf, "NO SE ENCONTRO EJB2, EJB3 REMOTE O EJB3 LOCAL");
 							response.sendRedirect("/Portal/error.jsp?Id=5");
 						}
 					}
@@ -159,18 +161,18 @@ public class modulo extends HttpServlet {
 						//log.info("METODO ["+metodoEjb+"]");
 						//log.info("PARAMETROS ["+paramtypes+"]");
 						mthdRemote = clazzRemote.getMethod(metodoEjb, paramtypes);
-						log.debug("EJECUTANDO EL METODO [" + mthdRemote.getName() + "] DEL OBJETO [" + objRemote.getClass().getName()+"]");
-						log.info("ANTES DEL INVOKE");
+						utils.impLog(log, Level.DEBUG_INT, datosConf, "EJECUTANDO EL METODO [" + mthdRemote.getName() + "] DEL OBJETO [" + objRemote.getClass().getName()+"]");
+						utils.impLog(log, Level.INFO_INT, datosConf, "ANTES DEL INVOKE");
 						HashMap<String,Object> Respuesta = (HashMap<String,Object>) mthdRemote.invoke(objRemote, parameters);
 						XML += Respuesta.get("XML");
 						XML +="</Cuerpo>";
 						XML +="</Documento>";
-						log.info("DESPUES DEL INVOKE");
-						log.info("XML OBTENIDO: "+XML);
+						utils.impLog(log, Level.INFO_INT, datosConf, "DESPUES DEL INVOKE");
+						utils.impLog(log, Level.DEBUG_INT, datosConf, "XML OBTENIDO: "+XML);
 						ejbContext.close();
 					} catch (Throwable e) 
 					{
-						log.error("ERROR AL LLAMAR EJB",e);
+						utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL LLAMAR EJB",e);
 						response.sendRedirect("/Portal/error.jsp?Id=4");
 					}
 					try
@@ -185,24 +187,25 @@ public class modulo extends HttpServlet {
 					}
 					catch(Exception e)
 					{
-						log.error("ERROR AL TRANSFORMAR XSL: ",e);
+						utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL TRANSFORMAR XSL: ",e);
 						response.sendRedirect("/Portal/error.jsp?Id=3");
 					}
 				}	
 				else
-				{	log.error("NO SE ENCONTRO EL METODO ["+metodoEjb+"]");
+				{	
+					utils.impLog(log, Level.ERROR_INT, datosConf, "NO SE ENCONTRO EL METODO ["+metodoEjb+"]");
 					response.sendRedirect("/Portal/error.jsp?Id=2");
 				}
 			}
 			else
 			{
-				log.error("FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+pagina.get("nombre_ejb")+"]");
+				utils.impLog(log, Level.ERROR_INT, datosConf, "FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+pagina.get("nombre_ejb")+"]");
 				response.sendRedirect("/Portal/error.jsp?Id=1");
 			}
 		}
 		else
 		{
-			log.error("LA URL NO EXISTE");
+			utils.impLog(log, Level.ERROR_INT, datosConf, "LA URL NO EXISTE");
 			response.sendRedirect("/Portal/error.jsp?Id=0");
 		}
 	}

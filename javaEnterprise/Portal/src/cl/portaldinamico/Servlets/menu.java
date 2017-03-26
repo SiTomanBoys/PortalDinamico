@@ -16,10 +16,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
+import cl.portaldinamico.utils.Ejb3Utils;
+import cl.portaldinamico.utils.Ejb3UtilsLocal;
 
 /**
  * Servlet implementation class menu
@@ -27,7 +30,6 @@ import cl.portaldinamico.mybatis.ConsultaMyBatis;
 public class menu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static final Logger log = Logger.getLogger(menu.class);
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -51,12 +53,13 @@ public class menu extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		//Obtengo los datos de session
+		Ejb3UtilsLocal utils = new Ejb3Utils();
+		HttpSession session= request.getSession(true);
+		HashMap<String,Object> datosConf = new HashMap<String,Object>();
+		if(session.getAttribute("datosConf")!= null)
+			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 		try
 		{
-			HttpSession session= request.getSession(true);
-			HashMap<String,Object> datosConf = new HashMap<String,Object>();
-			if(session.getAttribute("datosConf")!= null)
-				datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 			// TODO Auto-generated method stub
 			String catalogo = datosConf.get(Constants.catalogoBase).toString();
 			String servidores = datosConf.get(Constants.servidoresBase).toString();
@@ -70,7 +73,7 @@ public class menu extends HttpServlet {
 			//Listo las opciones del menu.
 			List<HashMap<String,Object>> lista = ex.Select(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.listarMenu", p);
 			//
-			String XML=generarMenu(lista,session.getId());
+			String XML=generarMenu(lista,session.getId(),datosConf);
 			PrintWriter out = response.getWriter();
 			TransformerFactory tff = TransformerFactory.newInstance();
 			Transformer tf = tff.newTransformer(new StreamSource(new StringReader(XSL)));
@@ -80,13 +83,14 @@ public class menu extends HttpServlet {
 			tf.transform(ss,sr);
 		}catch(Exception ex)
 		{
-			log.error("ERROR AL GENERAR EL MENU", ex);
+			utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL GENERAR EL MENU", ex);
 			response.sendRedirect("/Portal/error.jsp?Id=8");
 		}
 	}
-	private String generarMenu(List<HashMap<String,Object>> lista,String idsession) 
+	private String generarMenu(List<HashMap<String,Object>> lista,String idsession,HashMap<String,Object> datosConf) 
 	{
-		log.info("********GENERANDO MENU *******");
+		Ejb3UtilsLocal utils = new Ejb3Utils();
+		utils.impLog(log, Level.INFO_INT, datosConf,"********GENERANDO MENU *******");
 		String [] nombre = new String[lista.size()+1];
 		String [] url = new String[lista.size()+1];
 		long [] nivel = new long[lista.size()+1];
@@ -140,8 +144,7 @@ public class menu extends HttpServlet {
 		}
 		XML+="</Menu>";
 		XML+="</Documento>";
-		
-		log.info("XML MENU:::"+XML);
+		utils.impLog(log, Level.DEBUG_INT, datosConf,"XML MENU:::"+XML);
 		return XML;
 	}
 	
