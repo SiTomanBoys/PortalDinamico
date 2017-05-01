@@ -6,7 +6,8 @@
 	<xsl:template match="/Documento">
 		<html>
 			<head>
-				<link rel="stylesheet" type="text/css" href="/css/estilo.css?2"/>
+				<link rel="stylesheet" type="text/css" href="/css/estilo.css?1"/>
+				<link rel="stylesheet" type="text/css" href="/css/tabla.css"/>
 				<script src="/js/funciones.js"/>
 				<script src="/js/jquery-1.9.1.js"/>
 				<script src="/js/jquery.base64.js"/>
@@ -42,40 +43,62 @@
 				<textarea id="xml-response" style="display:none;" name="xml-response">
 					<xsl:copy-of select="/*"/>
 				</textarea>
-				<div class="copiar-xml">
+				<span class="spanbtn copiar-xml">
 					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
-				</div>
+				</span>
 				<form name="formulario" method="POST">
 					<input name="accion" type="hidden"/>
 					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
-
-					<table width="100%" height="90%">
-						<tr height="10%">
-							<td width="10%">ID XSL:</td>
-							<td>
-								<xsl:value-of select="Cuerpo/pagXSL/idXSL"/>
-								<input type="hidden" name="id_xsl" value="{Cuerpo/pagXSL/idXSL}"/>
-							</td>
-						</tr>
-						<tr height="80%">
-							<td>Contenido:</td>
-							<td>
-								<textarea name="contenido" style="width:100%; height:100%;">
-									<xsl:value-of select="Cuerpo/pagXSL/contenido"/>
-								</textarea>
-							</td>
-						</tr>
-						<tr height="10%">
-							<td>Metodo Ejb:</td>
-							<td>
-								<input type="text" name="metodo_ejb" value="{Cuerpo/pagXSL/nombreEjb}"/>
-							</td>
-						</tr>
-					</table>
-					<div class="btn_guardar">
-						<a href="#" onclick="modificar();">Modificar</a>
-					</div>
-
+					<p>
+						<div class="divtbl">
+							<table width="100%" height="80%">
+								<tbody>
+									<tr height="10%">
+										<td class="td-h1" width="10%">ID XSL:</td>
+										<td class="td-c1">
+											<xsl:value-of select="Cuerpo/pagXSL/idXSL"/>
+											<input type="hidden" name="id_xsl" value="{Cuerpo/pagXSL/idXSL}"/>
+										</td>
+									</tr>
+									<tr height="80%">
+										<td class="td-h1">Contenido:</td>
+										<td class="td-c2">
+											<textarea name="contenido" style="width:100%; height:100%;">
+												<xsl:value-of select="Cuerpo/pagXSL/contenido"/>
+											</textarea>
+										</td>
+									</tr>
+									<tr height="10%">
+										<td class="td-h1">Metodo Ejb:</td>
+										<td class="td-c1">
+											<input type="text" name="metodo_ejb" value="{Cuerpo/pagXSL/nombreEjb}"/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</p>
+					<p>
+						<div class="divbtn">
+							<table>
+								<tbody>
+									<tr>
+										<td colspan="4" >
+											<div id="paging">
+												<ul>
+													<li>
+														<a href="#" onclick="modificar();">
+															<span>Modificar</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</p>
 				</form>
 			</body>
 		</html>

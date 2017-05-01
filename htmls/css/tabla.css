@@ -1,0 +1,198 @@
+.divtbl table 
+{ 
+	border-collapse: collapse; 
+	text-align: left; 
+	width: 100%; 
+} 
+.divtbl 
+{
+	font: normal 12px/150% Arial, Helvetica, sans-serif; 
+	background: #fff; 
+	overflow: hidden; 
+	border: 1px solid #006699; 
+	-webkit-border-radius: 3px; 
+	-moz-border-radius: 3px; 
+	border-radius: 3px; 
+}
+/*
+	Esto es estilo del Head de la tabla
+*/
+.divtbl table td, .divtbl table th 
+{ 
+	padding: 3px 10px;
+}
+.divtbl table thead th 
+{
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+	background-color:#006699; 
+	color:#ffffff; 
+	font-size: 15px; 
+	font-weight: bold; 
+	border-left: 1px solid #0070A8; 
+} 
+.divtbl table thead th:first-child 
+{ 
+	border: none;	
+}
+/*
+	Esto es estilo del cuerpo de la tabla
+*/
+.divtbl table tbody td 
+{ 
+	color: #00496B; 
+	border-left: 1px solid #E1EEF4;
+	font-size: 12px;
+	font-weight: normal; 
+}
+.divtbl table tbody .td-c1 td 
+{ 
+	background: #E1EEF4;
+	color: #00496B;
+}
+
+.divtbl table tbody tr .td-c1
+{ 
+	background: #E1EEF4;
+	color: #00496B;
+}
+
+.divtbl table tbody  tr .td-h1
+{ 
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+	background-color:#006699; 
+	color:#ffffff; 
+	font-size: 15px; 
+	font-weight: bold; 
+	border-left: 1px solid #0070A8; 
+}
+
+
+.divtbl table tbody td:first-child 
+{ 
+	border-left: none; 
+}
+.divtbl table tbody tr:last-child td 
+{ 
+	border-bottom: none; 
+}
+
+/*
+	Esto es estilo del Footer de una tabla
+*/
+.divtbl table tfoot td div 
+{ 
+	border-top: 1px solid #006699;
+	background: #E1EEF4;
+} 
+.divtbl table tfoot td 
+{ 
+	padding: 0; font-size: 12px 
+} 
+.divtbl table tfoot td div
+{ 
+	padding: 2px; 
+}
+.divtbl table tfoot td .ul-der
+{ 
+	margin: 0; 
+	padding:0;
+	list-style:none; 
+	text-align: right; 
+}
+.divtbl table tfoot td .ul-izq
+{ 
+	margin: 0; 
+	padding:0;
+	list-style:none;  
+}
+
+.divtbl table tfoot  li 
+{ 
+display: inline; 
+}
+.divtbl table tfoot li a 
+{ 
+	text-decoration: none;
+	display: inline-block;
+	padding: 5px 8px;
+	margin: 2px;
+	color: #FFFFFF;
+	border: 1px solid #006699;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+	background-color:#006699; 
+}
+.divtbl table tfoot ul.active, .divtbl table tfoot ul a:hover 
+{ 
+	text-decoration: none;
+	border-color: #006699;
+	color: #FFFFFF; 
+	background: none; 
+	background-color:#00557F;
+}
+
+
+div.dhtmlx_window_active, div.dhx_modal_cover_dv 
+{ 
+	position: fixed !important;
+}
+
+
+
+
+/*
+	Esto es estilo de los botones
+*/
+.divbtn 
+{
+	font: normal 12px/150% Arial, Helvetica, sans-serif; 
+	background: #fff; 
+	overflow: hidden; 
+	-webkit-border-radius: 3px; 
+	-moz-border-radius: 3px; 
+	border-radius: 3px; 
+}
+.divbtn table tbody tr td ul 
+{ 
+	margin: 0; 
+	padding:0;
+	list-style:none; 
+}
+.divbtn table tbody tr td ul li 
+{ 
+	display: inline; 
+}
+.divbtn table tbody tr td ul li a
+{
+	text-decoration: none;
+	display: inline-block;
+	padding: 5px 8px;
+	margin: 2px;
+	font-size: 12px;
+	color: #FFFFFF;
+	border: 1px solid #006699;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+	background-color:#006699; 
+}
+
+.divbtn table tbody tr td ul li a:hover 
+{ 
+	text-decoration: none;
+	border-color: #006699;
+	color: #FFFFFF; 
+	background: none; 
+	background-color:#00557F;
+}

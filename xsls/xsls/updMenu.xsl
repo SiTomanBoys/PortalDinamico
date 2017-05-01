@@ -6,7 +6,8 @@
 	<xsl:template match="/Documento">
 		<html>
 			<head>
-				<link rel="stylesheet" type="text/css" href="/css/estilo.css"/>
+				<link rel="stylesheet" type="text/css" href="/css/estilo.css?1"/>
+				<link rel="stylesheet" type="text/css" href="/css/tabla.css"/>
 				<script src="/js/funciones.js"/>
 				<script>
 					function Volver()
@@ -31,44 +32,69 @@
 				<textarea id="xml-response" style="display:none;" name="xml-response">
 					<xsl:copy-of select="/*"/>
 				</textarea>
-				<div class="copiar-xml">
+				<span class="spanbtn copiar-xml">
 					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
-				</div>
+				</span>
 				<form name="formulario" method="POST" action="updMenu">
 					<input name="accion" type="hidden"/>
 					<input name="upd_id_menu" type="hidden" value = "{Cabecera/Parametros/upd_id_menu}"/>
 					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
-					<table>
-						<tr>
-							<td>Nombre:</td>
-							<td>
-								<input type="text" name="nombre" value="{Cuerpo/menu/nombre}" />
-							</td>
-						</tr>
-						<tr>
-							<td>Dentro de:</td>
-							<td>
-								<select name="id_padre">
-									<option value="">Ninguno</option>
-									<xsl:for-each select="Cuerpo/listaMenu/fila">
-										<xsl:if test="id_url = 0">
-											<option value="{id_menu}">
-												<xsl:if test="id_menu = /Documento/Cuerpo/menu/id_padre">
-													<xsl:attribute name="selected">selected</xsl:attribute>
-												</xsl:if>
-												<xsl:value-of select ="nombre"/>
-											</option>
-										</xsl:if>	
-									</xsl:for-each>
-								</select>
-							</td>
-						</tr>
-					</table>
-
-					<div id="botonera">
-						<input type="button" name="modificar" value="Modificar" onclick="Modificar();" />&#160;
-						<input type="button" name="volver" value="Volver" onclick="Volver();" />
-					</div>
+					<p>
+						<div class="divtbl">
+							<table>
+								<tr>
+									<td class="td-h1">Nombre:</td>
+									<td class="td-c1">
+										<input type="text" name="nombre" value="{Cuerpo/menu/nombre}" />
+									</td>
+								</tr>
+								<tr>
+									<td class="td-h1">Dentro de:</td>
+									<td class="td-c2">
+										<select name="id_padre">
+											<option value="">Ninguno</option>
+											<xsl:for-each select="Cuerpo/listaMenu/fila">
+												<xsl:if test="id_url = 0">
+													<option value="{id_menu}">
+														<xsl:if test="id_menu = /Documento/Cuerpo/menu/id_padre">
+															<xsl:attribute name="selected">selected</xsl:attribute>
+														</xsl:if>
+														<xsl:value-of select ="nombre"/>
+													</option>
+												</xsl:if>	
+											</xsl:for-each>
+										</select>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</p>
+					<p>
+						<div class="divbtn">
+							<table>
+								<tbody>
+									<tr>
+										<td colspan="4" >
+											<div id="paging">
+												<ul>
+													<li>
+														<a href="#" onclick="Modificar();">
+															<span>Modificar</span>
+														</a>
+													</li>
+													<li>
+														<a href="#" onclick="Volver();">
+															<span>Volver</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</p>
 				</form>
 			</body>
 		</html>

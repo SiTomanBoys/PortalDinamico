@@ -6,7 +6,8 @@
 	<xsl:template match="/Documento">
 		<html>
 			<head>
-				<link rel="stylesheet" type="text/css" href="/css/estilo.css"/>
+				<link rel="stylesheet" type="text/css" href="/css/estilo.css?1"/>
+				<link rel="stylesheet" type="text/css" href="/css/tabla.css"/>
 				<script src="/js/funciones.js"/>
 				<script language="JavaScript">
   				function Buscar()
@@ -27,71 +28,96 @@
 				<textarea id="xml-response" style="display:none;" name="xml-response">
 					<xsl:copy-of select="/*"/>
 				</textarea>
-				<div class="copiar-xml">
+				<span class="spanbtn copiar-xml">
 					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
-				</div>
+				</span>
 				<form name="formulario" method="POST" action="lstXSL">
 					<input name="accion" type="hidden"/>
 					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
-					<div id="filtros">
-						<table>
-							<tr>
-								<td>ID XSL:</td>
-								<td>
-									<input type="text" name="id_xsl" />
-								</td>
-								<td>URL:</td>
-								<td>
-									<input type="text" name="url" />
-								</td>
-							</tr>
-							<tr>
-								<td>ID Idioma</td>
-								<td>
-									<input type="text" name="id_idioma" />
-								</td>
-								<td/>
-								<td/>
-							</tr>
-							<tr>
-								<td>
-									<input type="button" name="buscar" value="Buscar" onclick="Buscar();" />
-								</td>
-							</tr>
-						</table>
-					</div>
-
-					<table>
-						<tr>
-							<td>URL</td>
-							<td>Nombre Ejb</td>
-							<td>Idioma</td>
-						</tr>
-						<xsl:choose>
-							<xsl:when test="Cuerpo/listaXSL/@cantidad != '0'">
-								<xsl:for-each select="Cuerpo/listaXSL/fila">
+					<p>
+						<div id="filtros" class="divtbl">
+							<table>
+								<tbody>
 									<tr>
-										<td >
-											<a href="#" onclick="modificar('{id_xsl}');">
-												<xsl:value-of select="url" />
-											</a>
+										<td class="td-h1">ID XSL:</td>
+										<td class="td-c1">
+											<input type="text" name="id_xsl" />
 										</td>
-										<td>
-											<xsl:value-of select="nombre_ejb" />
-										</td>
-										<td>
-											<xsl:value-of select="idioma" />
+										<td class="td-h1">URL:</td>
+										<td class="td-c1">
+											<input type="text" name="url" />
 										</td>
 									</tr>
-								</xsl:for-each>
-							</xsl:when>
-							<xsl:otherwise>
-								<tr>
-									<td colspan="2">No Se Encontraron Registros</td>
-								</tr>
-							</xsl:otherwise>
-						</xsl:choose>
-					</table>
+									<tr>
+										<td class="td-h1">ID Idioma</td>
+										<td class="td-c2">
+											<input type="text" name="id_idioma" />
+										</td>
+										<td class="td-h1"/>
+										<td class="td-c2"/>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="divbtn">
+							<table>
+								<tbody>
+									<tr>
+										<td colspan="4" >
+											<div id="paging">
+												<ul>
+													<li>
+														<a href="#" onclick="Buscar();">
+															<span>Buscar</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</p>
+					<p>
+						<div class="divtbl">
+							<table>
+								<thead>
+									<tr>
+										<th>URL</th>
+										<th>Nombre Ejb</th>
+										<th>Idioma</th>
+									</tr>
+								</thead>
+								<tbody>
+									<xsl:choose>
+										<xsl:when test="Cuerpo/listaXSL/@cantidad != '0'">
+											<xsl:for-each select="Cuerpo/listaXSL/fila">
+												<tr class="td-c{(position() mod 2)}">
+													<td >
+														<a href="#" onclick="modificar('{id_xsl}');">
+															<xsl:value-of select="url" />
+														</a>
+													</td>
+													<td>
+														<xsl:value-of select="nombre_ejb" />
+													</td>
+													<td>
+														<xsl:value-of select="idioma" />
+													</td>
+												</tr>
+											</xsl:for-each>
+										</xsl:when>
+										<xsl:otherwise>
+											<tr>
+												<td colspan="2">No Se Encontraron Registros</td>
+											</tr>
+										</xsl:otherwise>
+									</xsl:choose>
+								</tbody>
+							</table>
+						</div>
+					</p>
 				</form>
 			</body>
 		</html>
