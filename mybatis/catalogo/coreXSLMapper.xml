@@ -8,11 +8,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into XSL(url,nombre_ejb,contenido) values (#{url},#{nombre_ejb},#{contenido})
 	</insert>
 	<select id="getXSL" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		call listarXSL(#{id_xsl}, #{url}, #{id_idioma},#{verCont});
+		call listarXSL(#{id_xsl}, #{url}, #{id_idioma},#{verCont},#{pagina},#{numReg});
 	</select>
 	<select id="updXSL" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		call modificarXSL(#{id_xsl}, #{contenido}, #{nombre_ejb},#{id_idioma});
 	</select>
-	
-	
 </mapper>

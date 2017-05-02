@@ -8,4 +8,5 @@ public class Constants
 	public static final String TituloPortal="TituloPortal";
 	public static final String catalogoBase="catalogoBase";
 	public static final String servidoresBase="servidoresBase";
+	public static final String regXpag="registrosPorPagina";
 }

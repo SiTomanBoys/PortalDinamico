@@ -32,9 +32,13 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 			String idXSL = utils.obtenerParametroString(parametros,"id_xsl");
 			String url = utils.obtenerParametroString(parametros,"url");
 			String idIdioma = utils.obtenerParametroString(parametros,"id_idioma");
+			String regXpag = datosConf.get(Constants.regXpag).toString();
+			String pagina = utils.obtenerParametroString(parametros,"pagina");
 			p.put("id_xsl", ( "".equals(idXSL) ) ? null : idXSL );
 			p.put("url",  ( "".equals(url) ) ? null : url );
 			p.put("id_idioma",  ( "".equals(idIdioma) ) ? null : idIdioma );
+			p.put("numReg", regXpag);
+			p.put("pagina", ("".equals(pagina) ? null : pagina));
 			p.put("verCont","0");
 			listaXSL = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);
 			listaXSL = listaXSL.replaceAll("<Data", "<listaXSL").replaceAll("</Data>", "</listaXSL>");

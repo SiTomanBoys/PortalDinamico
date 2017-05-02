@@ -22,6 +22,11 @@
 					document.formulario.id_xsl.value=valor;
 					document.formulario.submit();
 				}
+				function paginar(valor)
+				{
+					document.formulario.pagina.value=valor;
+					document.formulario.submit();
+				}
 				</script>
 			</head>
 			<body>
@@ -33,6 +38,7 @@
 				</span>
 				<form name="formulario" method="POST" action="lstXSL">
 					<input name="accion" type="hidden"/>
+					<input name="pagina" value="1" type="hidden"/>
 					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
 					<p>
 						<div id="filtros" class="divtbl">
@@ -114,7 +120,30 @@
 											</tr>
 										</xsl:otherwise>
 									</xsl:choose>
-								</tbody>
+								</tbody>	
+								<xsl:if test="Cuerpo/listaXSL/@cantidad != '0'">
+									<tfoot>
+										<tr>
+											<td colspan="3" >
+												<div id="paging">
+													<ul class="ul-der">
+														<li>
+															<a href="#" onclick="paginar('1');">
+																<span>1</span>
+															</a>
+															<a href="#" onclick="paginar('2');">
+																<span>2</span>
+															</a>
+															<a href="#" onclick="paginar('3');">
+																<span>3</span>
+															</a>
+														</li>
+													</ul>
+												</div>
+											</td>
+										</tr>
+									</tfoot>
+								</xsl:if> 							
 							</table>
 						</div>
 					</p>
