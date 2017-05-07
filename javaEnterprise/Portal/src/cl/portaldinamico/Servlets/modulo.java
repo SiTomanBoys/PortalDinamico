@@ -5,11 +5,6 @@ import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 //
@@ -160,6 +155,14 @@ public class modulo extends HttpServlet {
 					{
 						//log.info("METODO ["+metodoEjb+"]");
 						//log.info("PARAMETROS ["+paramtypes+"]");
+						for(String key : datosConf.keySet())
+						{
+							utils.impLog(log, Level.DEBUG_INT, datosConf, "DATOSCONF: ["+key+"]["+datosConf.get(key).toString()+"]");
+						}
+						for(String key : Parametros.keySet())
+						{
+							utils.impLog(log, Level.DEBUG_INT, datosConf, "PARAMETROS: ["+key+"]"+Arrays.toString((String[]) Parametros.get(key)));
+						}
 						mthdRemote = clazzRemote.getMethod(metodoEjb, paramtypes);
 						utils.impLog(log, Level.DEBUG_INT, datosConf, "EJECUTANDO EL METODO [" + mthdRemote.getName() + "] DEL OBJETO [" + objRemote.getClass().getName()+"]");
 						utils.impLog(log, Level.INFO_INT, datosConf, "ANTES DEL INVOKE");
@@ -177,7 +180,8 @@ public class modulo extends HttpServlet {
 					}
 					try
 					{
-						PrintWriter out = response.getWriter();
+						System.setProperty("javax.xml.transform.TransformerFactory","net.sf.saxon.TransformerFactoryImpl");
+			            PrintWriter out = response.getWriter();
 						TransformerFactory tff = TransformerFactory.newInstance();
 						Transformer tf = tff.newTransformer(new StreamSource(new StringReader(XSL)));
 						StreamSource ss = new StreamSource(new StringReader(XML));

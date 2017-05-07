@@ -4,13 +4,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="coreXSL">
+	<resultMap id="returnXSL" type="java.util.HashMap"></resultMap>
+	
 	<insert id="insertarXSL" useGeneratedKeys="true" keyProperty="id_xsl" parameterType="java.util.HashMap">
 		insert into XSL(url,nombre_ejb,contenido) values (#{url},#{nombre_ejb},#{contenido})
 	</insert>
-	<select id="getXSL" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		call listarXSL(#{id_xsl}, #{url}, #{id_idioma},#{verCont},#{pagina},#{numReg});
+	<select id="getXSL" statementType="CALLABLE" resultMap="returnXSL" >
+		call listarXSL(
+		#{id_xsl, mode=IN, jdbcType=INTEGER},
+		#{url, mode=IN, jdbcType=VARCHAR},
+		#{id_idioma, mode=IN, jdbcType=INTEGER},
+		#{verCont, mode=IN, jdbcType=INTEGER},
+		#{pagina, mode=IN, jdbcType=INTEGER},
+		#{numReg, mode=IN, jdbcType=INTEGER}
+		#{totReg, mode=OUT, jdbcType=INTEGER, javaType=String}
+		);
 	</select>
-	<select id="updXSL" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	<select id="updXSL" statementType="CALLABLE" resultMap="returnXSL">
 		call modificarXSL(#{id_xsl}, #{contenido}, #{nombre_ejb},#{id_idioma});
 	</select>
 </mapper>

@@ -42,6 +42,8 @@ public class Ejb3XSLBean implements Ejb3XSLBeanLocal,Ejb3XSLBeanRemote
 			p.put("verCont","0");
 			listaXSL = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);
 			listaXSL = listaXSL.replaceAll("<Data", "<listaXSL").replaceAll("</Data>", "</listaXSL>");
+			listaXSL +="<TOTAL_REGISTROS>"+p.get("totReg")+"</TOTAL_REGISTROS>";
+			
 		}
 		String XML= listaXSL;
 		retorno.put("XML", XML);

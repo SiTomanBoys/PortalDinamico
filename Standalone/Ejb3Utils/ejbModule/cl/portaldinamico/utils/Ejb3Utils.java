@@ -101,11 +101,9 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 			{
 				String[] nombreClase = logg.getName().split("\\.");
 				String clase = nombreClase[nombreClase.length-1];
-				log.log(Level.toPriority(logLevel),"\n ["+clase+"] "+ mensaje ,t);
+				log.log(Level.toPriority(logLevel),"["+clase+"] "+ mensaje ,t);
 			}
 		}catch(Exception e)
-		
-		
 		{
 			log.error("La variable 'nivelLog' del portal.properties no es un numero o no existe",e);
 		}
