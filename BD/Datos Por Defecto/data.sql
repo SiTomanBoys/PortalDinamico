@@ -38,8 +38,9 @@ INSERT INTO `idiomas` (`id_idioma`, `descripcion`) VALUES
 INSERT INTO `menu` (`id_menu`, `id_url`, `nivel`, `nombre`, `orden`, `id_padre`) VALUES
 (1, 0, 0, 'Administración de Menu', 1, 0),
 (2, 2, 1, 'Consulta y Mantenimiento de Menu', 2, 1),
-(3, 0, 0, 'Administración de XSL', 5, 0),
-(4, 3, 1, 'Consulta y Mantenimiento de XSL', 6, 2);
+(3, 0, 1, 'Consulta y Mantenimiento de Url', 3, 1),
+(4, 0, 0, 'Administración de XSL', 4, 0),
+(5, 3, 1, 'Consulta y Mantenimiento de XSL', 5, 2);
 
 --
 -- Volcado de datos para la tabla `perfil`
