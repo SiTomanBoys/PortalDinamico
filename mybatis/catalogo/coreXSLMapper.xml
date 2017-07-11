@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{id_idioma, mode=IN, jdbcType=INTEGER},
 		#{verCont, mode=IN, jdbcType=INTEGER},
 		#{pagina, mode=IN, jdbcType=INTEGER},
-		#{numReg, mode=IN, jdbcType=INTEGER}
+		#{numReg, mode=IN, jdbcType=INTEGER},
 		#{totReg, mode=OUT, jdbcType=INTEGER, javaType=String}
 		);
 	</select>

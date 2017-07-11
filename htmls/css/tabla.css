@@ -130,7 +130,7 @@ display: inline;
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
 	background-color:#006699; 
 }
-.divtbl table tfoot ul.active, .divtbl table tfoot ul a:hover 
+.divtbl table tfoot ul a .active, .divtbl table tfoot ul a:hover 
 { 
 	text-decoration: none;
 	border-color: #006699;
