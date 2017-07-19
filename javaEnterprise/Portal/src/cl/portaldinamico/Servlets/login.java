@@ -26,7 +26,7 @@ public class login extends base
 {
 	private static final long serialVersionUID = 1L;
 	static final Logger log = Logger.getLogger(login.class);
-	private HashMap<String,Object> datosConf = new HashMap<String,Object>();
+	
     public login() 
     {
         super();
@@ -53,6 +53,9 @@ public class login extends base
 				throw new PortalException("El parametro 'carpetaConf' no existe en el archivo 'portal.properties'");
 			if(!portalProperties.containsKey("nombreArchivo"))
 				throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
+			if(!portalProperties.containsKey("carpetaXsl"))
+				throw new PortalException("El parametro 'carpetaXsl' no existe en el archivo 'portal.properties'");
+			raizXsl = portalProperties.getProperty("carpetaXsl");
 			String apacheDir = portalProperties.getProperty("apacheDir");
 			String carpetaConf = portalProperties.getProperty("carpetaConf");
 			String nombreArchivo = portalProperties.getProperty("nombreArchivo");
