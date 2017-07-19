@@ -4,11 +4,9 @@ import java.io.FileInputStream;
 //
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,34 +21,18 @@ import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
 import cl.portaldinamico.utils.Ejb3UtilsLocal;
 
-/**
- * Servlet implementation class login
- */
-public class login extends HttpServlet {
+
+public class login extends base 
+{
 	private static final long serialVersionUID = 1L;
 	static final Logger log = Logger.getLogger(login.class);
 	private HashMap<String,Object> datosConf = new HashMap<String,Object>();
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public login() {
+    public login() 
+    {
         super();
-        // TODO Auto-generated constructor stub
     }
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doPost(request,response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void procesarPeticion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		// TODO Auto-generated method stub	
 		Ejb3UtilsLocal utils = new Ejb3Utils();
 		String url = request.getRequestURL().toString();
 		String uri = request.getRequestURI();

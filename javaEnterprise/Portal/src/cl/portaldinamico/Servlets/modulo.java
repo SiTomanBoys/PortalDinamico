@@ -9,7 +9,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 //
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,30 +23,15 @@ import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
 import cl.portaldinamico.utils.Ejb3UtilsLocal;
-/**
- * Servlet implementation class modulo
- */
-public class modulo extends HttpServlet {
+
+public class modulo extends base {
 	private static final long serialVersionUID = 1L;
 	static final Logger log = Logger.getLogger(modulo.class);
-    /**
-     * Default constructor. 
-     */
-    public modulo() {
-        // TODO Auto-generated constructor stub
+    public modulo() 
+    {
     }
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		doPost(request, response);
-	}
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	@SuppressWarnings("unchecked")
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void procesarPeticion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		//Obtengo los datos de session
 		HttpSession session= request.getSession(true);

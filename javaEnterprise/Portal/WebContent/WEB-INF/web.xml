@@ -83,4 +83,14 @@
     <servlet-name>index</servlet-name>
     <url-pattern>/index</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>base</display-name>
+    <servlet-name>base</servlet-name>
+    <servlet-class>cl.portaldinamico.Servlets.base</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>base</servlet-name>
+    <url-pattern>/base</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,33 +23,16 @@ import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
 import cl.portaldinamico.utils.Ejb3UtilsLocal;
 
-/**
- * Servlet implementation class menu
- */
-public class menu extends HttpServlet {
+public class menu extends base 
+{
 	private static final long serialVersionUID = 1L;
 	static final Logger log = Logger.getLogger(menu.class);
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public menu() {
+    public menu() 
+    {
         super();
-        // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doPost(request,response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	@SuppressWarnings("unchecked")
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void procesarPeticion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		//Obtengo los datos de session
 		Ejb3UtilsLocal utils = new Ejb3Utils();
