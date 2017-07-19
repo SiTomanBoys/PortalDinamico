@@ -63,4 +63,24 @@
     <servlet-name>frameset</servlet-name>
     <url-pattern>/frameset</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>error</display-name>
+    <servlet-name>error</servlet-name>
+    <servlet-class>cl.portaldinamico.Servlets.error</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>error</servlet-name>
+    <url-pattern>/error</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>index</display-name>
+    <servlet-name>index</servlet-name>
+    <servlet-class>cl.portaldinamico.Servlets.index</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>index</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
 </web-app>

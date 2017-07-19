@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="coreUrl">
+	<select id="listarUrl" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call listarUrl(#{id_url},#{url});
+	</select>
+	<select id="addUrl" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call agregarUrl(#{nombre},#{idPadre});
+	</select>
+	<select id="delUrl" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call eliminarUrl(#{id_menu});
+	</select>
+	<select id="updUrl" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call modificarUrl(#{id_menu},#{nombre},#{idPadre});
+	</select>
+</mapper>

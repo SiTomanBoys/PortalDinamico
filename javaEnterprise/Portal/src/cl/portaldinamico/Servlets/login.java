@@ -17,6 +17,7 @@ import org.apache.log4j.Level;
 //
 import org.apache.log4j.Logger;
 
+import cl.portaldinamico.Exception.PortalException;
 import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
@@ -64,6 +65,12 @@ public class login extends HttpServlet {
 		try
 		{
 			portalProperties.load(new FileInputStream(System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
+			if(!portalProperties.containsKey("apacheDir"))
+				throw new PortalException("El parametro 'apacheDir' no existe en el archivo 'portal.properties'");
+			if(!portalProperties.containsKey("carpetaConf"))
+				throw new PortalException("El parametro 'carpetaConf' no existe en el archivo 'portal.properties'");
+			if(!portalProperties.containsKey("nombreArchivo"))
+				throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
 			String apacheDir = portalProperties.getProperty("apacheDir");
 			String carpetaConf = portalProperties.getProperty("carpetaConf");
 			String nombreArchivo = portalProperties.getProperty("nombreArchivo");

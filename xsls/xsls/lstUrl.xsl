@@ -20,8 +20,8 @@
 
 				function modificar(valor)
 				{
-					document.formulario.action="updXSL";
-					document.formulario.id_xsl.value=valor;
+					document.formulario.action="updUrl";
+					document.formulario.id_url.value=valor;
 					document.formulario.submit();
 				}
 				</script>
@@ -33,7 +33,7 @@
 				<span class="spanbtn copiar-xml">
 					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
 				</span>
-				<form name="formulario" method="POST" action="lstXSL">
+				<form name="formulario" method="POST" action="lstUrl">
 					<input name="accion" type="hidden"/>
 					<input name="pagina" value="1" type="hidden"/>
 					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
@@ -42,22 +42,14 @@
 							<table>
 								<tbody>
 									<tr>
-										<td class="td-h1">ID XSL:</td>
+										<td class="td-h1">ID Url:</td>
 										<td class="td-c1">
-											<input type="text" name="id_xsl" />
+											<input type="text" name="id_url" />
 										</td>
 										<td class="td-h1">URL:</td>
 										<td class="td-c1">
 											<input type="text" name="url" />
 										</td>
-									</tr>
-									<tr>
-										<td class="td-h1">ID Idioma</td>
-										<td class="td-c2">
-											<input type="text" name="id_idioma" />
-										</td>
-										<td class="td-h1"/>
-										<td class="td-c2"/>
 									</tr>
 								</tbody>
 							</table>
@@ -87,26 +79,22 @@
 							<table>
 								<thead>
 									<tr>
+										<th>ID URL</th>
 										<th>URL</th>
-										<th>Nombre Ejb</th>
-										<th>Idioma</th>
 									</tr>
 								</thead>
 								<tbody>
 									<xsl:choose>
-										<xsl:when test="Cuerpo/listaXSL/@cantidad != '0'">
-											<xsl:for-each select="Cuerpo/listaXSL/fila">
+										<xsl:when test="Cuerpo/listaUrl/@cantidad != '0'">
+											<xsl:for-each select="Cuerpo/listaUrl/fila">
 												<tr class="td-c{(position() mod 2)}">
+													<td>
+														<xsl:value-of select="id_url" />
+													</td>
 													<td >
-														<a href="#" onclick="modificar('{id_xsl}');">
+														<a href="#" onclick="modificar('{id_url}');">
 															<xsl:value-of select="url" />
 														</a>
-													</td>
-													<td>
-														<xsl:value-of select="nombre_ejb" />
-													</td>
-													<td>
-														<xsl:value-of select="idioma" />
 													</td>
 												</tr>
 											</xsl:for-each>
@@ -118,7 +106,8 @@
 										</xsl:otherwise>
 									</xsl:choose>
 								</tbody>	
-								<xsl:if test="Cuerpo/listaXSL/@cantidad != '0'">
+								<!--  
+								<xsl:if test="Cuerpo/listaUrl/@cantidad != '0'">
 									<xsl:variable name="contador">
 										<xsl:number value="ceiling(Cuerpo/TOTAL_REGISTROS div Cabecera/DatosConf/registrosPorPagina)"/>
 									</xsl:variable>
@@ -196,7 +185,8 @@
 											</tr>
 										</tfoot>
 									</xsl:if>
-								</xsl:if> 							
+								</xsl:if>
+								--> 							
 							</table>
 						</div>
 					</p>
