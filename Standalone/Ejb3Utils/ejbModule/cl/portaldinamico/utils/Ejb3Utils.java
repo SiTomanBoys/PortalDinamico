@@ -1,12 +1,19 @@
 package cl.portaldinamico.utils;
 
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.Stateless;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
@@ -17,6 +24,19 @@ import org.apache.log4j.Logger;
 public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 {
 	static final Logger log = Logger.getLogger(Ejb3Utils.class);
+	public String generarDocumento(String XML,String XSL) throws Exception
+	{
+		System.setProperty("javax.xml.transform.TransformerFactory","net.sf.saxon.TransformerFactoryImpl");
+		TransformerFactory tff = TransformerFactory.newInstance();
+		Transformer tf = tff.newTransformer(new StreamSource(new StringReader(XSL)));
+		tf.setOutputProperty( OutputKeys.ENCODING, "ISO-8859-1");
+		tf.setOutputProperty( OutputKeys.INDENT, "no");
+		tf.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, "yes");
+		StreamSource ss = new StreamSource(new StringReader(XML));
+		StreamResult sr = new StreamResult(new StringWriter());
+		tf.transform(ss,sr);
+		return sr.getWriter().toString();
+	}
 	public String obtenerParametroString(HashMap<String,Object> Parametros,String llave)
 	{
 		String valor="";

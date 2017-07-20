@@ -164,14 +164,16 @@ public class modulo extends base {
 					}
 					try
 					{
-						System.setProperty("javax.xml.transform.TransformerFactory","net.sf.saxon.TransformerFactoryImpl");
+//						System.setProperty("javax.xml.transform.TransformerFactory","net.sf.saxon.TransformerFactoryImpl");
 			            PrintWriter out = response.getWriter();
-						TransformerFactory tff = TransformerFactory.newInstance();
-						Transformer tf = tff.newTransformer(new StreamSource(new StringReader(XSL)));
-						StreamSource ss = new StreamSource(new StringReader(XML));
-						StreamResult sr = new StreamResult(out);
-						response.getWriter();
-						tf.transform(ss,sr);
+			            String html = utils.generarDocumento(XML, XSL);
+			            out.println(html);
+//						TransformerFactory tff = TransformerFactory.newInstance();
+//						Transformer tf = tff.newTransformer(new StreamSource(new StringReader(XSL)));
+//						StreamSource ss = new StreamSource(new StringReader(XML));
+//						StreamResult sr = new StreamResult(out);
+//						response.getWriter();
+//						tf.transform(ss,sr);
 					}
 					catch(Exception e)
 					{
