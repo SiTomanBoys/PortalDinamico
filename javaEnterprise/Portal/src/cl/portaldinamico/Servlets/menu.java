@@ -57,13 +57,10 @@ public class menu extends base
 			//
 			String XML=generarMenu(lista,session.getId(),datosConf);
 			PrintWriter out = response.getWriter();
-			TransformerFactory tff = TransformerFactory.newInstance();
-			Transformer tf = tff.newTransformer(new StreamSource(new StringReader(XSL)));
-			StreamSource ss = new StreamSource(new StringReader(XML));
-			StreamResult sr = new StreamResult(out);
-			response.getWriter();
-			tf.transform(ss,sr);
-		}catch(Exception ex)
+            String html = utils.generarDocumento(XML, XSL);
+            out.println(html);
+		}
+		catch(Exception ex)
 		{
 			utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL GENERAR EL MENU", ex);
 			response.sendRedirect("/Portal/error.jsp?Id=8");

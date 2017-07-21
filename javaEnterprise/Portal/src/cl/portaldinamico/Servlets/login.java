@@ -34,16 +34,10 @@ public class login extends base
 	protected void procesarPeticion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		Ejb3UtilsLocal utils = new Ejb3Utils();
-		String url = request.getRequestURL().toString();
-		String uri = request.getRequestURI();
-		String dominio = url.substring(url.indexOf("://")+3,url.length());
 		HashMap<String,Object> parametros = new HashMap<String,Object>();
-		dominio = dominio.replace(uri, "");
-		log.info("DOMINIO: "+dominio);
+		String dominio = request.getLocalName();
 		Properties portalProperties = new Properties();
-		Properties portalConf = new Properties();
-		datosConf.clear();
-		//Obtengo las propiedades generales del portal dinamico
+		log.info("DOMINIO: "+dominio);
 		try
 		{
 			portalProperties.load(new FileInputStream(System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
@@ -55,48 +49,52 @@ public class login extends base
 				throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
 			if(!portalProperties.containsKey("carpetaXsl"))
 				throw new PortalException("El parametro 'carpetaXsl' no existe en el archivo 'portal.properties'");
-			raizXsl = portalProperties.getProperty("carpetaXsl");
-			String apacheDir = portalProperties.getProperty("apacheDir");
+			String raizApache = portalProperties.getProperty("apacheDir");
 			String carpetaConf = portalProperties.getProperty("carpetaConf");
-			String nombreArchivo = portalProperties.getProperty("nombreArchivo");
-			log.info("DIRECTORIO WWW APACHE: "+ apacheDir);
-			log.info("NOMBRE CARPETA DE CONFIGURACIONES POR PORTAL: "+carpetaConf);
-			log.info("NOMBRE DEL ARCHIVO PROPERTIES: "+nombreArchivo);
+			String carpetaXsl = portalProperties.getProperty("carpetaXsl");
+			String nombreArchivoConf = portalProperties.getProperty("nombreArchivo");
+			Properties portalConf = new Properties();
+			datosConf.put("raizApache", raizApache);
+			datosConf.put("carpetaConf", carpetaConf);
+			datosConf.put("carpetaXsl", carpetaXsl);
+			datosConf.put("nombreArchivoConf", nombreArchivoConf);
 			try
 			{
 				//Obtengo las configuraciones designadas en cada portal guardandolas en datosConf.
-				portalConf.load(new FileInputStream(apacheDir+dominio+carpetaConf+nombreArchivo));
+				portalConf.load(new FileInputStream(raizApache+dominio+carpetaConf+nombreArchivoConf));
 				for(Object key : portalConf.keySet())
 				{
 					datosConf.put(key.toString(), portalConf.getProperty(key.toString()));
+				}
+				//Obtengo todos los parametros que provienen del request
+				for(Object key : request.getParameterMap().keySet())
+				{
+					parametros.put(key.toString(), request.getParameter(key.toString()));
+				}
+				if(validaLogin(parametros))
+				{
+					HttpSession session= request.getSession(true);
+					session.setAttribute("datosConf", datosConf);
+					response.sendRedirect("frameset");
+				}
+				else
+				{
+					utils.impLog(log, Level.INFO_INT, datosConf, "USUARIO O CONTRASEÑA INCORRECTA");
+					response.sendRedirect("/Portal/error.jsp?Id=10");
 				}
 				
 			}catch(Exception e)
 			{
 				log.error("ERROR AL LEER LA CONFIGURACION DEL PORTAL",e);
+				response.sendRedirect("/Portal/error.jsp?Id=13");
 			}
 		}
 		catch(Exception e)
 		{
 			log.error("ERROR AL LEER LAS PROPIEDADES DEL PORTAL",e);
-		}	
-		//Obtengo todos los parametros que provienen del request
-		for(Object key : request.getParameterMap().keySet())
-		{
-			parametros.put(key.toString(), request.getParameter(key.toString()));
+			response.sendRedirect("/Portal/error.jsp?Id=14");
 		}
 		
-		if(validaLogin(parametros))
-		{
-			HttpSession session= request.getSession(true);
-			session.setAttribute("datosConf", datosConf);
-			response.sendRedirect("frameset");
-		}
-		else
-		{
-			utils.impLog(log, Level.INFO_INT, datosConf, "USUARIO O CONTRASEÑA INCORRECTA");
-			response.sendRedirect("/Portal/error.jsp?Id=10");
-		}
 	}
 	
 	private boolean validaLogin(HashMap<String,Object> parametros)

@@ -35,7 +35,7 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 		StreamSource ss = new StreamSource(new StringReader(XML));
 		StreamResult sr = new StreamResult(new StringWriter());
 		tf.transform(ss,sr);
-		return sr.getWriter().toString();
+		return Html2Simbolos(sr.getWriter().toString());
 	}
 	public String obtenerParametroString(HashMap<String,Object> Parametros,String llave)
 	{
@@ -127,5 +127,8 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 		{
 			log.error("La variable 'nivelLog' del portal.properties no es un numero o no existe",e);
 		}
+	}
+	private String Html2Simbolos(String html) {
+		return html.replace("&amp;", "&").replace("&quot;", "\"").replace("&lt;", "<").replace("&gt;", ">");
 	}
 }

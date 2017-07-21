@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class base extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-	protected static String raizXsl="";
-	protected HashMap<String,Object> datosConf = new HashMap<String,Object>();
+	protected static HashMap<String,Object> datosConf = new HashMap<String,Object>();
     public base() 
     {
         super();
