@@ -10,6 +10,7 @@ import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -51,7 +52,14 @@ public class index extends base {
 			log.info("NOMBRE DE PARPERTA DE XSL POR PORTAL: "+carpetaXsl);
 			log.info("NOMBRE CARPETA DE CONFIGURACIONES POR PORTAL: "+carpetaConf);
 			log.info("NOMBRE DEL ARCHIVO PROPERTIES: "+nombreArchivoConf);
-			Properties portalConf = new Properties();
+			HashMap<String,Object> portalProp = new HashMap<String,Object>();
+			portalProp.put("raizApache", raizApache);
+			portalProp.put("carpetaXsl", carpetaXsl);
+			portalProp.put("carpetaConf", carpetaConf);
+			portalProp.put("nombreArchivoConf", nombreArchivoConf);
+			HttpSession session= request.getSession(true);
+			session.setAttribute("portalProp", portalProp);
+			Properties portalConf = new Properties();		
 			try
 			{
 				//Obtengo las configuraciones designadas en cada portal guardandolas en datosConf.

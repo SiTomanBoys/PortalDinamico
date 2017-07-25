@@ -31,33 +31,25 @@ public class login extends base
     {
         super();
     }
+    @SuppressWarnings("unchecked")
 	protected void procesarPeticion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		Ejb3UtilsLocal utils = new Ejb3Utils();
 		HashMap<String,Object> parametros = new HashMap<String,Object>();
 		String dominio = request.getLocalName();
-		Properties portalProperties = new Properties();
 		log.info("DOMINIO: "+dominio);
 		try
 		{
-			portalProperties.load(new FileInputStream(System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
-			if(!portalProperties.containsKey("apacheDir"))
-				throw new PortalException("El parametro 'apacheDir' no existe en el archivo 'portal.properties'");
-			if(!portalProperties.containsKey("carpetaConf"))
-				throw new PortalException("El parametro 'carpetaConf' no existe en el archivo 'portal.properties'");
-			if(!portalProperties.containsKey("nombreArchivo"))
-				throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
-			if(!portalProperties.containsKey("carpetaXsl"))
-				throw new PortalException("El parametro 'carpetaXsl' no existe en el archivo 'portal.properties'");
-			String raizApache = portalProperties.getProperty("apacheDir");
-			String carpetaConf = portalProperties.getProperty("carpetaConf");
-			String carpetaXsl = portalProperties.getProperty("carpetaXsl");
-			String nombreArchivoConf = portalProperties.getProperty("nombreArchivo");
+			HttpSession session= request.getSession(true);
+			if(session.getAttribute("portalProp")== null)
+				throw new PortalException("El parametro 'portalProp' no existe en session");
+			HashMap<String,Object> portalProp = new HashMap<String,Object>();
+			portalProp=(HashMap<String,Object>) session.getAttribute("portalProp");
+			String raizApache = portalProp.get("apacheDir").toString();
+			String carpetaConf = portalProp.get("carpetaConf").toString();
+			String nombreArchivoConf = portalProp.get("nombreArchivoConf").toString();
 			Properties portalConf = new Properties();
-			datosConf.put("raizApache", raizApache);
-			datosConf.put("carpetaConf", carpetaConf);
-			datosConf.put("carpetaXsl", carpetaXsl);
-			datosConf.put("nombreArchivoConf", nombreArchivoConf);
+			datosConf.putAll(portalProp);
 			try
 			{
 				//Obtengo las configuraciones designadas en cada portal guardandolas en datosConf.
@@ -73,7 +65,6 @@ public class login extends base
 				}
 				if(validaLogin(parametros))
 				{
-					HttpSession session= request.getSession(true);
 					session.setAttribute("datosConf", datosConf);
 					response.sendRedirect("frameset");
 				}
