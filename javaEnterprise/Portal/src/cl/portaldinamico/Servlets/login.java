@@ -45,7 +45,7 @@ public class login extends base
 				throw new PortalException("El parametro 'portalProp' no existe en session");
 			HashMap<String,Object> portalProp = new HashMap<String,Object>();
 			portalProp=(HashMap<String,Object>) session.getAttribute("portalProp");
-			String raizApache = portalProp.get("apacheDir").toString();
+			String raizApache = portalProp.get("raizApache").toString();
 			String carpetaConf = portalProp.get("carpetaConf").toString();
 			String nombreArchivoConf = portalProp.get("nombreArchivoConf").toString();
 			Properties portalConf = new Properties();
