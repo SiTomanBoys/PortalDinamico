@@ -35,7 +35,7 @@ public class index extends base {
     	//Obtengo las propiedades generales del portal dinamico
 		try
 		{
-			portalProperties.load(new FileInputStream(System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
+			portalProperties.load(new FileInputStream(System.getProperty("jboss.home.dir")+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
 			if(!portalProperties.containsKey("apacheDir"))
 				throw new PortalException("El parametro 'apacheDir' no existe en el archivo 'portal.properties'");
 			if(!portalProperties.containsKey("carpetaConf"))

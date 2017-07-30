@@ -21,14 +21,14 @@ public class ConsultaMyBatis
 		Properties MyBatisProperties = new Properties();
 		try
 		{
-			MyBatisProperties.load(new FileInputStream(System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"mybatis"+File.separatorChar+"mybatis.properties"));
+			MyBatisProperties.load(new FileInputStream(File.separatorChar+"opt"+File.separatorChar+"mybatis"+File.separatorChar+"mybatis.properties"));
 			MyBatisConfig= mbu.archivoAString(MyBatisProperties.getProperty("MyBatisConfig"));
 			habilitarLog = Boolean.parseBoolean(MyBatisProperties.getProperty("habilitarLog"));
 			dirServidores = Servidores;
 			dirCatalogo = catalogo;
 		}catch(Exception ex)
 		{
-			log.error("Error al leer el archivo de propiedades hubicado en: "+ System.getProperty("user.dir")+File.separatorChar+".."+File.separatorChar+"mybatis"+File.separatorChar+"mybatis.properties",ex);
+			log.error("Error al leer el archivo de propiedades hubicado en: "+ File.separatorChar+"opt"+File.separatorChar+"mybatis"+File.separatorChar+"mybatis.properties",ex);
 		}
 	}
 	
