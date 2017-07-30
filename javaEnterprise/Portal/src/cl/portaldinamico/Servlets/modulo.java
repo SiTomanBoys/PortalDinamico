@@ -1,7 +1,6 @@
 package cl.portaldinamico.Servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,8 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.*;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -52,7 +49,8 @@ public class modulo extends base {
 		//Obtengo el Catalogo y los Servidores del Portal.
 		String catalogo = datosConf.get(Constants.catalogoBase).toString();
 		String servidores = datosConf.get(Constants.servidoresBase).toString();
-		String url = request.getAttribute("javax.servlet.forward.request_uri").toString();
+//		String url = request.getAttribute("javax.servlet.forward.request_uri").toString();
+		String url = request.getAttribute("javax.servlet.error.request_uri").toString();
 		url = url.substring(7, url.length());
 		utils.impLog(log, Level.INFO_INT, datosConf, "URL Recivida: "+url);
 		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
@@ -108,14 +106,20 @@ public class modulo extends base {
 				{
 					try 
 					{
-						ejbNameRemote = nombreEjb+"Bean/remote";
+						//Jboss 5
+//						ejbNameRemote = nombreEjb+"Bean/remote";
+						//Jboss 7
+						ejbNameRemote = "java:global/"+nombreEjb+"/"+nombreEjb+"Bean!cl.portaldinamico.ejbs."+nombreEjb+"BeanRemote";
 						objRemote = ejbContext.lookup(ejbNameRemote);
 						utils.impLog(log, Level.INFO_INT, datosConf, "ENCONTRO EJB 3 REMOTO");
 					} catch (Throwable f) 
 					{
 						try 
 						{
-							ejbNameLocal = nombreEjb + "Bean/local";
+							//Jboss 5
+//							ejbNameLocal = nombreEjb + "Bean/local";
+							//Jboss 7
+							ejbNameLocal = "java:global/"+nombreEjb+"/"+nombreEjb+"Bean!cl.portaldinamico.ejbs."+nombreEjb+"BeanLocal";
 							objRemote = ejbContext.lookup(ejbNameLocal);
 							utils.impLog(log, Level.INFO_INT, datosConf, "ENCONTRO EJB 3 LOCAL");
 						} catch (Throwable g) 
@@ -137,8 +141,6 @@ public class modulo extends base {
 				{
 					try 
 					{
-						//log.info("METODO ["+metodoEjb+"]");
-						//log.info("PARAMETROS ["+paramtypes+"]");
 						for(String key : datosConf.keySet())
 						{
 							utils.impLog(log, Level.DEBUG_INT, datosConf, "DATOSCONF: ["+key+"]["+datosConf.get(key).toString()+"]");
@@ -159,16 +161,9 @@ public class modulo extends base {
 						ejbContext.close();
 						try
 						{
-//							System.setProperty("javax.xml.transform.TransformerFactory","net.sf.saxon.TransformerFactoryImpl");
-				            PrintWriter out = response.getWriter();
+						    PrintWriter out = response.getWriter();
 				            String html = utils.generarDocumento(XML, XSL);
 				            out.println(html);
-//							TransformerFactory tff = TransformerFactory.newInstance();
-//							Transformer tf = tff.newTransformer(new StreamSource(new StringReader(XSL)));
-//							StreamSource ss = new StreamSource(new StringReader(XML));
-//							StreamResult sr = new StreamResult(out);
-//							response.getWriter();
-//							tf.transform(ss,sr);
 						}
 						catch(Exception e)
 						{

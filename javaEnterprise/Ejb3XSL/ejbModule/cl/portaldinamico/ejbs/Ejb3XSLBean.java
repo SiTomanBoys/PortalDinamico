@@ -1,6 +1,5 @@
 package cl.portaldinamico.ejbs;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.ejb.Stateless;
 
@@ -9,7 +8,6 @@ import org.apache.log4j.Logger;
 
 import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
-import cl.portaldinamico.mybatis.utils.MyBatisUtils;
 import cl.portaldinamico.utils.Ejb3Utils;
 import cl.portaldinamico.utils.Ejb3UtilsLocal;
 @Stateless(name="Ejb3XSLBean")

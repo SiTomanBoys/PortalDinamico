@@ -11,7 +11,6 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
    -->
-   
   <servlet>
     <description></description>
     <display-name>modulo</display-name>
@@ -24,6 +23,10 @@
   </servlet-mapping>
   <error-page>
     <error-code>404</error-code>
+    <location>/modulo</location>
+  </error-page>
+  <error-page>
+    <error-code>405</error-code>
     <location>/modulo</location>
   </error-page>
   <servlet>
