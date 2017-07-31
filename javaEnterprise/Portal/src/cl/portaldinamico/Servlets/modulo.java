@@ -74,6 +74,7 @@ public class modulo extends base {
 			try
 			{
 				XSL += pagina.get("contenido").toString();
+				XSL = XSL.replace("[[raiz_xsl]]", datosConf.get("raizApache")+request.getLocalName()+datosConf.get("carpetaXsl"));
 			}
 			catch(Exception e)
 			{

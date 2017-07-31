@@ -1,29 +1,47 @@
 <!-- Toda hoja de transformacion comineza con este tag -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:portal="http://d-portal.cl">
+	<xsl:include href="[[raiz_xsl]]/funciones.xsl"/>
 	<!-- Indicamos que nuestro output sera un tipo HTML -->
-	
 	<xsl:output method = "html" />
 	<!-- Usamos Xpath para comentar que queremos parsear todo el xml -->
 	<xsl:template match="/Documento">
 	
 		<html>
 			<head>
-				<link rel="stylesheet" type="text/css" href="/css/estilo.css?1"/>
+				<link rel="stylesheet" type="text/css" href="/css/estilo.css"/>
 				<link rel="stylesheet" type="text/css" href="/css/tabla.css"/>
-				<script src="/js/funciones.js?1"/>
+				<script src="/js/funciones.js"/>
 				<script language="JavaScript">
-  				function Buscar()
- 				{
- 					document.formulario.accion.value="buscar";
- 					document.formulario.submit();
- 				}
-
-				function modificar(valor)
-				{
-					document.formulario.action="updUrl";
-					document.formulario.id_url.value=valor;
-					document.formulario.submit();
-				}
+	  				function Buscar()
+	 				{
+	 					document.formulario.accion.value="buscar";
+	 					document.formulario.submit();
+	 				}
+	
+					function modificar(valor)
+					{
+						document.formulario.action="updUrl";
+						document.formulario.upd_id_url.value=valor;
+						document.formulario.submit();
+					}
+					function Eliminar()
+					{
+						if(document.formulario.del_id_url.value!="")
+						{
+							document.formulario.accion.value="eliminar";
+							if(confirm("Esta Seguro Que Desea Eliminar?"))
+							{
+								document.formulario.submit();
+							}
+						}
+						else
+							alert("Debe Seleccionar Una Opcion.");
+					}
+					function Agregar()
+					{
+						document.formulario.action="addUrl";
+						document.formulario.submit();
+					}
 				</script>
 			</head>
 			<body>
@@ -35,6 +53,7 @@
 				</span>
 				<form name="formulario" method="POST" action="lstUrl">
 					<input name="accion" type="hidden"/>
+					<input name="upd_id_url" type="hidden"/>
 					<input name="pagina" value="1" type="hidden"/>
 					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
 					<p>
@@ -76,9 +95,10 @@
 					</p>
 					<p>
 						<div class="divtbl">
-							<table>
+							<table id="tablaContenido">
 								<thead>
 									<tr>
+										<th></th>
 										<th>ID URL</th>
 										<th>URL</th>
 									</tr>
@@ -88,6 +108,9 @@
 										<xsl:when test="Cuerpo/listaUrl/@cantidad != '0'">
 											<xsl:for-each select="Cuerpo/listaUrl/fila">
 												<tr class="td-c{(position() mod 2)}">
+													<td>
+														<input type="radio" name="del_id_url" value="{id_url}"/>
+													</td>
 													<td>
 														<xsl:value-of select="id_url" />
 													</td>
@@ -106,87 +129,36 @@
 										</xsl:otherwise>
 									</xsl:choose>
 								</tbody>	
-								<!--  
+ 
 								<xsl:if test="Cuerpo/listaUrl/@cantidad != '0'">
-									<xsl:variable name="contador">
-										<xsl:number value="ceiling(Cuerpo/TOTAL_REGISTROS div Cabecera/DatosConf/registrosPorPagina)"/>
-									</xsl:variable>
-									<xsl:if test="$contador &gt; 1">
-										<tfoot>
-											<tr>
-												<td colspan="3" >
-													<div id="paging">
-														<ul class="ul-der">
-															<li>
-																<xsl:choose>
-																	<xsl:when test="$contador &lt; 6">
-																		<xsl:for-each select="1 to $contador">
-																				<a href="#" onclick="paginar('{position()}','buscar');">
-																					<span><xsl:value-of select="position()"/></span>
-																				</a>
-																		</xsl:for-each>
-																	</xsl:when>
-																	<xsl:otherwise>
-																		<xsl:variable name="pag">
-																			<xsl:number value="Cabecera/Parametros/pagina"/>
-																		</xsl:variable>
-																		<xsl:variable name="pagSig">
-																			<xsl:number value="$pag + 1"/>
-																		</xsl:variable>
-																		<xsl:choose>
-																			<xsl:when test = "$pag = 1">
-																				<xsl:for-each select="1 to 4">
-																					<a href="#" onclick="paginar('{position()}','buscar');">
-																						<span><xsl:value-of select="position()"/></span>
-																					</a>
-																				</xsl:for-each>
-																				<a href="#" onclick="paginar('{$pagSig}','buscar');">
-																					<span><xsl:value-of select="'&gt;'"/></span>
-																				</a>
-																			</xsl:when>
-																			<xsl:when test="$pag &gt; 1 and $pag &lt; $contador - 2 ">
-																				<xsl:variable name="pagAnt">
-																					<xsl:number value="$pag - 1"/>
-																				</xsl:variable>
-																				<a href="#" onclick="paginar('{$pagAnt}','buscar');">
-																					<span><xsl:value-of select="'&lt;'"/></span>
-																				</a>
-																				<xsl:for-each select="1 to 3">
-																					<xsl:variable name ="pagAct" select="$pag + position() - 1"/>
-																					<a href="#" onclick="paginar('{$pagAct}','buscar');">
-																						<span><xsl:value-of select="$pagAct"/></span>
-																					</a>
-																				</xsl:for-each>
-																				<a href="#" onclick="paginar('{$pagSig}','buscar');">
-																					<span><xsl:value-of select="'&gt;'"/></span>
-																				</a>
-																			</xsl:when>
-																			<xsl:otherwise>
-																				<xsl:variable name="pagAnt">
-																					<xsl:number value="$pag - 1"/>
-																				</xsl:variable>
-																				<a href="#" onclick="paginar('{$pagAnt}','buscar');">
-																					<span><xsl:value-of select="'&lt;'"/></span>
-																				</a>
-																				<xsl:for-each select="1 to 4">
-																					<xsl:variable name ="pagAct" select="$contador + position() - 4"/>
-																					<a href="#" onclick="paginar('{$pagAct}','buscar');">
-																						<span><xsl:value-of select="$pagAct"/></span>
-																					</a>
-																				</xsl:for-each>
-																			</xsl:otherwise>
-																		</xsl:choose>
-																	</xsl:otherwise>
-																</xsl:choose>
-															</li>
-														</ul>
-													</div>
-												</td>
-											</tr>
-										</tfoot>
-									</xsl:if>
-								</xsl:if>
-								--> 							
+									<xsl:value-of select="portal:paginacion(Cuerpo/TOTAL_REGISTROS, Cabecera/DatosConf/registrosPorPagina, Cabecera/Parametros/pagina)"/>
+								</xsl:if>							
+							</table>
+						</div>
+					</p>
+					<p>
+						<div class="divbtn">
+							<table>
+								<tbody>
+									<tr>
+										<td colspan="4" >
+											<div id="paging">
+												<ul>
+													<li>
+														<a href="#" onclick="Agregar();">
+															<span>Agregar</span>
+														</a>
+													</li>
+													<li>
+														<a href="#" onclick="Eliminar();">
+															<span>Eliminar</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								</tbody>
 							</table>
 						</div>
 					</p>
