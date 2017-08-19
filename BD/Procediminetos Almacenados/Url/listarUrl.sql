@@ -15,6 +15,18 @@ BEGIN
     (idUrl is null or idUrl = id_url) AND
     (nombre is null or url LIKE concat('%',concat(nombre,'%')));
 	
+    if pagina is null then
+		SELECT
+    	1 INTO pagina
+    	FROM DUAL;
+	end if;
+    
+    if numReg is null then
+		SELECT
+    	100 INTO numReg
+    	FROM DUAL;
+	end if;
+    
     SELECT
     numReg*(pagina-1) INTO posicion
     FROM DUAL;
