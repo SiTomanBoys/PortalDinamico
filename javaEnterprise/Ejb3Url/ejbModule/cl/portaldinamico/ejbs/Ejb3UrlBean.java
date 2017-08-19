@@ -47,7 +47,25 @@ public class Ejb3UrlBean implements Ejb3UrlBeanLocal,Ejb3UrlBeanRemote
 	@Override
 	public HashMap<String, Object> addUrl(HashMap<String, Object> datosConf, HashMap<String, Object> parametros) {
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
-		String XML="<data></data>";
+		String catalogo = datosConf.get(Constants.catalogoBase).toString();
+		String servidores = datosConf.get(Constants.servidoresBase).toString();
+		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
+		HashMap<String,Object> p = new HashMap<String,Object>();
+		String accion = utils.obtenerParametroString(parametros,"accion");
+		String xmlAgregar="";
+		if("agregar".equalsIgnoreCase(accion))
+		{
+			String nombre = utils.obtenerParametroString(parametros,"nombre_url");
+			p.clear();
+			p.put("nombre",nombre);
+			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "coreUrlMapper.xml", "coreUrl.addUrl", p, "estado");
+			if("0".equals(resultado))
+				xmlAgregar+="<addUrl><respuesta><codigo>0</codigo><mensaje>Url agregada correctamente</mensaje></respuesta></addUrl>";
+			else
+				xmlAgregar+="<addUrl><respuesta><codigo>1</codigo><mensaje>Error al agregar Url</mensaje></respuesta></addUrl>";
+			p.clear();
+		}
+		String XML=xmlAgregar;
 		retorno.put("XML", XML);
 		return retorno;
 	}

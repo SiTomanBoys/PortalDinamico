@@ -1,6 +1,5 @@
 package cl.portaldinamico.ejbs;
 import java.util.HashMap;
-import java.util.List;
 
 //
 import javax.ejb.Stateless;
