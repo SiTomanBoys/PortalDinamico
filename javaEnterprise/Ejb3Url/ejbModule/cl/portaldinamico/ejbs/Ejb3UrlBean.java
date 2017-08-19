@@ -29,17 +29,15 @@ public class Ejb3UrlBean implements Ejb3UrlBeanLocal,Ejb3UrlBeanRemote
 			ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);	
 			String idUrl = utils.obtenerParametroString(parametros,"id_url");
 			String url = utils.obtenerParametroString(parametros,"url");
-//			String regXpag = datosConf.get(Constants.regXpag).toString();
-//			String pagina = utils.obtenerParametroString(parametros,"pagina");
+			String regXpag = datosConf.get(Constants.regXpag).toString();
+			String pagina = utils.obtenerParametroString(parametros,"pagina");
 			p.put("id_url", ( "".equals(idUrl) ) ? null : idUrl );
 			p.put("url",  ( "".equals(url) ) ? null : url );
-//			p.put("id_idioma",  ( "".equals(idIdioma) ) ? null : idIdioma );
-//			p.put("numReg", regXpag);
-//			p.put("pagina", ("".equals(pagina) ? null : pagina));
+			p.put("numReg", regXpag);
+			p.put("pagina", ("".equals(pagina) ? null : pagina));
 			listaXSL = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreUrlMapper.xml", "coreUrl.listarUrl", p);
 			listaXSL = listaXSL.replaceAll("<Data", "<listaUrl").replaceAll("</Data>", "</listaUrl>");
-//			listaXSL +="<TOTAL_REGISTROS>"+p.get("totReg")+"</TOTAL_REGISTROS>";
-			
+			listaXSL +="<TOTAL_REGISTROS>"+p.get("totReg")+"</TOTAL_REGISTROS>";
 		}
 		String XML= listaXSL;
 		retorno.put("XML", XML);

@@ -23,4 +23,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="updXSL" statementType="CALLABLE" resultMap="returnXSL">
 		call modificarXSL(#{id_xsl}, #{contenido}, #{nombre_ejb},#{id_idioma});
 	</select>
-</mapper>
+</mapper> 
