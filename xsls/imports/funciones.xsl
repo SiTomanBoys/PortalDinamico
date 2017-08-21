@@ -29,7 +29,19 @@
 ">
 ]>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:portal="http://d-portal.cl" version="2.0">
-	<xsl:variable name="xml-response" select="/documento"/>
+	<xsl:variable name="xml-response" select="/Documento"/>
+	<xsl:function name="portal:editor">
+		<xsl:param name="modo" />
+		
+		<xsl:if test="$modo = 'online'">
+			<![CDATA[
+			<textarea id="xml-response" style="display:none;" name="xml-response">]]><xsl:copy-of select="$xml-response"/><![CDATA[</textarea>
+			<span class="spanbtn copiar-xml">
+				<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
+			</span>
+			]]>
+		</xsl:if>
+	</xsl:function>
 	<xsl:function name="portal:paginacion">
 		<xsl:param name="totalRegistros" />
 		<xsl:param name="registrosPorPagina" />

@@ -27,12 +27,7 @@
 				</script>
 			</head>
 			<body>
-				<textarea id="xml-response" style="display:none;" name="xml-response">
-					<xsl:copy-of select="/*"/>
-				</textarea>
-				<span class="spanbtn copiar-xml">
-					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
-				</span>
+				<xsl:sequence select="portal:editor(Cabecera/DatosConf/editor)"/>
 				<form name="formulario" method="POST" action="lstXSL">
 					<input name="accion" type="hidden"/>
 					<input name="pagina" value="1" type="hidden"/>

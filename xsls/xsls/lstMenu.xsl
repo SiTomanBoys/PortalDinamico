@@ -1,5 +1,6 @@
 <!-- Toda hoja de transformacion comineza con este tag -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:portal="http://d-portal.cl">
+	<xsl:include href="[[raiz_xsl]]/funciones.xsl"/>
 	<!-- Indicamos que nuestro output sera un tipo HTML -->
 	<xsl:output method = "html" />
 	<!-- Usamos Xpath para comentar que queremos parsear todo el xml -->
@@ -42,12 +43,7 @@
 				</script>
 			</head>
 			<body>
-				<textarea id="xml-response" style="display:none;" name="xml-response">
-					<xsl:copy-of select="/*"/>
-				</textarea>
-				<span class="spanbtn copiar-xml">
-					<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
-				</span>
+				<xsl:sequence select="portal:editor(Cabecera/DatosConf/editor)"/>
 				<form name="formulario" method="POST" action="lstMenu">
 				<input name="accion" type="hidden"/>
 				<input name="upd_id_menu" type="hidden"/>
