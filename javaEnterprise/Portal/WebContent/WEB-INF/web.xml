@@ -15,7 +15,7 @@
     <description></description>
     <display-name>modulo</display-name>
     <servlet-name>modulo</servlet-name>
-    <servlet-class>cl.portaldinamico.Servlets.modulo</servlet-class>
+    <servlet-class>cl.portaldinamico.Servlets.Modulo</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>modulo</servlet-name>
@@ -33,7 +33,7 @@
     <description></description>
     <display-name>login</display-name>
     <servlet-name>login</servlet-name>
-    <servlet-class>cl.portaldinamico.Servlets.login</servlet-class>
+    <servlet-class>cl.portaldinamico.Servlets.Login</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>login</servlet-name>
@@ -43,7 +43,7 @@
     <description></description>
     <display-name>datos</display-name>
     <servlet-name>datos</servlet-name>
-    <servlet-class>cl.portaldinamico.Servlets.datos</servlet-class>
+    <servlet-class>cl.portaldinamico.Servlets.Datos</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>datos</servlet-name>
@@ -53,7 +53,7 @@
     <description></description>
     <display-name>menu</display-name>
     <servlet-name>menu</servlet-name>
-    <servlet-class>cl.portaldinamico.Servlets.menu</servlet-class>
+    <servlet-class>cl.portaldinamico.Servlets.Menu</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>menu</servlet-name>
@@ -63,7 +63,7 @@
     <description></description>
     <display-name>frameset</display-name>
     <servlet-name>frameset</servlet-name>
-    <servlet-class>cl.portaldinamico.Servlets.frameset</servlet-class>
+    <servlet-class>cl.portaldinamico.Servlets.Frameset</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>frameset</servlet-name>
@@ -73,7 +73,7 @@
     <description></description>
     <display-name>error</display-name>
     <servlet-name>error</servlet-name>
-    <servlet-class>cl.portaldinamico.Servlets.error</servlet-class>
+    <servlet-class>cl.portaldinamico.Servlets.Error</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>error</servlet-name>
@@ -83,7 +83,7 @@
     <description></description>
     <display-name>index</display-name>
     <servlet-name>index</servlet-name>
-    <servlet-class>cl.portaldinamico.Servlets.index</servlet-class>
+    <servlet-class>cl.portaldinamico.Servlets.Index</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>index</servlet-name>
@@ -101,7 +101,7 @@
     <description></description>
     <display-name>base</display-name>
     <servlet-name>base</servlet-name>
-    <servlet-class>cl.portaldinamico.Servlets.base</servlet-class>
+    <servlet-class>cl.portaldinamico.Servlets.Base</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>base</servlet-name>

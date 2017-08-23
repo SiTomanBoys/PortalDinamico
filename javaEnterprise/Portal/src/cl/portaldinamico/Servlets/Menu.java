@@ -2,7 +2,6 @@ package cl.portaldinamico.Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,10 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -23,11 +18,11 @@ import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
 import cl.portaldinamico.utils.Ejb3UtilsLocal;
 
-public class menu extends base 
+public class Menu extends Base 
 {
 	private static final long serialVersionUID = 1L;
-	static final Logger log = Logger.getLogger(menu.class);
-    public menu() 
+	static final Logger log = Logger.getLogger(Menu.class);
+    public Menu() 
     {
         super();
     }

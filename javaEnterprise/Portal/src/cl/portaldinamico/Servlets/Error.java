@@ -5,10 +5,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class error extends base 
+public class Error extends Base 
 {
 	private static final long serialVersionUID = 1L;
-    public error() 
+    public Error() 
     {
         super();
     }

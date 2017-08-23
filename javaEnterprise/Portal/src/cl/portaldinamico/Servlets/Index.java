@@ -20,10 +20,10 @@ import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
 import cl.portaldinamico.utils.Ejb3UtilsLocal;
-public class index extends base {
+public class Index extends Base {
 	private static final long serialVersionUID = 1L;
-	static final Logger log = Logger.getLogger(index.class);
-    public index() {
+	static final Logger log = Logger.getLogger(Index.class);
+    public Index() {
         super();
     }
     protected void procesarPeticion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

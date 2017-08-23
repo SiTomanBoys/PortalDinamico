@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class base
  */
-public class base extends HttpServlet 
+public class Base extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
 	protected static HashMap<String,Object> datosConf = new HashMap<String,Object>();
-    public base() 
+    public Base() 
     {
         super();
     }

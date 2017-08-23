@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class datos extends base {
+public class Datos extends Base {
 	private static final long serialVersionUID = 1L;
-    public datos() 
+    public Datos() 
     {
         super();
     }

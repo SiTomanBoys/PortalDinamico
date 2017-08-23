@@ -1,5 +1,4 @@
 package cl.portaldinamico.Servlets;
-import java.io.File;
 import java.io.FileInputStream;
 //
 import java.io.IOException;
@@ -22,12 +21,12 @@ import cl.portaldinamico.utils.Ejb3Utils;
 import cl.portaldinamico.utils.Ejb3UtilsLocal;
 
 
-public class login extends base 
+public class Login extends Base 
 {
 	private static final long serialVersionUID = 1L;
-	static final Logger log = Logger.getLogger(login.class);
+	static final Logger log = Logger.getLogger(Login.class);
 	
-    public login() 
+    public Login() 
     {
         super();
     }
