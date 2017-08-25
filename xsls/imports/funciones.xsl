@@ -32,12 +32,15 @@
 	<xsl:variable name="xml-response" select="/Documento"/>
 	<xsl:function name="portal:editor">
 		<xsl:param name="modo" />
-		
+		<xsl:param name="idXsl" />
 		<xsl:if test="$modo = 'online'">
 			<![CDATA[
 			<textarea id="xml-response" style="display:none;" name="xml-response">]]><xsl:copy-of select="$xml-response"/><![CDATA[</textarea>
 			<span class="spanbtn copiar-xml">
 				<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
+			</span>
+			<span class="spanbtn copiar-xml">
+				<a href="/MantenedorXSL/updXSL?id_xsl=]]><xsl:value-of select="$idXsl"/><![CDATA[" target="_blank">Editar XSL</a>
 			</span>
 			]]>
 		</xsl:if>

@@ -59,7 +59,6 @@ public class Modulo extends Base {
 		p.put("id_idioma", "1");
 		HashMap<String,Object> pagina = ex.SelectUno(datosConf.get(Constants.jndiBase).toString(), "coreXSLMapper.xml", "coreXSL.getXSL", p);
 		String XML="<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-		XML+="<Documento>";
 		String nombreEjb="";
 		String metodoEjb="";
 		String XSL="<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
@@ -67,8 +66,6 @@ public class Modulo extends Base {
 		HashMap<String,Object> Parametros = new HashMap<String,Object>();
 		Parametros = (HashMap<String, Object>) request.getParameterMap();
 		//Genero La Cabecera del XML
-		XML+=ArmarCabeceraXML(Parametros,datosConf);
-		XML+="<Cuerpo>";
 		if(pagina!=null)
 		{
 			try
@@ -154,6 +151,9 @@ public class Modulo extends Base {
 						utils.impLog(log, Level.DEBUG_INT, datosConf, "EJECUTANDO EL METODO [" + mthdRemote.getName() + "] DEL OBJETO [" + objRemote.getClass().getName()+"]");
 						utils.impLog(log, Level.INFO_INT, datosConf, "ANTES DEL INVOKE");
 						HashMap<String,Object> Respuesta = (HashMap<String,Object>) mthdRemote.invoke(objRemote, parameters);
+						XML+="<Documento>";
+						XML+=ArmarCabeceraXML(Parametros,datosConf,pagina);
+						XML+="<Cuerpo>";
 						XML += Respuesta.get("XML");
 						XML +="</Cuerpo>";
 						XML +="</Documento>";
@@ -196,9 +196,10 @@ public class Modulo extends Base {
 		}
 	}
 	
-	private String ArmarCabeceraXML(HashMap<String,Object> Parametros, HashMap<String,Object> datosConf)
+	private String ArmarCabeceraXML(HashMap<String,Object> Parametros, HashMap<String,Object> datosConf,HashMap<String,Object> pagina)
 	{
 		String XML="<Cabecera>";
+		XML+="<pagina>"+pagina.get("id_xsl")+"</pagina>";
 		XML+="<Parametros>";
 		for(String key : Parametros.keySet())
 		{
