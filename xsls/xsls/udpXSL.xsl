@@ -41,7 +41,7 @@
 				</script>
 			</head>
 			<body onload="preparar()">
-				<xsl:sequence select="portal:editor(Cabecera/DatosConf/editor)"/>
+				<xsl:sequence select="portal:editor(Cabecera/DatosConf/editor,Cabecera/pagina,Cabecera/Parametros/idSession)"/>
 				<form name="formulario" method="POST">
 					<input name="accion" type="hidden"/>
 					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />

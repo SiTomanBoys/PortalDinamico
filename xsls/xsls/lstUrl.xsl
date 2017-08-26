@@ -45,7 +45,7 @@
 				</script>
 			</head>
 			<body>
-				<xsl:sequence select="portal:editor(Cabecera/DatosConf/editor)"/>
+				<xsl:sequence select="portal:editor(Cabecera/DatosConf/editor,Cabecera/pagina,Cabecera/Parametros/idSession)"/>
 				<form name="formulario" method="POST" action="lstUrl">
 					<input name="accion" type="hidden"/>
 					<input name="upd_id_url" type="hidden"/>

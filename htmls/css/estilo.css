@@ -4,14 +4,70 @@ body{
 	margin:0 auto;
 	color:#222;
 }
-.copiar-xml
+/*
+*
+*
+*
+*	Esto es estilo de los botones
+*
+*
+*
+**/
+.divbtn 
 {
-	display:inline-block;
-	background-color:black;
-	margin-left:90%;
+	font: normal 12px/150% Arial, Helvetica, sans-serif; 
+	background: #fff; 
+	overflow: hidden; 
+	-webkit-border-radius: 3px; 
+	-moz-border-radius: 3px; 
+	border-radius: 3px; 
+	width: 100%; 
 }
-.btn_guardar
+.divbtn table
+{ 
+	width: 100%; 
+}
+.divbtn table tbody tr td .ul-der
+{ 
+	margin: 0; 
+	padding:0;
+	list-style:none; 
+	text-align: right; 
+	width: 100%; 
+}
+.divbtn table tbody tr td ul 
+{ 
+	margin: 0; 
+	padding:0;
+	list-style:none; 
+}
+.divbtn table tbody tr td ul li 
+{ 
+	display: inline; 
+}
+.divbtn table tbody tr td ul li a
 {
-	display:inline-block;
-	background-color:black;
+	text-decoration: none;
+	display: inline-block;
+	padding: 5px 8px;
+	margin: 2px;
+	font-size: 12px;
+	color: #FFFFFF;
+	border: 1px solid #006699;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+	background-color:#006699; 
+}
+
+.divbtn table tbody tr td ul li a:hover 
+{ 
+	text-decoration: none;
+	border-color: #006699;
+	color: #FFFFFF; 
+	background: none; 
+	background-color:#00557F;
 }

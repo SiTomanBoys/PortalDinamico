@@ -33,6 +33,7 @@
 	<xsl:function name="portal:editor">
 		<xsl:param name="modo" />
 		<xsl:param name="idXsl" />
+		<xsl:param name="idSession" />
 		<xsl:if test="$modo = 'online'">
 			<![CDATA[
 			<textarea id="xml-response" style="display:none;" name="xml-response">]]><xsl:copy-of select="$xml-response"/><![CDATA[</textarea>
@@ -40,7 +41,7 @@
 				<a href="#" onclick="CopyToClipboard(document.getElementById('xml-response').value);return false;">Copiar XML</a>
 			</span>
 			<span class="spanbtn copiar-xml">
-				<a href="/MantenedorXSL/updXSL?id_xsl=]]><xsl:value-of select="$idXsl"/><![CDATA[" target="_blank">Editar XSL</a>
+				<a href="/Portal/MantenedorXSL/updXSL?id_xsl=]]><xsl:value-of select="$idXsl"/><![CDATA[&idSession=]]><xsl:value-of select="$idSession"/><![CDATA[" target="_blank">Editar XSL</a>
 			</span>
 			]]>
 		</xsl:if>

@@ -15,7 +15,13 @@
 	border-radius: 3px; 
 }
 /*
-	Esto es estilo del Head de la tabla
+*
+*
+*
+*	Esto es estilo del Head de la tabla
+*
+*
+*
 */
 .divtbl table td, .divtbl table th 
 { 
@@ -37,7 +43,13 @@
 	border: none;	
 }
 /*
-	Esto es estilo del cuerpo de la tabla
+*
+*
+*
+*	Esto es estilo del cuerpo de la tabla
+*
+*
+*
 */
 .divtbl table tbody td 
 { 
@@ -81,7 +93,13 @@
 }
 
 /*
-	Esto es estilo del Footer de una tabla
+*
+*
+*
+*	Esto es estilo del Footer de una tabla
+*
+*
+*
 */
 .divtbl table tfoot td div 
 { 
@@ -143,56 +161,4 @@ display: inline;
 div.dhtmlx_window_active, div.dhx_modal_cover_dv 
 { 
 	position: fixed !important;
-}
-
-
-
-
-/*
-	Esto es estilo de los botones
-*/
-.divbtn 
-{
-	font: normal 12px/150% Arial, Helvetica, sans-serif; 
-	background: #fff; 
-	overflow: hidden; 
-	-webkit-border-radius: 3px; 
-	-moz-border-radius: 3px; 
-	border-radius: 3px; 
-}
-.divbtn table tbody tr td ul 
-{ 
-	margin: 0; 
-	padding:0;
-	list-style:none; 
-}
-.divbtn table tbody tr td ul li 
-{ 
-	display: inline; 
-}
-.divbtn table tbody tr td ul li a
-{
-	text-decoration: none;
-	display: inline-block;
-	padding: 5px 8px;
-	margin: 2px;
-	font-size: 12px;
-	color: #FFFFFF;
-	border: 1px solid #006699;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
-	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
-	background-color:#006699; 
-}
-
-.divbtn table tbody tr td ul li a:hover 
-{ 
-	text-decoration: none;
-	border-color: #006699;
-	color: #FFFFFF; 
-	background: none; 
-	background-color:#00557F;
 }
