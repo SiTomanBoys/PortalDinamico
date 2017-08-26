@@ -70,7 +70,7 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 			String nombre = utils.obtenerParametroString(parametros,"nombre");
 			String idPadre = utils.obtenerParametroString(parametros,"id_menu");
 			p.clear();
-			p.put("idPadre", ("".equals(idPadre))? 0 : Integer.parseInt(idPadre));
+			p.put("idPadre", ("".equals(idPadre))? 0 : Long.parseLong(idPadre));
 			p.put("nombre",nombre);
 			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.addMenu", p, "estado");
 			if("0".equals(resultado))
@@ -108,7 +108,7 @@ public class Ejb3MenuBean implements Ejb3MenuBeanLocal,Ejb3MenuBeanRemote
 			String idPadre = utils.obtenerParametroString(parametros,"id_padre");
 			p.clear();
 			p.put("id_menu",updIdMenu);
-			p.put("idPadre", ("".equals(idPadre))? 0 : Integer.parseInt(idPadre));
+			p.put("idPadre", ("".equals(idPadre))? 0 : Long.parseLong(idPadre));
 			p.put("nombre",nombre);
 			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "coreMenuMapper.xml", "coreMenu.updMenu", p,"estado");
 			if("0".equals(resultado))
