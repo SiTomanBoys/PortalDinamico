@@ -70,19 +70,19 @@ public class Login extends Base
 				else
 				{
 					utils.impLog(log, Level.INFO_INT, datosConf, "USUARIO O CONTRASEÑA INCORRECTA");
-					response.sendRedirect("/Portal/error.jsp?Id=10");
+					response.sendRedirect("/Portal/error?Id=10");
 				}
 				
 			}catch(Exception e)
 			{
 				log.error("ERROR AL LEER LA CONFIGURACION DEL PORTAL",e);
-				response.sendRedirect("/Portal/error.jsp?Id=13");
+				response.sendRedirect("/Portal/error?Id=13");
 			}
 		}
 		catch(Exception e)
 		{
 			log.error("ERROR AL LEER LAS PROPIEDADES DEL PORTAL",e);
-			response.sendRedirect("/Portal/error.jsp?Id=14");
+			response.sendRedirect("/Portal/error?Id=14");
 		}
 		
 	}

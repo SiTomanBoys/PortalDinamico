@@ -73,7 +73,7 @@ public class Index extends Base {
 			}catch(Exception e)
 			{
 				log.error("ERROR AL LEER LA CONFIGURACION DEL PORTAL",e);
-				response.sendRedirect("/Portal/error.jsp?Id=13");
+				response.sendRedirect("/Portal/error?Id=13");
 			}
 			try
 			{
@@ -93,14 +93,14 @@ public class Index extends Base {
 			catch(Exception ex)
 			{
 				utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR INDEX", ex);
-				response.sendRedirect("/Portal/error.jsp?Id=12");
+				response.sendRedirect("/Portal/error?Id=12");
 			}
 			
     	}
 		catch(Exception e)
 		{
 			log.error("ERROR AL LEER LAS PROPIEDADES DEL PORTAL",e);
-			response.sendRedirect("/Portal/error.jsp?Id=14");
+			response.sendRedirect("/Portal/error?Id=14");
 		}
     };
     

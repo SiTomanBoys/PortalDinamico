@@ -36,7 +36,7 @@ public class Modulo extends Base {
 		if(!session.getId().equals(request.getParameter("idSession")))
 		{
 			log.error("ID DE SESSION EXPIRADA");
-			response.sendRedirect("/Portal/error.jsp?Id=7");
+			response.sendRedirect("/Portal/error?Id=7");
 		}
 		HashMap<String,Object> datosConf = new HashMap<String,Object>();
 		if(session.getAttribute("datosConf")!= null)
@@ -44,7 +44,7 @@ public class Modulo extends Base {
 		else
 		{
 			utils.impLog(log, Level.ERROR_INT, datosConf, "NO SE ENCONTRARON LOS DATOS DE CONFIGURACION DEL PORTAL");
-			response.sendRedirect("/Portal/error.jsp?Id=6");
+			response.sendRedirect("/Portal/error?Id=6");
 		}
 		//Obtengo el Catalogo y los Servidores del Portal.
 		String catalogo = datosConf.get(Constants.catalogoBase).toString();
@@ -76,7 +76,7 @@ public class Modulo extends Base {
 			catch(Exception e)
 			{
 				utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL DECODIFICAR EL CONTENIDO",e);
-				response.sendRedirect("/Portal/error.jsp?Id=11");
+				response.sendRedirect("/Portal/error?Id=11");
 			}
 			String nomEjb = (pagina.containsKey("nombre_ejb")) ? pagina.get("nombre_ejb").toString() : "";
 			String nombre_ejb [] = nomEjb.toString().split("\\."); 
@@ -123,7 +123,7 @@ public class Modulo extends Base {
 						} catch (Throwable g) 
 						{
 							utils.impLog(log, Level.ERROR_INT, datosConf, "NO SE ENCONTRO EJB2, EJB3 REMOTE O EJB3 LOCAL");
-							response.sendRedirect("/Portal/error.jsp?Id=5");
+							response.sendRedirect("/Portal/error?Id=5");
 						}
 					}
 				}
@@ -169,30 +169,30 @@ public class Modulo extends Base {
 						catch(Exception e)
 						{
 							utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL TRANSFORMAR XSL: ",e);
-							response.sendRedirect("/Portal/error.jsp?Id=3");
+							response.sendRedirect("/Portal/error?Id=3");
 						}
 					} catch (Throwable e) 
 					{
 						utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL LLAMAR EJB",e);
-						response.sendRedirect("/Portal/error.jsp?Id=4");
+						response.sendRedirect("/Portal/error?Id=4");
 					}
 				}	
 				else
 				{	
 					utils.impLog(log, Level.ERROR_INT, datosConf, "NO SE ENCONTRO EL METODO ["+metodoEjb+"]");
-					response.sendRedirect("/Portal/error.jsp?Id=2");
+					response.sendRedirect("/Portal/error?Id=2");
 				}
 			}
 			else
 			{
 				utils.impLog(log, Level.ERROR_INT, datosConf, "FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+pagina.get("nombre_ejb")+"]");
-				response.sendRedirect("/Portal/error.jsp?Id=1");
+				response.sendRedirect("/Portal/error?Id=1");
 			}
 		}
 		else
 		{
 			utils.impLog(log, Level.ERROR_INT, datosConf, "LA URL NO EXISTE");
-			response.sendRedirect("/Portal/error.jsp?Id=0");
+			response.sendRedirect("/Portal/error?Id=0");
 		}
 	}
 	
