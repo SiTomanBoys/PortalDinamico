@@ -16,12 +16,6 @@
 				<title>
 					<xsl:value-of select="Titulo"/>
 				</title>
-				<script language="JavaScript"> 	  				
-					function Aceptar() 	 				
-					{ 	 					
-						window.location.href = "/index.html";
-					}
- 				</script>
 			</head>
 			<body>
 				<div id="filtros" class="divtbl">
@@ -47,7 +41,7 @@
 									<div id="paging">
 										<ul>
 											<li>
-												<a href="#" onclick="Aceptar();">
+												<a href="/Portal/logout" target="_top">
 													<span>Aceptar</span>
 												</a>
 											</li>
