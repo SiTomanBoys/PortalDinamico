@@ -52,7 +52,9 @@ public class Error extends Base
 		{
 			
 			utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR ERROR", ex);
-			response.sendRedirect("/Portal/error.jsp?Id=15");
+			request.setAttribute("codError", 15);
+			request.setAttribute("dscError", "Error inesperado, porfavor intente mas tarde");
+			response.sendRedirect("/Portal/error.jsp");
 		}
 	}
 	
