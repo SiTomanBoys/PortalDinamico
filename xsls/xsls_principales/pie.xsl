@@ -12,7 +12,7 @@
 				<meta http-equiv='cache-control' content='no-cache' />
 				<meta http-equiv='pragma' content='no-cache' />
 				<meta http-equiv='expires' content='1' />
-				<link type="text/css" href="/css/estilos.css" rel="stylesheet" />
+				<link type="text/css" href="/css/estilo.css" rel="stylesheet" />
 				<style>
 					.footer {
 						background-color: #C1C1C1;
@@ -27,7 +27,7 @@
             <body>
 				<table cellpadding="0" cellspacing="0" border="0" width="100%" class="footer" height="32">
 					<tr>
-						<td align="center">d-portal | &copy;2017. Todos los derechos reservados</td>
+						<td align="center">d-portal | &#169;2017. Todos los derechos reservados</td>
 					</tr>
 				</table>
 			</body>

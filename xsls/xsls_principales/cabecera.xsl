@@ -12,7 +12,7 @@
 	            <meta http-equiv='cache-control' content='no-cache' />
 	            <meta http-equiv='pragma' content='no-cache' />
 	            <meta http-equiv='expires' content='1' />
-				<link type="text/css" href="/css/estilos.css" rel="stylesheet" />
+				<link type="text/css" href="/css/estilo.css" rel="stylesheet" />
 
 			</head>
                       
