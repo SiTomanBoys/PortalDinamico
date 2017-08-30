@@ -127,4 +127,14 @@
     <servlet-name>pie</servlet-name>
     <url-pattern>/pie</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>central</display-name>
+    <servlet-name>central</servlet-name>
+    <servlet-class>cl.portaldinamico.Servlets.Central</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>central</servlet-name>
+    <url-pattern>/central</url-pattern>
+  </servlet-mapping>
 </web-app>
