@@ -117,4 +117,14 @@
     <servlet-name>cabecera</servlet-name>
     <url-pattern>/cabecera</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>pie</display-name>
+    <servlet-name>pie</servlet-name>
+    <servlet-class>cl.portaldinamico.Servlets.Pie</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>pie</servlet-name>
+    <url-pattern>/pie</url-pattern>
+  </servlet-mapping>
 </web-app>
