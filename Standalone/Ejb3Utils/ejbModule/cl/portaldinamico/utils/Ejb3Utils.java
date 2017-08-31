@@ -1,10 +1,14 @@
 package cl.portaldinamico.utils;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Properties;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -20,11 +24,46 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import cl.portaldinamico.Exception.PortalException;
+
 @Stateless(name="Ejb3Utils")
 public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 {
 	static final Logger log = Logger.getLogger(Ejb3Utils.class);
+	public HashMap<String,Object> cargarPropiedades() throws Exception
+	{
+		Properties portalProperties = new Properties();
+    	//Obtengo las propiedades generales del portal dinamico
+		portalProperties.load(new FileInputStream(System.getProperty("jboss.home.dir")+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
+		if(!portalProperties.containsKey("apacheDir"))
+			throw new PortalException("El parametro 'apacheDir' no existe en el archivo 'portal.properties'");
+		if(!portalProperties.containsKey("carpetaConf"))
+			throw new PortalException("El parametro 'carpetaConf' no existe en el archivo 'portal.properties'");
+		if(!portalProperties.containsKey("nombreArchivo"))
+			throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
+		if(!portalProperties.containsKey("carpetaXsl"))
+			throw new PortalException("El parametro 'carpetaXsl' no existe en el archivo 'portal.properties'");
+		String raizApache = portalProperties.getProperty("apacheDir");
+		String carpetaConf = portalProperties.getProperty("carpetaConf");
+		String carpetaXsl = portalProperties.getProperty("carpetaXsl");
+		String nombreArchivoConf = portalProperties.getProperty("nombreArchivo");
+		log.info("DIRECTORIO RAIZ APACHE: "+ raizApache);
+		log.info("NOMBRE DE PARPERTA DE XSL POR PORTAL: "+carpetaXsl);
+		log.info("NOMBRE CARPETA DE CONFIGURACIONES POR PORTAL: "+carpetaConf);
+		log.info("NOMBRE DEL ARCHIVO PROPERTIES: "+nombreArchivoConf);
+		HashMap<String,Object> portalProp = new HashMap<String,Object>();
+		portalProp.put("raizApache", raizApache);
+		portalProp.put("carpetaXsl", carpetaXsl);
+		portalProp.put("carpetaConf", carpetaConf);
+		portalProp.put("nombreArchivoConf", nombreArchivoConf);
+		return portalProp;
+	
+	}
 	public String generarDocumento(String XML,String XSL) throws Exception
+	{
+		return generarDocumento( XML, XSL, null);
+	}
+	public String generarDocumento(String XML,String XSL,HashMap<String,String> parametros) throws Exception
 	{
 		System.setProperty("javax.xml.transform.TransformerFactory","net.sf.saxon.TransformerFactoryImpl");
 		TransformerFactory tff = TransformerFactory.newInstance();

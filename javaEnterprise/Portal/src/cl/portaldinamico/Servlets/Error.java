@@ -1,8 +1,11 @@
 package cl.portaldinamico.Servlets;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import cl.portaldinamico.Exception.PortalException;
 import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
@@ -32,10 +36,42 @@ public class Error extends Base
 		Ejb3UtilsLocal utils = new Ejb3Utils();
 		HttpSession session= request.getSession(true);
 		HashMap<String,Object> datosConf = new HashMap<String,Object>();
-		if(session.getAttribute("datosConf")!= null)
-			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 		try
 		{
+			if(session.getAttribute("datosConf")!= null)
+				datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
+			else
+			{
+				String raizApache="";
+				String carpetaConf="";
+				String nombreArchivoConf="";
+				Properties portalConf = new Properties();
+				Properties portalProperties = new Properties();
+				if(session.getAttribute("portalProp")!= null)
+				{
+					HashMap<String,Object> portalProp = new HashMap<String,Object>();
+					portalProp=(HashMap<String,Object>) session.getAttribute("portalProp");
+					raizApache = portalProp.get("raizApache").toString();
+					carpetaConf = portalProp.get("carpetaConf").toString();
+					nombreArchivoConf = portalProp.get("nombreArchivoConf").toString();
+					datosConf.putAll(portalProp);
+				}
+				else
+				{
+					portalProperties.load(new FileInputStream(System.getProperty("jboss.home.dir")+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
+					if(!portalProperties.containsKey("apacheDir"))
+						throw new PortalException("El parametro 'apacheDir' no existe en el archivo 'portal.properties'");
+					if(!portalProperties.containsKey("carpetaConf"))
+						throw new PortalException("El parametro 'carpetaConf' no existe en el archivo 'portal.properties'");
+					if(!portalProperties.containsKey("nombreArchivo"))
+						throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
+					if(!portalProperties.containsKey("carpetaXsl"))
+						throw new PortalException("El parametro 'carpetaXsl' no existe en el archivo 'portal.properties'");
+					raizApache = portalProperties.getProperty("apacheDir");
+					carpetaConf = portalProperties.getProperty("carpetaConf");
+					nombreArchivoConf = portalProperties.getProperty("nombreArchivo");
+				}
+			}
 			String catalogo = datosConf.get(Constants.catalogoBase).toString();
 			String servidores = datosConf.get(Constants.servidoresBase).toString();
 			ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);

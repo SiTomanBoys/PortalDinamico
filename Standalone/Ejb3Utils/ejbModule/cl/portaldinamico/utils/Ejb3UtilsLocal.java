@@ -1,5 +1,6 @@
 package cl.portaldinamico.utils;
 import java.util.HashMap;
+import java.util.Properties;
 
 import javax.ejb.Local;
 
@@ -8,7 +9,9 @@ import org.apache.log4j.Logger;
 @Local
 public interface Ejb3UtilsLocal 
 {
+	public HashMap<String,Object> cargarPropiedades() throws Exception;
 	public String generarDocumento(String XML,String XSL) throws Exception;
+	public String generarDocumento(String XML,String XSL,HashMap<String,String> parametros) throws Exception;
 	public String obtenerParametroString(HashMap<String,Object> Parametros,String llave);
 	public String[] obtenerParametroArregloString(HashMap<String,Object> Parametros,String llave);
 	public String encrypt(String value, String key) throws Exception;

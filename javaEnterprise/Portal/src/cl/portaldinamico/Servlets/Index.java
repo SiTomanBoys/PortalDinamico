@@ -31,39 +31,46 @@ public class Index extends Base {
     	Ejb3UtilsLocal utils = new Ejb3Utils();
     	String dominio = request.getLocalName();
 		log.info("DOMINIO: "+dominio);
-    	Properties portalProperties = new Properties();
+//    	Properties portalProperties = new Properties();
     	//Obtengo las propiedades generales del portal dinamico
 		try
 		{
-			portalProperties.load(new FileInputStream(System.getProperty("jboss.home.dir")+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
-			if(!portalProperties.containsKey("apacheDir"))
-				throw new PortalException("El parametro 'apacheDir' no existe en el archivo 'portal.properties'");
-			if(!portalProperties.containsKey("carpetaConf"))
-				throw new PortalException("El parametro 'carpetaConf' no existe en el archivo 'portal.properties'");
-			if(!portalProperties.containsKey("nombreArchivo"))
-				throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
-			if(!portalProperties.containsKey("carpetaXsl"))
-				throw new PortalException("El parametro 'carpetaXsl' no existe en el archivo 'portal.properties'");
-			String raizApache = portalProperties.getProperty("apacheDir");
-			String carpetaConf = portalProperties.getProperty("carpetaConf");
-			String carpetaXsl = portalProperties.getProperty("carpetaXsl");
-			String nombreArchivoConf = portalProperties.getProperty("nombreArchivo");
-			log.info("DIRECTORIO RAIZ APACHE: "+ raizApache);
-			log.info("NOMBRE DE PARPERTA DE XSL POR PORTAL: "+carpetaXsl);
-			log.info("NOMBRE CARPETA DE CONFIGURACIONES POR PORTAL: "+carpetaConf);
-			log.info("NOMBRE DEL ARCHIVO PROPERTIES: "+nombreArchivoConf);
-			HashMap<String,Object> portalProp = new HashMap<String,Object>();
-			portalProp.put("raizApache", raizApache);
-			portalProp.put("carpetaXsl", carpetaXsl);
-			portalProp.put("carpetaConf", carpetaConf);
-			portalProp.put("nombreArchivoConf", nombreArchivoConf);
+//			portalProperties.load(new FileInputStream(System.getProperty("jboss.home.dir")+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
+//			if(!portalProperties.containsKey("apacheDir"))
+//				throw new PortalException("El parametro 'apacheDir' no existe en el archivo 'portal.properties'");
+//			if(!portalProperties.containsKey("carpetaConf"))
+//				throw new PortalException("El parametro 'carpetaConf' no existe en el archivo 'portal.properties'");
+//			if(!portalProperties.containsKey("nombreArchivo"))
+//				throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
+//			if(!portalProperties.containsKey("carpetaXsl"))
+//				throw new PortalException("El parametro 'carpetaXsl' no existe en el archivo 'portal.properties'");
+//			String raizApache = portalProperties.getProperty("apacheDir");
+//			String carpetaConf = portalProperties.getProperty("carpetaConf");
+//			String carpetaXsl = portalProperties.getProperty("carpetaXsl");
+//			String nombreArchivoConf = portalProperties.getProperty("nombreArchivo");
+//			log.info("DIRECTORIO RAIZ APACHE: "+ raizApache);
+//			log.info("NOMBRE DE PARPERTA DE XSL POR PORTAL: "+carpetaXsl);
+//			log.info("NOMBRE CARPETA DE CONFIGURACIONES POR PORTAL: "+carpetaConf);
+//			log.info("NOMBRE DEL ARCHIVO PROPERTIES: "+nombreArchivoConf);
+//			HashMap<String,Object> portalProp = new HashMap<String,Object>();
+//			portalProp.put("raizApache", raizApache);
+//			portalProp.put("carpetaXsl", carpetaXsl);
+//			portalProp.put("carpetaConf", carpetaConf);
+//			portalProp.put("nombreArchivoConf", nombreArchivoConf);
 			HttpSession session= request.getSession(true);
-			session.setAttribute("portalProp", portalProp);
-			Properties portalConf = new Properties();		
+			Properties portalConf = new Properties();
+			HashMap<String,Object> portalProp = new HashMap<String,Object>();
+			if(session.getAttribute("portalProp")!=null)
+				portalProp = (HashMap<String,Object>) session.getAttribute("portalProp");
+			else
+			{
+				portalProp = utils.cargarPropiedades();
+				session.setAttribute("portalProp", portalProp);
+			}
 			try
 			{
 				//Obtengo las configuraciones designadas en cada portal guardandolas en datosConf.
-				portalConf.load(new FileInputStream(raizApache+dominio+carpetaConf+nombreArchivoConf));
+				portalConf.load(new FileInputStream(portalProp.get("raizApache")+dominio+portalProp.get("carpetaConf")+portalProp.get("nombreArchivoConf")));
 				datosConf.clear();
 				for(Object key : portalConf.keySet())
 				{
