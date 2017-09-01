@@ -52,7 +52,10 @@ public class Cabecera extends Base {
 		}catch(Exception ex)
 		{
 			utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR CABECERA", ex);
-			response.sendRedirect("/Portal/error?Id=17");
+			rd = request.getRequestDispatcher("error");
+			request.setAttribute("codError", 17);
+			rd.forward(request, response);
+			//response.sendRedirect("/Portal/error?Id=17");
 		}
 	}
 

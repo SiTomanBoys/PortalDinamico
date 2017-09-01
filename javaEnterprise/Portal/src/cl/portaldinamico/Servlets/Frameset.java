@@ -54,7 +54,10 @@ public class Frameset extends Base {
 		{
 			
 			utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR FRAMESET", ex);
-			response.sendRedirect("/Portal/error?Id=9");
+			rd = request.getRequestDispatcher("error");
+			request.setAttribute("codError", 9);
+			rd.forward(request, response);
+			//response.sendRedirect("/Portal/error?Id=9");
 		}
 	}
 	private String getXMLFrame(HashMap<String,Object> datosConf)

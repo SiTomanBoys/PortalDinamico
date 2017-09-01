@@ -58,7 +58,10 @@ public class Menu extends Base
 		catch(Exception ex)
 		{
 			utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL GENERAR EL MENU", ex);
-			response.sendRedirect("/Portal/error?Id=8");
+			rd = request.getRequestDispatcher("error");
+			request.setAttribute("codError", 8);
+			rd.forward(request, response);
+			//response.sendRedirect("/Portal/error?Id=8");
 		}
 	}
 	private String generarMenu(List<HashMap<String,Object>> lista,String idsession,HashMap<String,Object> datosConf) 

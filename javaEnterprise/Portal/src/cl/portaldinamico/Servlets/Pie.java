@@ -52,7 +52,10 @@ public class Pie extends Base {
 		}catch(Exception ex)
 		{
 			utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR PIE DE PAGINA", ex);
-			response.sendRedirect("/Portal/error?Id=18");
+			rd = request.getRequestDispatcher("error");
+			request.setAttribute("codError", 18);
+			rd.forward(request, response);
+			//response.sendRedirect("/Portal/error?Id=18");
 		}
 	}
 

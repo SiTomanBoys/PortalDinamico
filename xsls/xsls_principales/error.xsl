@@ -3,6 +3,9 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<!-- Indicamos que nuestro output sera un tipo HTML -->
 	<xsl:output method = "html" />
+	<xsl:param name="Titulo" />
+	<xsl:param name="codError" />
+	<xsl:param name="dscError" />
 	<!-- Usamos Xpath para comentar que queremos parsear todo el xml -->
 	<xsl:template match="/Documento"> 		&lt;!DOCTYPE html&gt; 		<!--[if lt IE 7 ]> <html lang="en" class="ie6 ielt8"> <![endif]-->
 		<!--[if IE 7 ]>    <html lang="en" class="ie7 ielt8"> <![endif]-->
@@ -14,7 +17,7 @@
 				<link rel="stylesheet" type="text/css" href="/css/tabla.css"/>
 				<link rel="stylesheet" type="text/css" href="/css/estilo.css"/>
 				<title>
-					<xsl:value-of select="Titulo"/>
+					<xsl:value-of select="$Titulo"/>
 				</title>
 			</head>
 			<body>
@@ -22,12 +25,12 @@
 					<table>
 						<tbody>
 							<tr>
-								<td class="td-h1">Error <xsl:value-of select="codError"/>
+								<td class="td-h1">Error <xsl:value-of select="$codError"/>
 								</td>
 							</tr>
 							<tr>
 								<td class="td-c1">
-									<xsl:value-of select="dscError"/>
+									<xsl:value-of select="$dscError"/>
 								</td>
 							</tr>
 						</tbody>

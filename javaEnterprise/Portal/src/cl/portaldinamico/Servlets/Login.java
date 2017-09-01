@@ -39,10 +39,15 @@ public class Login extends Base
 		log.info("DOMINIO: "+dominio);
 		try
 		{
-			HttpSession session= request.getSession(true);
-			if(session.getAttribute("portalProp")== null)
-				throw new PortalException("El parametro 'portalProp' no existe en session");
 			HashMap<String,Object> portalProp = new HashMap<String,Object>();
+			HttpSession session= request.getSession(true);
+			if(session.getAttribute("portalProp")!=null)
+				portalProp = (HashMap<String,Object>) session.getAttribute("portalProp");
+			else
+			{
+				portalProp = utils.cargarPropiedades();
+				session.setAttribute("portalProp", portalProp);
+			}
 			portalProp=(HashMap<String,Object>) session.getAttribute("portalProp");
 			String raizApache = portalProp.get("raizApache").toString();
 			String carpetaConf = portalProp.get("carpetaConf").toString();

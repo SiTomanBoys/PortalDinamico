@@ -14,8 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
-import cl.portaldinamico.Exception.PortalException;
 import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
@@ -31,32 +29,9 @@ public class Index extends Base {
     	Ejb3UtilsLocal utils = new Ejb3Utils();
     	String dominio = request.getLocalName();
 		log.info("DOMINIO: "+dominio);
-//    	Properties portalProperties = new Properties();
     	//Obtengo las propiedades generales del portal dinamico
 		try
 		{
-//			portalProperties.load(new FileInputStream(System.getProperty("jboss.home.dir")+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
-//			if(!portalProperties.containsKey("apacheDir"))
-//				throw new PortalException("El parametro 'apacheDir' no existe en el archivo 'portal.properties'");
-//			if(!portalProperties.containsKey("carpetaConf"))
-//				throw new PortalException("El parametro 'carpetaConf' no existe en el archivo 'portal.properties'");
-//			if(!portalProperties.containsKey("nombreArchivo"))
-//				throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
-//			if(!portalProperties.containsKey("carpetaXsl"))
-//				throw new PortalException("El parametro 'carpetaXsl' no existe en el archivo 'portal.properties'");
-//			String raizApache = portalProperties.getProperty("apacheDir");
-//			String carpetaConf = portalProperties.getProperty("carpetaConf");
-//			String carpetaXsl = portalProperties.getProperty("carpetaXsl");
-//			String nombreArchivoConf = portalProperties.getProperty("nombreArchivo");
-//			log.info("DIRECTORIO RAIZ APACHE: "+ raizApache);
-//			log.info("NOMBRE DE PARPERTA DE XSL POR PORTAL: "+carpetaXsl);
-//			log.info("NOMBRE CARPETA DE CONFIGURACIONES POR PORTAL: "+carpetaConf);
-//			log.info("NOMBRE DEL ARCHIVO PROPERTIES: "+nombreArchivoConf);
-//			HashMap<String,Object> portalProp = new HashMap<String,Object>();
-//			portalProp.put("raizApache", raizApache);
-//			portalProp.put("carpetaXsl", carpetaXsl);
-//			portalProp.put("carpetaConf", carpetaConf);
-//			portalProp.put("nombreArchivoConf", nombreArchivoConf);
 			HttpSession session= request.getSession(true);
 			Properties portalConf = new Properties();
 			HashMap<String,Object> portalProp = new HashMap<String,Object>();
@@ -80,7 +55,10 @@ public class Index extends Base {
 			}catch(Exception e)
 			{
 				log.error("ERROR AL LEER LA CONFIGURACION DEL PORTAL",e);
-				response.sendRedirect("/Portal/error?Id=13");
+				rd = request.getRequestDispatcher("error");
+				request.setAttribute("codError", 13);
+				rd.forward(request, response);
+				//response.sendRedirect("/Portal/error?Id=13");
 			}
 			try
 			{

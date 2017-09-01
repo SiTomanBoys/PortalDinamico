@@ -71,6 +71,13 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 		tf.setOutputProperty( OutputKeys.ENCODING, "ISO-8859-1");
 		tf.setOutputProperty( OutputKeys.INDENT, "no");
 		tf.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, "yes");
+		if(parametros != null)
+		{
+			for(String key : parametros.keySet())
+			{
+				tf.setParameter(key,parametros.get(key));
+			}
+		}
 		StreamSource ss = new StreamSource(new StringReader(XML));
 		StreamResult sr = new StreamResult(new StringWriter());
 		tf.transform(ss,sr);

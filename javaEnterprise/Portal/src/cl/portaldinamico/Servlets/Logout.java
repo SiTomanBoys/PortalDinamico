@@ -58,7 +58,10 @@ public class Logout extends Base
     	}catch(Exception ex)
     	{
     		utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR LOGOUT", ex);
-			response.sendRedirect("/Portal/error.jsp?Id=16");
+    		rd = request.getRequestDispatcher("error");
+			request.setAttribute("codError", 16);
+			rd.forward(request, response);
+			//response.sendRedirect("/Portal/error.jsp?Id=16");
     	}
 	}
     private String getXMLLogout(HashMap<String,Object> datosConf,String context)

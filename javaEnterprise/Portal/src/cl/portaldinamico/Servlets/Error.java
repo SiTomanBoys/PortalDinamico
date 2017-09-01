@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import cl.portaldinamico.Exception.PortalException;
 import cl.portaldinamico.constants.Constants;
 import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
@@ -42,34 +41,21 @@ public class Error extends Base
 				datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
 			else
 			{
-				String raizApache="";
-				String carpetaConf="";
-				String nombreArchivoConf="";
-				Properties portalConf = new Properties();
-				Properties portalProperties = new Properties();
+				HashMap<String,Object> portalProp = new HashMap<String,Object>();
 				if(session.getAttribute("portalProp")!= null)
-				{
-					HashMap<String,Object> portalProp = new HashMap<String,Object>();
 					portalProp=(HashMap<String,Object>) session.getAttribute("portalProp");
-					raizApache = portalProp.get("raizApache").toString();
-					carpetaConf = portalProp.get("carpetaConf").toString();
-					nombreArchivoConf = portalProp.get("nombreArchivoConf").toString();
-					datosConf.putAll(portalProp);
-				}
 				else
 				{
-					portalProperties.load(new FileInputStream(System.getProperty("jboss.home.dir")+File.separatorChar+"portalConf"+File.separatorChar+"portal.properties"));
-					if(!portalProperties.containsKey("apacheDir"))
-						throw new PortalException("El parametro 'apacheDir' no existe en el archivo 'portal.properties'");
-					if(!portalProperties.containsKey("carpetaConf"))
-						throw new PortalException("El parametro 'carpetaConf' no existe en el archivo 'portal.properties'");
-					if(!portalProperties.containsKey("nombreArchivo"))
-						throw new PortalException("El parametro 'nombreArchivo' no existe en el archivo 'portal.properties'");
-					if(!portalProperties.containsKey("carpetaXsl"))
-						throw new PortalException("El parametro 'carpetaXsl' no existe en el archivo 'portal.properties'");
-					raizApache = portalProperties.getProperty("apacheDir");
-					carpetaConf = portalProperties.getProperty("carpetaConf");
-					nombreArchivoConf = portalProperties.getProperty("nombreArchivo");
+					portalProp = utils.cargarPropiedades();
+					session.setAttribute("portalProp", portalProp);
+				}
+				String dominio = request.getLocalName();
+				datosConf.putAll(portalProp);
+				Properties portalConf = new Properties();
+				portalConf.load(new FileInputStream(portalProp.get("raizApache")+dominio+portalProp.get("carpetaConf")+portalProp.get("nombreArchivoConf")));
+				for(Object key : portalConf.keySet())
+				{
+					datosConf.put(key.toString(), portalConf.getProperty(key.toString()));
 				}
 			}
 			String catalogo = datosConf.get(Constants.catalogoBase).toString();
@@ -80,28 +66,85 @@ public class Error extends Base
 			p.put("id_idioma", 1);
 			//Obtengo el XSL
 			String XSL = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "coreXSLPrincipalMapper.xml", "coreXSLPrincipal.getXSL", p, "contenido");
-			String XML = getXMLError(datosConf,request.getParameter("Id"));
+			
+			
+			
+			int codError = ("".equals(request.getAttribute("codError")) || request.getAttribute("codError") == null) ? -1 : Integer.parseInt(request.getAttribute("codError").toString());
+			HashMap<String,String> param = new HashMap<String,String>();
+			param.put("Titulo",datosConf.get(Constants.TituloPortal).toString());
+			param.put("codError",String.valueOf(codError));
+			param.put("dscError",getMensajeError(codError));
+			String XML = getXMLError();
 			PrintWriter out = response.getWriter();
-            String html = utils.generarDocumento(XML, XSL);
+            String html = utils.generarDocumento(XML, XSL, param);
             out.println(html);
 		}catch(Exception ex)
 		{
 			
 			utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR ERROR", ex);
+			rd = request.getRequestDispatcher("error");
 			request.setAttribute("codError", 15);
-			request.setAttribute("dscError", "Error inesperado, porfavor intente mas tarde");
-			response.sendRedirect("/Portal/error.jsp");
+			rd.forward(request, response);
+			//response.sendRedirect("/Portal/error");
 		}
 	}
 	
-	private String getXMLError(HashMap<String,Object> datosConf,String codError)
+	private String getXMLError()
 	{
 		String XML ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 		XML+="<Documento>";
-		XML+="<Titulo>"+datosConf.get(Constants.TituloPortal)+"</Titulo>";
-		XML+="<codError>"+codError+"</codError>";
-		XML+="<dscError>Error al crear pagina XSL</dscError>";
 		XML+="</Documento>";
 		return XML;
+	}
+	private String getMensajeError(int codError)
+	{
+		String dscError="";
+		switch(codError)
+		{
+			case 0: dscError="La URL no existe";
+			break;
+			case 1: dscError="Falta el nombre del EJB o el metodo en la base de datos";
+			break;
+			case 2: dscError="No se encontro metodo";
+			break;
+			case 3: dscError="Error al transformar XSL";
+			break;
+			case 4: dscError="Error al llamar EJB";
+			break;
+			case 5: dscError="No se encontro EJB2, EJB3 Remote o EJB3 Local";
+			break;
+			case 6: dscError="No se encontraron los datos de configuracion del portal";
+			break;
+			case 7: dscError="Id de session expirada";
+			break;
+			case 8: dscError="Error al generar Menu";
+			break;
+			case 9: dscError="Error ar generar Frameset";
+			break;
+			case 10: dscError="Usuario o contraseña incorrecta";
+			break;
+			case 11: dscError="Error al decodificar el contenido";
+			break;
+			case 12: dscError="Error al generar Index";
+			break;
+			case 13: dscError="Error al leer la configuracion del portal";
+			break;
+			case 14: dscError="Error al leer las propiedades del portal";
+			break;
+			case 15: dscError="Error al generar pagina de Error";
+			break;
+			case 16: dscError="Error al generar Logout";
+			break;
+			case 17: dscError="Error al generar cabecera";
+			break;
+			case 18: dscError="Error al generar pie de pagina";
+			break;
+			case 19: dscError="Error al generar pagina central";
+			break;
+			default: dscError="Error inesperado, porfavor intente mas tarde";
+			break;
+			
+		}
+		return dscError;
 	}
 }

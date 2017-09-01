@@ -51,8 +51,11 @@ public class Central extends Base {
             out.println(html);
 		}catch(Exception ex)
 		{
-			utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR PIE DE PAGINA", ex);
-			response.sendRedirect("/Portal/error?Id=18");
+			utils.impLog(log,Level.ERROR_INT, datosConf, "ERROR AL GENERAR PAGINA CENTRAL", ex);
+			rd = request.getRequestDispatcher("error");
+			request.setAttribute("codError", 19);
+			rd.forward(request, response);
+			//response.sendRedirect("/Portal/error?Id=19");
 		}
 	}
 
