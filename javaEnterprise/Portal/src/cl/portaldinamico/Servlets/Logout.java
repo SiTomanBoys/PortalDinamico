@@ -1,8 +1,10 @@
 package cl.portaldinamico.Servlets;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,10 +34,29 @@ public class Logout extends Base
     	HttpSession session = request.getSession();
     	Ejb3UtilsLocal utils = new Ejb3Utils();
     	HashMap<String,Object> datosConf = new HashMap<String,Object>();
-		if(session.getAttribute("datosConf")!= null)
-			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
     	try
     	{
+    		if(session.getAttribute("datosConf")!= null)
+    			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
+    		else
+    		{
+    			HashMap<String,Object> portalProp = new HashMap<String,Object>();
+    			if(session.getAttribute("portalProp")!= null)
+    				portalProp=(HashMap<String,Object>) session.getAttribute("portalProp");
+    			else
+    			{
+    				portalProp = utils.cargarPropiedades();
+    				session.setAttribute("portalProp", portalProp);
+    			}
+    			String dominio = request.getLocalName();
+    			datosConf.putAll(portalProp);
+    			Properties portalConf = new Properties();
+    			portalConf.load(new FileInputStream(portalProp.get("raizApache")+dominio+portalProp.get("carpetaConf")+portalProp.get("nombreArchivoConf")));
+    			for(Object key : portalConf.keySet())
+    			{
+    				datosConf.put(key.toString(), portalConf.getProperty(key.toString()));
+    			}
+    		}
     		String catalogo = datosConf.get(Constants.catalogoBase).toString();
 			String servidores = datosConf.get(Constants.servidoresBase).toString();
 			ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);

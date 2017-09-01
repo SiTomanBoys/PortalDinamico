@@ -160,18 +160,19 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 	}
 	public void impLog(Logger logg,int logLevel,HashMap<String,Object> datosConf,String mensaje,Throwable t)
 	{
+		String[] nombreClase = logg.getName().split("\\.");
+		String clase = nombreClase[nombreClase.length-1];
 		try
 		{
 			int intLog = Integer.parseInt(datosConf.get("nivelLog").toString());
 			if(logLevel >= intLog)
 			{
-				String[] nombreClase = logg.getName().split("\\.");
-				String clase = nombreClase[nombreClase.length-1];
 				log.log(Level.toPriority(logLevel),"["+clase+"] "+ mensaje ,t);
 			}
 		}catch(Exception e)
 		{
-			log.error("La variable 'nivelLog' del portal.properties no es un numero o no existe",e);
+			log.error("La variable 'nivelLog' del portal.properties no es un numero o no existe");
+			log.debug("["+clase+"] "+ mensaje,t);
 		}
 	}
 	private String Html2Simbolos(String html) {

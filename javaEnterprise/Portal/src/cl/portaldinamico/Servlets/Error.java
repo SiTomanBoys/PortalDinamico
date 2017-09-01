@@ -113,7 +113,7 @@ public class Error extends Base
 			break;
 			case 5: dscError="No se encontro EJB2, EJB3 Remote o EJB3 Local";
 			break;
-			case 6: dscError="No se encontraron los datos de configuracion del portal";
+			case 6: dscError="La pagina solicitada no existe o no se ha iniciado ninguna sesion para ser visualizada";
 			break;
 			case 7: dscError="Id de session expirada";
 			break;

@@ -34,14 +34,6 @@ public class Modulo extends Base {
 		//Obtengo los datos de session
 		HttpSession session= request.getSession(true);
 		Ejb3UtilsLocal utils = new Ejb3Utils();
-		if(!session.getId().equals(request.getParameter("idSession")))
-		{
-			log.error("ID DE SESSION EXPIRADA");
-			rd = request.getRequestDispatcher("error");
-			request.setAttribute("codError", 7);
-			rd.forward(request, response);
-			//response.sendRedirect("/Portal/error?Id=7");
-		}
 		HashMap<String,Object> datosConf = new HashMap<String,Object>();
 		if(session.getAttribute("datosConf")!= null)
 			datosConf = (HashMap<String,Object>) session.getAttribute("datosConf");
@@ -52,6 +44,14 @@ public class Modulo extends Base {
 			request.setAttribute("codError", 6);
 			rd.forward(request, response);
 			//response.sendRedirect("/Portal/error?Id=6");
+		}
+		if(!session.getId().equals(request.getParameter("idSession")))
+		{
+			log.error("ID DE SESSION EXPIRADA");
+			rd = request.getRequestDispatcher("error");
+			request.setAttribute("codError", 7);
+			rd.forward(request, response);
+			//response.sendRedirect("/Portal/error?Id=7");
 		}
 		//Obtengo el Catalogo y los Servidores del Portal.
 		String catalogo = datosConf.get(Constants.catalogoBase).toString();
