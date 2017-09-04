@@ -18,9 +18,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		call agregarUrl(#{nombre});
 	</select>
 	<select id="delUrl" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		call eliminarUrl(#{id_menu});
+		call eliminarUrl(#{id_url});
 	</select>
 	<select id="updUrl" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		call modificarUrl(#{id_menu},#{nombre},#{idPadre});
+		call modificarUrl(#{id_url},#{nombre});
 	</select>
 </mapper>
