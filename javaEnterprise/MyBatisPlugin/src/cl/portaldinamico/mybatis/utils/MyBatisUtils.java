@@ -131,7 +131,7 @@ public class MyBatisUtils
 		return MyBatisConfig;
 	}
 	
-	public String ListaHashMapAXML(List<HashMap<String,Object>> ListaHashMap)
+	public String listaHashMapAXML(List<HashMap<String,Object>> ListaHashMap)
 	{
 		String XML="";
 		String Data="";

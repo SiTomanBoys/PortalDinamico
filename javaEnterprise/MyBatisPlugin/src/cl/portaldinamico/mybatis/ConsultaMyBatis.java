@@ -72,7 +72,7 @@ public class ConsultaMyBatis
 		logBatis += "\n \t Parametros Enviados: "+parametros;
 		if(habilitarLog)
 			log.info(logBatis);
-		String XML = mbu.ListaHashMapAXML(lista);
+		String XML = mbu.listaHashMapAXML(lista);
 		return XML;
 	}
 	
