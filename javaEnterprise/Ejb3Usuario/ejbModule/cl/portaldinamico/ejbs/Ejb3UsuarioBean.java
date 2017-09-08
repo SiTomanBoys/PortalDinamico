@@ -6,6 +6,8 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
+import cl.portaldinamico.constants.Constants;
+import cl.portaldinamico.mybatis.ConsultaMyBatis;
 import cl.portaldinamico.utils.Ejb3Utils;
 import cl.portaldinamico.utils.Ejb3UtilsLocal;
 
@@ -17,7 +19,43 @@ public class Ejb3UsuarioBean implements Ejb3UsuarioBeanLocal,Ejb3UsuarioBeanRemo
 	public HashMap<String, Object> lstUsr(HashMap<String, Object> datosConf, HashMap<String, Object> parametros)
 	{
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
-		String XML ="";
+		HashMap<String,Object> p = new HashMap<String,Object>();
+		String catalogo = datosConf.get(Constants.catalogoBase).toString();
+		String servidores = datosConf.get(Constants.servidoresBase).toString();
+		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);	
+		String accion = utils.obtenerParametroString(parametros,"accion");
+		String lstPerfil = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "corePerfilMapper.xml", "corePerfil.listarPerfil", p);
+		lstPerfil = lstPerfil.replaceAll("<Data", "<listaPerfil").replaceAll("</Data>", "</listaPerfil>");
+		String xmlEliminar="";
+		if("eliminar".equalsIgnoreCase(accion))
+		{
+			String idUrl = utils.obtenerParametroString(parametros,"del_id_usuario");
+			p.put("id_url", idUrl);
+			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "coreUsuarioMapper.xml", "coreUsuario.delUsr", p, "estado");
+			if("0".equals(resultado))
+				xmlEliminar+="<delUsr><respuesta><codigo>0</codigo><mensaje>Usuario eliminado</mensaje></respuesta></delUsr>";
+			else
+				xmlEliminar+="<delUsr><respuesta><codigo>1</codigo><mensaje>Error al eliminar usuario</mensaje></respuesta></delUsr>";
+			p.clear();
+		}	
+		String listaUsr="";
+		if("buscar".equalsIgnoreCase(accion))
+		{
+			String idUsuario = utils.obtenerParametroString(parametros,"id_usuario");
+			String nombre = utils.obtenerParametroString(parametros,"nombre");
+			String perfil = utils.obtenerParametroString(parametros,"perfil");
+			String regXpag = datosConf.get(Constants.regXpag).toString();
+			String pagina = utils.obtenerParametroString(parametros,"pagina");
+			p.put("id_usuario", ( "".equals(idUsuario) ) ? null : idUsuario );
+			p.put("nombre",  ( "".equals(nombre) ) ? null : nombre );
+			p.put("perfil",  ( "".equals(perfil) ) ? null : perfil );
+			p.put("numReg", regXpag);
+			p.put("pagina", ("".equals(pagina) ? null : pagina));
+			listaUsr = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreUsuarioMapper.xml", "coreUsuario.listarUsuario", p);
+			listaUsr = listaUsr.replaceAll("<Data", "<listaUsuario").replaceAll("</Data>", "</listaUsuario>");
+			listaUsr +="<TOTAL_REGISTROS>"+p.get("totReg")+"</TOTAL_REGISTROS>";
+		}
+		String XML= lstPerfil+listaUsr+xmlEliminar;
 		retorno.put("XML", XML);
 		return retorno;
 	}

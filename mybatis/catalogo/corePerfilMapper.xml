@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="corePerfil">
+	<resultMap id="returnPerfil" type="java.util.HashMap"></resultMap>
+	<select id="listarPerfil" statementType="CALLABLE" resultMap="returnPerfil">
+		call listarPerfil(
+		#{id_perfil, mode=IN, jdbcType=INTEGER},
+		#{perfil, mode=IN, jdbcType=VARCHAR},
+		#{dsc_perfil, mode=IN, jdbcType=VARCHAR},
+		#{pagina, mode=IN, jdbcType=INTEGER},
+		#{numReg, mode=IN, jdbcType=INTEGER},
+		#{totReg, mode=OUT, jdbcType=INTEGER, javaType=String}
+		);
+	</select>
+	<select id="addPerfil" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call agregarPerfil(#{perfil},#{dsc_perfil});
+	</select>
+	<select id="delPerfil" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call eliminarPerfil(#{id_perfil});
+	</select>
+	<select id="updPerfil" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		call modificarPerfil(#{id_perfil},#{perfil},#{dsc_perfil});
+	</select>
+</mapper>

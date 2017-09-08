@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="/librerias/jboss-javaee.jar"/>
 	<classpathentry kind="lib" path="/librerias/log4j-1.2.17.jar"/>
 	<classpathentry kind="src" path="/Ejb3Utils"/>
+	<classpathentry kind="src" path="/MyBatisPlugin"/>
+	<classpathentry kind="src" path="/Constants"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
