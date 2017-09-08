@@ -21,12 +21,12 @@
 					function modificar(valor)
 					{
 						document.formulario.action="updUsr";
-						document.formulario.upd_id_url.value=valor;
+						document.formulario.upd_id_usuario.value=valor;
 						document.formulario.submit();
 					}
 					function Eliminar()
 					{
-						if(document.formulario.del_id_url.value!="")
+						if(document.formulario.del_id_usuario.value!="")
 						{
 							document.formulario.accion.value="eliminar";
 							if(confirm("Esta Seguro Que Desea Eliminar?"))
@@ -48,7 +48,7 @@
 				<xsl:sequence select="portal:editor(Cabecera/DatosConf/editor,Cabecera/pagina,Cabecera/Parametros/idSession)"/>
 				<form name="formulario" method="POST" action="lstUsr">
 					<input name="accion" type="hidden"/>
-					<input name="upd_id_url" type="hidden"/>
+					<input name="upd_id_usuario" type="hidden"/>
 					<input name="pagina" value="1" type="hidden"/>
 					<input name="idSession" type="hidden" value="{Cabecera/Parametros/idSession}" />
 					<p>
