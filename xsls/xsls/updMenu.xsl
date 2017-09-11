@@ -62,6 +62,22 @@
 										</select>
 									</td>
 								</tr>
+								<tr>
+									<td class="td-h1">Url:</td>
+									<td class="td-c1">
+										<select name="id_url">
+											<option value="">Ninguno</option>
+											<xsl:for-each select="Cuerpo/listaUrl/fila">
+												<option value="{id_url}">
+													<xsl:if test="id_url = /Documento/Cuerpo/menu/id_url">
+														<xsl:attribute name="selected">selected</xsl:attribute>
+													</xsl:if>
+													<xsl:value-of select ="url"/>
+												</option>
+											</xsl:for-each>
+										</select>
+									</td>
+								</tr>
 							</table>
 						</div>
 					</p>

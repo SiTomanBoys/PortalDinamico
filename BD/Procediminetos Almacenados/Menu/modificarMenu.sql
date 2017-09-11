@@ -3,7 +3,7 @@ DROP procedure IF EXISTS `modificarMenu`;
 
 DELIMITER $$
 USE `portal`$$
-CREATE PROCEDURE `modificarMenu` (in idMenu int, in nom varchar(50), in idPadre int)
+CREATE PROCEDURE `modificarMenu` (in idMenu int, in nom varchar(50), in idPadre int, in idUrl int)
 BEGIN
 	DECLARE posicion INT DEFAULT 0;
     DECLARE posicionActual INT DEFAULT 0;
@@ -91,7 +91,8 @@ BEGIN
 		nombre = nom,
 		id_padre = idPadre,
         orden = posicion,
-        nivel = nvl
+        nivel = nvl,
+        id_url = idUrl
 		WHERE
 		id_menu = idMenu;
         

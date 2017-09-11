@@ -3,7 +3,7 @@ DROP procedure IF EXISTS `agregarMenu`;
 
 DELIMITER $$
 USE `portal`$$
-CREATE DEFINER=`portal`@`%` PROCEDURE `agregarMenu`(in nom varchar(50), in idPadre int)
+CREATE DEFINER=`portal`@`%` PROCEDURE `agregarMenu`(in nom varchar(50), in idPadre int, in idUrl int)
 BEGIN
 	DECLARE posicion INT DEFAULT 0;
     DECLARE nvl INT DEFAULT 0;
@@ -21,7 +21,7 @@ BEGIN
 		FROM
 		menu;
 		SET posicion = posicion + 1;
-        INSERT INTO menu(id_url,nivel,nombre,orden,id_padre) VALUES (0,0,nom,posicion,idPadre);
+        INSERT INTO menu(id_url,nivel,nombre,orden,id_padre) VALUES (idUrl,0,nom,posicion,idPadre);
 	ELSE
 		SELECT nivel INTO nvl 
 		FROM
@@ -46,7 +46,7 @@ BEGIN
 		SET posicion = posicion + 1;
         SET nvl = nvl + 1;
         UPDATE menu SET orden = orden + 1 WHERE orden >= posicion;
-        INSERT INTO menu(id_url,nivel,nombre,orden,id_padre) VALUES (0,nvl,nom,posicion,idPadre);
+        INSERT INTO menu(id_url,nivel,nombre,orden,id_padre) VALUES (idUrl,nvl,nom,posicion,idPadre);
 	END IF;
     
     COMMIT;
