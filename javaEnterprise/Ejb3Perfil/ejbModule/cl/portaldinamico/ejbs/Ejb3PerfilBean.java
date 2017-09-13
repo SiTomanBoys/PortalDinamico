@@ -27,8 +27,8 @@ public class Ejb3PerfilBean implements Ejb3PerfilBeanLocal,Ejb3PerfilBeanRemote
 		String xmlEliminar="";
 		if("eliminar".equalsIgnoreCase(accion))
 		{
-			String idUrl = utils.obtenerParametroString(parametros,"del_id_perfil");
-			p.put("id_url", idUrl);
+			String idPerfil = utils.obtenerParametroString(parametros,"del_id_perfil");
+			p.put("id_perfil", idPerfil);
 			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "corePerfilMapper.xml", "corePerfil.delPerfil", p, "estado");
 			if("0".equals(resultado))
 				xmlEliminar+="<delPerfil><respuesta><codigo>0</codigo><mensaje>Perfil eliminado</mensaje></respuesta></delPerfil>";
@@ -61,14 +61,62 @@ public class Ejb3PerfilBean implements Ejb3PerfilBeanLocal,Ejb3PerfilBeanRemote
 	public HashMap<String, Object> addPerfil(HashMap<String, Object> datosConf, HashMap<String, Object> parametros)
 	{
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
-		String XML="";
+		String catalogo = datosConf.get(Constants.catalogoBase).toString();
+		String servidores = datosConf.get(Constants.servidoresBase).toString();
+		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
+		HashMap<String,Object> p = new HashMap<String,Object>();
+		String accion = utils.obtenerParametroString(parametros,"accion");
+		String xmlAgregar="";
+		if("agregar".equalsIgnoreCase(accion))
+		{
+			String perfil = utils.obtenerParametroString(parametros,"perfil");
+			String descripcion = utils.obtenerParametroString(parametros,"descripcion");
+			p.clear();
+			p.put("descripcion",descripcion);
+			p.put("perfil",perfil);
+			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "corePerfilMapper.xml", "corePerfil.addPerfil", p, "estado");
+			if("0".equals(resultado))
+				xmlAgregar+="<addPerfil><respuesta><codigo>0</codigo><mensaje>Perfil agregado correctamente</mensaje></respuesta></addPerfil>";
+			else
+				xmlAgregar+="<addPerfil><respuesta><codigo>1</codigo><mensaje>Error al agregar Perfil</mensaje></respuesta></addPerfil>";
+			p.clear();
+		}
+		String XML=xmlAgregar;
 		retorno.put("XML", XML);
 		return retorno;
 	}
 	public HashMap<String, Object> updPerfil(HashMap<String, Object> datosConf, HashMap<String, Object> parametros)
 	{
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
-		String XML="";
+		String catalogo = datosConf.get(Constants.catalogoBase).toString();
+		String servidores = datosConf.get(Constants.servidoresBase).toString();
+		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
+		HashMap<String,Object> p = new HashMap<String,Object>();
+		String accion = utils.obtenerParametroString(parametros,"accion");
+		String updIdPerfil = utils.obtenerParametroString(parametros, "upd_id_perfil");
+		p.put("id_perfil", updIdPerfil);
+		HashMap<String,Object> mapPerfil = ex.SelectUno(datosConf.get(Constants.jndiBase).toString(), "corePerfilMapper.xml", "corePerfil.listarPerfil", p);
+		String xmlPerfil = utils.hashMapAXml(mapPerfil, "perfil");
+		p.clear();
+		String xmlModificar="";
+		if("modificar".equalsIgnoreCase(accion))
+		{
+			String perfil = utils.obtenerParametroString(parametros,"perfil");
+			String id_perfil = utils.obtenerParametroString(parametros,"id_perfil");
+			String descripcion = utils.obtenerParametroString(parametros,"descripcion");
+			p.clear();
+			p.put("id_perfil", id_perfil);
+			p.put("perfil",perfil);
+			p.put("descripcion",descripcion);
+			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "corePerfilMapper.xml", "corePerfilMapper.updPerfil", p,"estado");
+			if("0".equals(resultado))
+				xmlModificar+="<updPerfil><respuesta><codigo>0</codigo><mensaje>Perfil Modificado</mensaje></respuesta></updPerfil>";
+			else
+				xmlModificar+="<updPerfil><respuesta><codigo>1</codigo><mensaje>Error Al Modificar Perfil</mensaje></respuesta></updPerfil>";
+			p.clear();
+		}
+		String XML=xmlModificar;
+		XML +=xmlPerfil;
 		retorno.put("XML", XML);
 		return retorno;
 	}
