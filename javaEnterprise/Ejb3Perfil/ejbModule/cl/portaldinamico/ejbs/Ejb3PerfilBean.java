@@ -72,7 +72,7 @@ public class Ejb3PerfilBean implements Ejb3PerfilBeanLocal,Ejb3PerfilBeanRemote
 			String perfil = utils.obtenerParametroString(parametros,"perfil");
 			String descripcion = utils.obtenerParametroString(parametros,"descripcion");
 			p.clear();
-			p.put("descripcion",descripcion);
+			p.put("dsc_perfil",descripcion);
 			p.put("perfil",perfil);
 			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "corePerfilMapper.xml", "corePerfil.addPerfil", p, "estado");
 			if("0".equals(resultado))
@@ -107,7 +107,7 @@ public class Ejb3PerfilBean implements Ejb3PerfilBeanLocal,Ejb3PerfilBeanRemote
 			p.clear();
 			p.put("id_perfil", id_perfil);
 			p.put("perfil",perfil);
-			p.put("descripcion",descripcion);
+			p.put("dsc_perfil",descripcion);
 			String resultado = ex.SelectValor(datosConf.get(Constants.jndiBase).toString(), "corePerfilMapper.xml", "corePerfilMapper.updPerfil", p,"estado");
 			if("0".equals(resultado))
 				xmlModificar+="<updPerfil><respuesta><codigo>0</codigo><mensaje>Perfil Modificado</mensaje></respuesta></updPerfil>";
