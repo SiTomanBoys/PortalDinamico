@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
 Class-Path: 
-
+Dependencies: cl.portaldinamico.mybatis, cl.portaldinamico.utils, org.apache.log4j, net.sf.saxon
