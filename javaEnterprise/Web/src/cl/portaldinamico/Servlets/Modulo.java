@@ -70,7 +70,7 @@ public class Modulo extends HttpServlet
 					{
 						datosConf.put(key.toString(), portalConf.getProperty(key.toString()));
 					}
-					session.setAttribute("datosConf", portalProp);
+					session.setAttribute("datosConf", datosConf);
 				}
 			}catch(Exception e)
 			{
@@ -110,11 +110,24 @@ public class Modulo extends HttpServlet
 				catch(Exception e)
 				{
 					utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL DECODIFICAR EL CONTENIDO",e);
-					response.sendRedirect("/Portal/error?Id=11");
+					rd = request.getRequestDispatcher("error");
+					request.setAttribute("codError", 11);
+					rd.forward(request, response);
+					//response.sendRedirect("/Web/error?Id=11");
 				}
 				String nomEjb = (pagina.containsKey("nombre_ejb")) ? pagina.get("nombre_ejb").toString() : "";
 				String nombre_ejb [] = nomEjb.toString().split("\\."); 
 				if(nombre_ejb.length>1)
+				{
+					nombreEjb="";
+					metodoEjb="";
+					XML+="<Documento>";
+					XML+=ArmarCabeceraXML(Parametros,datosConf,pagina);
+					XML+="<Cuerpo>";
+					XML +="</Cuerpo>";
+					XML +="</Documento>";
+				}
+				else
 				{
 					nombreEjb=nombre_ejb[0];
 					metodoEjb=nombre_ejb[1];
@@ -197,20 +210,6 @@ public class Modulo extends HttpServlet
 							utils.impLog(log, Level.INFO_INT, datosConf, "DESPUES DEL INVOKE");
 							utils.impLog(log, Level.DEBUG_INT, datosConf, "XML OBTENIDO: "+XML);
 							ejbContext.close();
-							try
-							{
-							    PrintWriter out = response.getWriter();
-					            String html = utils.generarDocumento(XML, XSL);
-					            out.println(html);
-							}
-							catch(Exception e)
-							{
-								utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL TRANSFORMAR XSL: ",e);
-								rd = request.getRequestDispatcher("error");
-								request.setAttribute("codError", 3);
-								rd.forward(request, response);
-								//response.sendRedirect("/Portal/error?Id=3");
-							}
 						} catch (Throwable e) 
 						{
 							utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL LLAMAR EJB",e);
@@ -229,13 +228,19 @@ public class Modulo extends HttpServlet
 						//response.sendRedirect("/Portal/error?Id=2");
 					}
 				}
-				else
+				try
 				{
-					utils.impLog(log, Level.ERROR_INT, datosConf, "FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+pagina.get("nombre_ejb")+"]");
+				    PrintWriter out = response.getWriter();
+		            String html = utils.generarDocumento(XML, XSL);
+		            out.println(html);
+				}
+				catch(Exception e)
+				{
+					utils.impLog(log, Level.ERROR_INT, datosConf, "ERROR AL TRANSFORMAR XSL: ",e);
 					rd = request.getRequestDispatcher("error");
-					request.setAttribute("codError", 1);
+					request.setAttribute("codError", 3);
 					rd.forward(request, response);
-					//response.sendRedirect("/Portal/error?Id=1");
+					//response.sendRedirect("/Portal/error?Id=3");
 				}
 			}
 			else
