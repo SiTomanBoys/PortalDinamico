@@ -4,7 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -70,6 +73,7 @@ public class Modulo extends HttpServlet
 					{
 						datosConf.put(key.toString(), portalConf.getProperty(key.toString()));
 					}
+					datosConf.putAll(portalProp);
 					session.setAttribute("datosConf", datosConf);
 				}
 			}catch(Exception e)
@@ -78,14 +82,13 @@ public class Modulo extends HttpServlet
 				rd = request.getRequestDispatcher("error");
 				request.setAttribute("codError", 13);
 				rd.forward(request, response);
-				//response.sendRedirect("/Portal/error?Id=13");
 			}
 			//Obtengo el Catalogo y los Servidores del Portal.
 			String catalogo = datosConf.get(Constants.catalogoBase).toString();
 			String servidores = datosConf.get(Constants.servidoresBase).toString();
 	//		String url = request.getAttribute("javax.servlet.forward.request_uri").toString();
 			String url = request.getAttribute("javax.servlet.error.request_uri").toString();
-			url = url.substring(7, url.length());
+			url = url.substring(4, url.length());
 			utils.impLog(log, Level.INFO_INT, datosConf, "URL Recivida: "+url);
 			ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);
 			HashMap<String,Object> p = new HashMap<String,Object>();
@@ -117,7 +120,7 @@ public class Modulo extends HttpServlet
 				}
 				String nomEjb = (pagina.containsKey("nombre_ejb")) ? pagina.get("nombre_ejb").toString() : "";
 				String nombre_ejb [] = nomEjb.toString().split("\\."); 
-				if(nombre_ejb.length>1)
+				if(nombre_ejb.length<2)
 				{
 					nombreEjb="";
 					metodoEjb="";
@@ -173,7 +176,6 @@ public class Modulo extends HttpServlet
 								rd = request.getRequestDispatcher("error");
 								request.setAttribute("codError", 5);
 								rd.forward(request, response);
-								//response.sendRedirect("/Portal/error?Id=5");
 							}
 						}
 					}
@@ -216,7 +218,6 @@ public class Modulo extends HttpServlet
 							rd = request.getRequestDispatcher("error");
 							request.setAttribute("codError", 4);
 							rd.forward(request, response);
-							//response.sendRedirect("/Portal/error?Id=4");
 						}
 					}	
 					else
@@ -225,7 +226,6 @@ public class Modulo extends HttpServlet
 						rd = request.getRequestDispatcher("error");
 						request.setAttribute("codError", 2);
 						rd.forward(request, response);
-						//response.sendRedirect("/Portal/error?Id=2");
 					}
 				}
 				try
@@ -240,7 +240,6 @@ public class Modulo extends HttpServlet
 					rd = request.getRequestDispatcher("error");
 					request.setAttribute("codError", 3);
 					rd.forward(request, response);
-					//response.sendRedirect("/Portal/error?Id=3");
 				}
 			}
 			else
@@ -249,21 +248,26 @@ public class Modulo extends HttpServlet
 				rd = request.getRequestDispatcher("error");
 				request.setAttribute("codError", 0);
 				rd.forward(request, response);
-				//response.sendRedirect("/Portal/error?Id=0");
 			}
 		}
 		catch(Exception e)
 		{
 			log.error("ERROR AL LEER LAS PROPIEDADES DEL PORTAL",e);
-			response.sendRedirect("/Web/error?Id=14");
+			rd = request.getRequestDispatcher("error");
+			request.setAttribute("codError", 14);
+			rd.forward(request, response);
 		}
 	
 	}
 	
 	private String ArmarCabeceraXML(HashMap<String,Object> Parametros, HashMap<String,Object> datosConf,HashMap<String,Object> pagina)
 	{
+		Calendar fechaCalendar = Calendar.getInstance();
+		Date f = fechaCalendar.getTime();
 		String XML="<Cabecera>";
 		XML+="<pagina>"+pagina.get("id_xsl")+"</pagina>";
+		XML+="<fecha>"+new SimpleDateFormat("yyyyMMdd").format(f)+"</fecha>";
+		XML+="<hora>"+new SimpleDateFormat("HHmmss").format(f)+"</hora>";
 		XML+="<Parametros>";
 		for(String key : Parametros.keySet())
 		{

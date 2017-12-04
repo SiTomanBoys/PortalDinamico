@@ -19,4 +19,42 @@
     <error-code>405</error-code>
     <location>/modulo</location>
   </error-page>
+  <servlet>
+    <description></description>
+    <display-name>index</display-name>
+    <servlet-name>index</servlet-name>
+    <servlet-class>cl.portaldinamico.Servlets.Index</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>index</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>index</servlet-name>
+    <url-pattern>/index.html</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>index</servlet-name>
+    <url-pattern>/index.htm</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>menu</display-name>
+    <servlet-name>menu</servlet-name>
+    <servlet-class>cl.portaldinamico.Servlets.Menu</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>menu</servlet-name>
+    <url-pattern>/menu</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>error</display-name>
+    <servlet-name>error</servlet-name>
+    <servlet-class>cl.portaldinamico.Servlets.Error</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>error</servlet-name>
+    <url-pattern>/error</url-pattern>
+  </servlet-mapping>
 </web-app>
