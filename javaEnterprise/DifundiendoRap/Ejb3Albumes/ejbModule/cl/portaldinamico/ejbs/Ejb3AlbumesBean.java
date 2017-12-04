@@ -24,7 +24,7 @@ public class Ejb3AlbumesBean implements Ejb3AlbumesBeanLocal,Ejb3AlbumesBeanRemo
 		ConsultaMyBatis ex = new ConsultaMyBatis(servidores,catalogo);	
 		String accion = utils.obtenerParametroString(parametros,"accion");
 		String xmlEliminar="";
-		String listaXSL="";
+		String lista="";
 		if("buscar".equalsIgnoreCase(accion))
 		{
 			String album = utils.obtenerParametroString(parametros,"album");
@@ -37,11 +37,11 @@ public class Ejb3AlbumesBean implements Ejb3AlbumesBeanLocal,Ejb3AlbumesBeanRemo
 			p.put("anho",  ( "".equals(anho) ) ? null : anho );
 			p.put("numReg", regXpag);
 			p.put("pagina", ("".equals(pagina) ? null : pagina));
-			listaXSL = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreAlbumesMapper.xml", "coreAlbumes.listarAlbumes", p);
-			listaXSL = listaXSL.replaceAll("<Data", "<listaUrl").replaceAll("</Data>", "</listaUrl>");
-			listaXSL +="<TOTAL_REGISTROS>"+p.get("totReg")+"</TOTAL_REGISTROS>";
+			lista = ex.SelectXML(datosConf.get(Constants.jndiBase).toString(), "coreAlbumesMapper.xml", "coreAlbumes.listarAlbumes", p);
+			lista = lista.replaceAll("<Data", "<listaAlbumes").replaceAll("</Data>", "</listaAlbumes>");
+			lista +="<TOTAL_REGISTROS>"+p.get("totReg")+"</TOTAL_REGISTROS>";
 		}
-		String XML= listaXSL;
+		String XML= lista;
 		XML+= xmlEliminar;
 		retorno.put("XML", XML);
 		return retorno;
