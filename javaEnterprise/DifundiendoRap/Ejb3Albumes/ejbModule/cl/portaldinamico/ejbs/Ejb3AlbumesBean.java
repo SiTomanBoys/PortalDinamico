@@ -16,7 +16,7 @@ public class Ejb3AlbumesBean implements Ejb3AlbumesBeanLocal,Ejb3AlbumesBeanRemo
 {
 	static final Logger log = Logger.getLogger(Ejb3AlbumesBean.class);
 	Ejb3UtilsLocal utils = new Ejb3Utils();
-	public HashMap<String, Object> lstUrl(HashMap<String, Object> datosConf, HashMap<String, Object> parametros) {
+	public HashMap<String, Object> lstAlbumes(HashMap<String, Object> datosConf, HashMap<String, Object> parametros) {
 		HashMap<String,Object> retorno = new HashMap<String,Object>();
 		HashMap<String,Object> p = new HashMap<String,Object>();
 		String catalogo = datosConf.get(Constants.catalogoBase).toString();
