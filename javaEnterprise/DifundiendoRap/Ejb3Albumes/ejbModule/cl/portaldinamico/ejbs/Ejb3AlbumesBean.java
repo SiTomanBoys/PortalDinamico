@@ -25,6 +25,7 @@ public class Ejb3AlbumesBean implements Ejb3AlbumesBeanLocal,Ejb3AlbumesBeanRemo
 		String accion = utils.obtenerParametroString(parametros,"accion");
 		String xmlEliminar="";
 		String lista="";
+		String xmlGetAlbum="";
 		if("buscar".equalsIgnoreCase(accion))
 		{
 			String album = utils.obtenerParametroString(parametros,"album");
@@ -41,8 +42,16 @@ public class Ejb3AlbumesBean implements Ejb3AlbumesBeanLocal,Ejb3AlbumesBeanRemo
 			lista = lista.replaceAll("<Data", "<listaAlbumes").replaceAll("</Data>", "</listaAlbumes>");
 			lista +="<TOTAL_REGISTROS>"+p.get("totReg")+"</TOTAL_REGISTROS>";
 		}
+		if("ver".equalsIgnoreCase(accion))
+		{
+			String id_album = utils.obtenerParametroString(parametros,"id_album");
+			p.put("idAlbum", ( "".equals(id_album) ) ? "0" : id_album );
+			HashMap<String,Object> album = ex.SelectUno(datosConf.get(Constants.jndiBase).toString(), "coreAlbumesMapper.xml", "coreAlbumes.listarAlbumes", p);
+			xmlGetAlbum = utils.hashMapAXml(album, "album");
+		}
 		String XML= lista;
 		XML+= xmlEliminar;
+		XML+= xmlGetAlbum;
 		retorno.put("XML", XML);
 		return retorno;
 	}
