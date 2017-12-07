@@ -42,7 +42,6 @@ public class Modulo extends Base {
 			rd = request.getRequestDispatcher("error");
 			request.setAttribute("codError", 6);
 			rd.forward(request, response);
-			//response.sendRedirect("/Portal/error?Id=6");
 		}
 		if(!session.getId().equals(request.getParameter("idSession")))
 		{
@@ -50,7 +49,6 @@ public class Modulo extends Base {
 			rd = request.getRequestDispatcher("error");
 			request.setAttribute("codError", 7);
 			rd.forward(request, response);
-			//response.sendRedirect("/Portal/error?Id=7");
 		}
 		//Obtengo el Catalogo y los Servidores del Portal.
 		String catalogo = datosConf.get(Constants.catalogoBase).toString();
@@ -86,7 +84,17 @@ public class Modulo extends Base {
 			}
 			String nomEjb = (pagina.containsKey("nombre_ejb")) ? pagina.get("nombre_ejb").toString() : "";
 			String nombre_ejb [] = nomEjb.toString().split("\\."); 
-			if(nombre_ejb.length>1)
+			if(nombre_ejb.length<2)
+			{
+				nombreEjb="";
+				metodoEjb="";
+				XML+="<Documento>";
+				XML+=ArmarCabeceraXML(Parametros,datosConf,pagina);
+				XML+="<Cuerpo>";
+				XML +="</Cuerpo>";
+				XML +="</Documento>";
+			}
+			else
 			{
 				nombreEjb=nombre_ejb[0];
 				metodoEjb=nombre_ejb[1];
@@ -132,7 +140,6 @@ public class Modulo extends Base {
 							rd = request.getRequestDispatcher("error");
 							request.setAttribute("codError", 5);
 							rd.forward(request, response);
-							//response.sendRedirect("/Portal/error?Id=5");
 						}
 					}
 				}
@@ -181,7 +188,6 @@ public class Modulo extends Base {
 							rd = request.getRequestDispatcher("error");
 							request.setAttribute("codError", 3);
 							rd.forward(request, response);
-							//response.sendRedirect("/Portal/error?Id=3");
 						}
 					} catch (Throwable e) 
 					{
@@ -189,7 +195,6 @@ public class Modulo extends Base {
 						rd = request.getRequestDispatcher("error");
 						request.setAttribute("codError", 4);
 						rd.forward(request, response);
-						//response.sendRedirect("/Portal/error?Id=4");
 					}
 				}	
 				else
@@ -198,17 +203,15 @@ public class Modulo extends Base {
 					rd = request.getRequestDispatcher("error");
 					request.setAttribute("codError", 2);
 					rd.forward(request, response);
-					//response.sendRedirect("/Portal/error?Id=2");
 				}
 			}
-			else
-			{
-				utils.impLog(log, Level.ERROR_INT, datosConf, "FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+pagina.get("nombre_ejb")+"]");
-				rd = request.getRequestDispatcher("error");
-				request.setAttribute("codError", 1);
-				rd.forward(request, response);
-				//response.sendRedirect("/Portal/error?Id=1");
-			}
+//			else
+//			{
+//				utils.impLog(log, Level.ERROR_INT, datosConf, "FALTA EL NOMBRE DEL EJB O EL METODO EN LA BASE DE DATOS: VALOR ACTUAL: ["+pagina.get("nombre_ejb")+"]");
+//				rd = request.getRequestDispatcher("error");
+//				request.setAttribute("codError", 1);
+//				rd.forward(request, response);
+//			}
 		}
 		else
 		{
@@ -216,7 +219,6 @@ public class Modulo extends Base {
 			rd = request.getRequestDispatcher("error");
 			request.setAttribute("codError", 0);
 			rd.forward(request, response);
-			//response.sendRedirect("/Portal/error?Id=0");
 		}
 	}
 	
