@@ -8,3 +8,7 @@ function paginar(pag,acc)
 	document.formulario.accion.value=acc;
 	document.formulario.submit();
 }
+function simbolos2Html(cadena) 
+{
+	return cadena.replace("&", "&amp;").replace("\"", "&quot;").replace("<", "&lt;").replace(">", "&gt;");
+}

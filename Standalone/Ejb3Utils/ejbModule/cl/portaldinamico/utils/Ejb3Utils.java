@@ -81,7 +81,7 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 		StreamSource ss = new StreamSource(new StringReader(XML));
 		StreamResult sr = new StreamResult(new StringWriter());
 		tf.transform(ss,sr);
-		return Html2Simbolos(sr.getWriter().toString());
+		return html2Simbolos(sr.getWriter().toString());
 	}
 	public String obtenerParametroString(HashMap<String,Object> Parametros,String llave)
 	{
@@ -92,7 +92,7 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 			if(value.length==1)
 				valor=value[0].toString();
 		}
-		return valor;
+		return html2Simbolos(valor);
 	}
 	
 	public String[] obtenerParametroArregloString(HashMap<String,Object> Parametros,String llave)
@@ -175,7 +175,10 @@ public class Ejb3Utils implements Ejb3UtilsLocal,Ejb3UtilsRemote
 			log.debug("["+clase+"] "+ mensaje,t);
 		}
 	}
-	private String Html2Simbolos(String html) {
+	private String html2Simbolos(String html) {
 		return html.replace("&amp;", "&").replace("&quot;", "\"").replace("&lt;", "<").replace("&gt;", ">");
+	}
+	private String simbolos2Html(String cadena) {
+		return cadena.replace("&", "&amp;").replace("\"", "&quot;").replace("<", "&lt;").replace(">", "&gt;");
 	}
 }
