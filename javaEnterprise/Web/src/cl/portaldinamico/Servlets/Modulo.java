@@ -46,6 +46,11 @@ public class Modulo extends HttpServlet
 	{
 		String dominio = request.getLocalName();
 		log.info("DOMINIO: "+dominio);
+		if(dominio.contains("www."))
+		{
+			dominio = dominio.replace("www.", "");
+			log.info("DOMINIO SIN WWW: "+dominio);
+		}
 		Ejb3UtilsLocal utils = new Ejb3Utils();
 		HttpSession session= request.getSession(true);
 		Properties portalConf = new Properties();
@@ -108,7 +113,7 @@ public class Modulo extends HttpServlet
 				try
 				{
 					XSL += pagina.get("contenido").toString();
-					XSL = XSL.replace("[[raiz_xsl]]", datosConf.get("raizApache")+request.getLocalName()+datosConf.get("carpetaXsl"));
+					XSL = XSL.replace("[[raiz_xsl]]", datosConf.get("raizApache")+dominio+datosConf.get("carpetaXsl"));
 				}
 				catch(Exception e)
 				{

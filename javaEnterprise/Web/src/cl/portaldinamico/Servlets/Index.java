@@ -50,6 +50,11 @@ public class Index extends HttpServlet {
 		
 		String dominio = request.getLocalName();
 		log.info("DOMINIO: "+dominio);
+		if(dominio.contains("www."))
+		{
+			dominio = dominio.replace("www.", "");
+			log.info("DOMINIO SIN WWW: "+dominio);
+		}
 		Ejb3UtilsLocal utils = new Ejb3Utils();
 		HttpSession session= request.getSession(true);
 		Properties portalConf = new Properties();
